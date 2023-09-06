@@ -25,6 +25,7 @@ class Recipe(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     is_seeded = db.Column(db.Boolean, default=False, nullable=False)
     submitted_date = db.Column(db.Date, default=date.today, nullable=False)
+    steps = db.Column(db.JSON, nullable=False)
     n_steps = db.Column(db.Integer, nullable=False)
     n_ingredients = db.Column(db.Integer, nullable=False)
     tags = db.relationship('Tag', secondary=tags_association, lazy='subquery')
