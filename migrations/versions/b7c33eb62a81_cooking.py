@@ -1,13 +1,16 @@
 """cooking
 
 Revision ID: b7c33eb62a81
-Revises: 
+Revises:
 Create Date: 2023-09-06 08:14:25.277550
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
 revision = 'b7c33eb62a81'
