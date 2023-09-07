@@ -10,6 +10,11 @@ tags_association = db.Table(
     db.Column('recipe_id', db.Integer, db.ForeignKey('recipes.id'), primary_key=True)
 )
 
+ingredients_association = db.Table(
+    'ingredients_association',
+    db.Column('ingredient_id', db.Integer, db.ForeignKey('ingredients.id'), primary_key=True),
+    db.Column('recipe_id', db.Integer, db.ForeignKey('recipes.id'), primary_key=True)
+)
 
 class Recipe(db.Model):
     __tablename__ = 'recipes'
@@ -21,13 +26,13 @@ class Recipe(db.Model):
     name = db.Column(db.String(200), nullable=False)
     minutes = db.Column(db.Integer, nullable=True)
     description = db.Column(db.Text, nullable=False)
-    ingredients = db.Column(db.JSON, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     is_seeded = db.Column(db.Boolean, default=False, nullable=False)
     submitted_date = db.Column(db.Date, default=date.today, nullable=False)
     steps = db.Column(db.JSON, nullable=False)
     n_steps = db.Column(db.Integer, nullable=False)
     n_ingredients = db.Column(db.Integer, nullable=False)
+    ingredients = db.Relationship('Ingredient', secondary=ingredients_association, lazy='subquery')
     tags = db.relationship('Tag', secondary=tags_association, lazy='subquery')
 
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')

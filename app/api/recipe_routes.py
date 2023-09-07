@@ -65,3 +65,12 @@ def get_recipes():
     recipe_dicts = [recipe.to_dict() for recipe in recipes]
 
     return jsonify({"recipes": recipe_dicts}), 200
+
+
+@recipe_routes.route('/ingredients', methods=["GET"])
+def get_ingredients():
+     search_term = request.args.get('q', '')
+     if not search_term:
+          return jsonify({"suggestions": []})
+
+     query = session.query(Ingredient.filter)
