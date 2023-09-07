@@ -2,7 +2,7 @@ import pandas as pd
 from app.models import Tag, db
 
 def read_dataset():
-    return pd.read_csv('../../dataset/your_dataset.csv')
+    return pd.read_csv('./app/seeds/RAW_recipes.csv')
 
 def seed_tags():
     df = read_dataset()

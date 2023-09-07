@@ -1,8 +1,8 @@
 """cookingtime
 
-Revision ID: c0815fca8930
+Revision ID: 87ea0c21a780
 Revises: 
-Create Date: 2023-09-06 15:06:16.401181
+Create Date: 2023-09-06 19:57:11.785547
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c0815fca8930'
+revision = '87ea0c21a780'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,6 +42,7 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('is_seeded', sa.Boolean(), nullable=False),
     sa.Column('submitted_date', sa.Date(), nullable=False),
+    sa.Column('steps', sa.JSON(), nullable=False),
     sa.Column('n_steps', sa.Integer(), nullable=False),
     sa.Column('n_ingredients', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
