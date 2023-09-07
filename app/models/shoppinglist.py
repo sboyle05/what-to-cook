@@ -10,9 +10,11 @@ class ShoppingList(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    ingredient = db.Column(db.String(150), nullable=False)
+    ingredient_name = db.Column(db.String(150), nullable=False)
     quantity = db.Column(db.String(50), nullable=True)
     unitofmeasure = db.Column(Enum('lbs', 'oz', 'grams', 'cups', 'tbsp', 'tsp', 'n/a'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'), nullable=False)
 
+    ingredient = db.relationship('Ingredient')
     user = db.relationship('User', back_populates='shopping_lists')

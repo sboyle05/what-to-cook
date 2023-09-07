@@ -32,7 +32,7 @@ class Recipe(db.Model):
     steps = db.Column(db.JSON, nullable=False)
     n_steps = db.Column(db.Integer, nullable=False)
     n_ingredients = db.Column(db.Integer, nullable=False)
-    ingredients = db.Relationship('Ingredient', secondary=ingredients_association, lazy='subquery')
+    ingredients = db.relationship('Ingredient', secondary=ingredients_association, lazy='subquery')
     tags = db.relationship('Tag', secondary=tags_association, lazy='subquery')
 
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')
