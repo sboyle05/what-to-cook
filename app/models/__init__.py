@@ -6,5 +6,5 @@ from .recipe_ingredient import RecipeIngredient
 from .mealplan import MealPlan
 from .shoppinglist import ShoppingList
 from .comment import Comment
-from .tag import Tag
+from .measured_ingredient import MeasuredIngredient
 from .db import environment, SCHEMA
