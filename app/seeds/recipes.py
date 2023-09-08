@@ -5,7 +5,8 @@ def read_dataset():
     return pd.read_csv('./app/seeds/recipe_dataset.csv')
 
 def seed_recipes():
-    df = read_dataset()
+    df = pd.read_csv('./app/seeds/recipe_dataset.csv')
+
     for index, row in df.iterrows():
         if pd.isna(row['name']) or pd.isna(row['directions']) or pd.isna(row['measured_ingredients']) or pd.isna(row['ingredients']):
             print(f"Skipping entry at index {index} due to NaN or None values")
@@ -19,19 +20,16 @@ def seed_recipes():
         db.session.add(new_recipe)
         db.session.flush()
 
-        # Populating MeasuredIngredient table
-        measured_ingredients = eval(row['measured_ingredients'])
-        for ingredient in measured_ingredients:
+        measured_ingredients_list = eval(row['measured_ingredients'])
+        for description in measured_ingredients_list:
             new_measured_ingredient = MeasuredIngredient(
-                description=ingredient,
+                description=description,
                 recipe_id=new_recipe.id
             )
             db.session.add(new_measured_ingredient)
 
-        # Populating Ingredient and RecipeIngredient tables
-        ingredients = eval(row['ingredients'])
-        for ingredient_info in ingredients:
-            ingredient_name = ingredient_info.get('name')
+        ingredients_list = eval(row['ingredients'])
+        for ingredient_name in ingredients_list:
             existing_ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
 
             if existing_ingredient is None:
@@ -47,8 +45,8 @@ def seed_recipes():
             new_recipe_ingredient = RecipeIngredient(
                 recipe_id=new_recipe.id,
                 ingredient_id=ingredient_id,
-                quantity=ingredient_info.get('quantity'),
-                unit_of_measure=ingredient_info.get('unit_of_measure')
+                quantity=1,
+                unit_of_measure="unit"
             )
             db.session.add(new_recipe_ingredient)
 
