@@ -13,5 +13,4 @@ class Ingredient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False, unique=True)
 
-    recipes = db.relationship('Recipe', secondary='recipe_ingredients', back_populates='ingredients')
     recipe_ingredients = db.relationship('RecipeIngredient', back_populates='ingredient')
