@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError
 import pandas as pd
 
 def read_dataset():
-    return pd.read_csv('./app/seeds/recipe_dataset.csv')
+    return pd.read_csv('./app/seeds/recipe_dataset_trimmed.csv')
 
 def get_or_create(model, **kwargs):
     instance = db.session.query(model).filter_by(**kwargs).first()

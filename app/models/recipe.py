@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+from .ingredient import recipe_ingredients_association
 
 
 class Recipe(db.Model):
@@ -20,3 +20,4 @@ class Recipe(db.Model):
     measured_ingredients = db.relationship('MeasuredIngredient', back_populates='recipe')
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')
     user = db.relationship('User', back_populates='recipes')
+    ingredients = db.relationship('Ingredient', secondary=recipe_ingredients_association, back_populates='recipes')
