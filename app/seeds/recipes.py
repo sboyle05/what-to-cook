@@ -1,4 +1,4 @@
-from app.models import Recipe, MeasuredIngredient, db, Ingredient
+from app.models import Recipe, MeasuredIngredient, Ingredient, db
 from sqlalchemy.exc import IntegrityError
 import pandas as pd
 
@@ -14,34 +14,45 @@ def get_or_create(model, **kwargs):
         db.session.add(instance)
         return instance
 
-def seed_recipes():
-    df = read_dataset()
-    batch_size = 4000
+def insert_row(row):
+    index, row_data = row
+    if pd.isna(row_data['name']) or pd.isna(row_data['directions']) or pd.isna(row_data['measured_ingredients']) or pd.isna(row_data['ingredients']):
+        print(f"Skipping entry at index {index} due to NaN or None values")
+        return
 
-    for index, row in df.iterrows():
-        if pd.isna(row['name']) or pd.isna(row['directions']) or pd.isna(row['measured_ingredients']):
-            print(f"Skipping entry at index {index} due to NaN or None values")
-            continue
+    new_recipe = get_or_create(Recipe, name=row_data['name'], directions=row_data['directions'], is_seeded=True)
 
-        new_recipe = get_or_create(Recipe, name=row['name'], directions=row['directions'], is_seeded=True)
+    try:
+        db.session.flush()
+    except IntegrityError:
+        db.session.rollback()
+        print(f"Skipping entry at index {index} due to unique constraint violation")
+        return
 
-        try:
-            db.session.flush()
-        except IntegrityError:
-            db.session.rollback()
-            print(f"Skipping entry at index {index} due to unique constraint violation")
-            continue
+    measured_ingredients_list = eval(row_data['measured_ingredients'])
+    for description in measured_ingredients_list:
+        new_measured_ingredient = MeasuredIngredient(description=description, recipe_id=new_recipe.id)
+        db.session.add(new_measured_ingredient)
 
-        measured_ingredients_list = eval(row['measured_ingredients'])
-        for description in measured_ingredients_list:
-            new_measured_ingredient = MeasuredIngredient(description=description, recipe_id=new_recipe.id)
-            db.session.add(new_measured_ingredient)
-
-        if index % batch_size == 0:
-            db.session.commit()
-            print(f"Committed up to index {index}")
+    # Seed the ingredients
+    ingredients_list = eval(row_data['ingredients'])
+    for ingredient_name in ingredients_list:
+        get_or_create(Ingredient, name=ingredient_name)
 
     db.session.commit()
+
+def seed_recipes():
+    df = read_dataset()
+    batch_size = 2500
+
+    for i in range(0, len(df), batch_size):
+        batch = df.iloc[i:i+batch_size]
+
+        for row in batch.iterrows():
+            insert_row(row)
+
+        print(f"Processed batch {int(i/batch_size) + 1}")
+
     print("Finished seeding the database.")
 
 def undo_recipes():
@@ -54,5 +65,8 @@ def undo_recipes():
 
     # Delete all seeded entries in the Recipe table
     Recipe.query.filter_by(is_seeded=True).delete()
+
+    # Delete all seeded entries in the Ingredient table
+    Ingredient.query.delete()
 
     db.session.commit()
