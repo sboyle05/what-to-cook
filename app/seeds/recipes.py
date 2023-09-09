@@ -37,7 +37,10 @@ def insert_row(row):
     # Seed the ingredients
     ingredients_list = eval(row_data['ingredients'])
     for ingredient_name in ingredients_list:
-        get_or_create(Ingredient, name=ingredient_name)
+        new_ingredient = get_or_create(Ingredient, name=ingredient_name)
+        # Link the new ingredient and recipe in the many-to-many table
+        if new_ingredient not in new_recipe.ingredients:
+            new_recipe.ingredients.append(new_ingredient)
 
     db.session.commit()
 
