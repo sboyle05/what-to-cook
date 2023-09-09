@@ -21,3 +21,13 @@ class Recipe(db.Model):
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')
     user = db.relationship('User', back_populates='recipes')
     ingredients = db.relationship('Ingredient', secondary=recipe_ingredients_association, back_populates='recipes')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'directions': self.directions,
+            'user_id': self.user_id,
+            'is_seeded': self.is_seeded,
+            'submitted_date': self.submitted_date.isoformat(),
+        }

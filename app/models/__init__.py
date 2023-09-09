@@ -1,7 +1,7 @@
 from .db import db
 from .user import User
 from .recipe import Recipe
-from .ingredient import Ingredient
+from .ingredient import Ingredient, recipe_ingredients_association
 from .mealplan import MealPlan
 from .shoppinglist import ShoppingList
 from .comment import Comment
