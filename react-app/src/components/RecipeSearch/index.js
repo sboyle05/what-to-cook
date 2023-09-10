@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IngredientSearch from '../IngredientSearch';
 import { Link } from 'react-router-dom';
-import { deselectIngredient, searchRecipes, selectIngredient } from '../../store/recipe';
+import { deselectIngredient, searchRecipes, selectIngredient, clearRecipes } from '../../store/recipe';
 import './recipeSearch.css'
+
+
 function RecipeSearch() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [exactMatch, setExactMatch] = useState(false);
   const [extraCount, setExtraCount] = useState('');
+  const [initialSearchDone, setInitialSearchDone] = useState(false);
 
   const dispatch = useDispatch();
   const recipes = useSelector((state) => state.recipes?.allRecipes);
+
+  const fetchRecipes = useCallback(() => {
+    if (selectedIngredients.length === 0) {
+      return;
+    }
+    dispatch(searchRecipes(selectedIngredients, exactMatch, extraCount));
+    setInitialSearchDone(true);
+  }, [selectedIngredients, exactMatch, extraCount, dispatch]);
+
+  useEffect(() => {
+  if(initialSearchDone){
+    if (selectedIngredients.length > 0) {
+      fetchRecipes();
+    } else {
+      dispatch(clearRecipes());
+    }
+  }
+  }, [selectedIngredients, exactMatch, extraCount, dispatch, fetchRecipes, initialSearchDone]);
 
   const addIngredient = (ingredient) => {
     if (typeof ingredient === 'string') {
@@ -28,12 +49,7 @@ function RecipeSearch() {
     dispatch(deselectIngredient(ingredient));
   };
 
-  const fetchRecipes = () => {
-    if (selectedIngredients.length === 0) {
-      return;
-    }
-    dispatch(searchRecipes(selectedIngredients, exactMatch, extraCount));
-  };
+
 
   return (
     <>
@@ -71,7 +87,7 @@ function RecipeSearch() {
           </select>
         </div>
 
-        <button onClick={fetchRecipes}
+        <button id="searchButton" onClick={fetchRecipes}
                 disabled={selectedIngredients.length === 0}>
           Search Recipes
         </button>

@@ -2,7 +2,7 @@ const GET_RECIPES = '/search';
 const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 const DESELECT_INGREDIENT = 'DESELECT_INGREDIENT';
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE';
-
+const CLEAR_RECIPES = 'CLEAR_RECIPES';
 
 export const selectIngredient = (ingredient) => ({
     type: SELECT_INGREDIENT,
@@ -13,6 +13,12 @@ export const deselectIngredient = (ingredient) => ({
     type: DESELECT_INGREDIENT,
     payload: ingredient
 });
+
+export const clearRecipes = () => {
+    return {
+        type: CLEAR_RECIPES
+    }
+}
 
 const getRecipes = (data) => {
     return {
@@ -72,6 +78,11 @@ const recipeReducer = (state=initialState, action) => {
             return { ...state, selectIngredients: state.selectIngredients.filter(i => i !== action.payload) };
         case GET_SINGLE_RECIPE:
             return { ...state, singleRecipe: action.payload};
+        case CLEAR_RECIPES:
+            return {
+                ...state,
+                allRecipes: []
+            }
         default:
             return state;
     }

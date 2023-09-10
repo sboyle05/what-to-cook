@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import RecipeSearch from "./components/RecipeSearch";
 import SingleRecipeComponent from "./components/SingleRecipe";
+import RecipeBox from "./components/recipeBox";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route exact path="/recipes/:id">
             <SingleRecipeComponent/>
+          </Route>
+          <Route path="/recipebox">
+            <RecipeBox/>
           </Route>
           <Route exact path="/">
           <RecipeSearch/>

@@ -1,0 +1,16 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+
+  .recipeBoxContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+  }
