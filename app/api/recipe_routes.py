@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import Recipe, Ingredient, recipe_ingredients_association
+from app.models import User, Recipe, Ingredient, recipe_ingredients_association, MeasuredIngredient
 from ..models.db import db
 from sqlalchemy import and_, or_, exists
 from sqlalchemy.exc import SQLAlchemyError
@@ -73,3 +73,30 @@ def get_recipes():
     recipe_dicts = [recipe.to_dict() for recipe in recipes]
 
     return jsonify({"recipes": recipe_dicts}), 200
+
+
+
+@recipe_routes.route('/recipes/<int:id>', methods=["GET"])
+def single_recipe(id):
+    recipe = Recipe.query.get(id)
+
+    if recipe is None:
+        return jsonify({'error': 'Recipe not found'}), 404
+
+    result = recipe.to_dict()
+
+    author_id = recipe.user_id
+    if author_id is None:
+        result['author'] = "a What-to-Cook generated recipe"
+    else:
+        author = User.query.get(author_id)
+        result['author'] = author.to_dict()
+
+    measured_ingredients = MeasuredIngredient.query.filter(MeasuredIngredient.recipe_id == recipe.id).all()
+
+    ingredients = recipe.ingredients
+
+    result['measured_ingredients'] = [measured_ingredient.description for measured_ingredient in measured_ingredients]
+    result['ingredients'] = [ingredient.name for ingredient in ingredients]
+
+    return jsonify(result)

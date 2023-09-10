@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IngredientSearch from '../IngredientSearch';
+import { Link } from 'react-router-dom';
 import { deselectIngredient, searchRecipes, selectIngredient } from '../../store/recipe';
 import './recipeSearch.css'
 function RecipeSearch() {
@@ -77,7 +78,7 @@ function RecipeSearch() {
         <section className='reciperesults'>
         <ul className='recipesMapped'>
           {recipes ? recipes.map((recipe, index) => (
-            <li key={index}>{recipe.name}</li>
+            <Link className="recipeLink" exact to={`/recipes/${recipe.id}`}><li key={index}>{recipe.name}</li></Link>
           )) : "Loading recipes..."}
         </ul>
         </section>

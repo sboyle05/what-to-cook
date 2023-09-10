@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import RecipeSearch from "./components/RecipeSearch";
+import SingleRecipeComponent from "./components/SingleRecipe";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,7 +25,10 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/">
+          <Route exact path="/recipes/:id">
+            <SingleRecipeComponent/>
+          </Route>
+          <Route exact path="/">
           <RecipeSearch/>
           </Route>
         </Switch>

@@ -1,0 +1,41 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+
+  .singleRecipeContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+
+  }
+.recipeIngredientSection{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+}
+
+#numberIngredients{
+    margin-bottom: -5px;
+}
+
+.measuredIngredientsList{
+    list-style-type: none;
+}
+
+.recipeDirections{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+#individualdirection{
+    /* margin-left: 80px; */
+}

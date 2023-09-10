@@ -38,4 +38,10 @@ justify-content: center;
     padding-bottom: 5px;
     padding-top: 5px;
     margin: 5px;
+
+}
+
+.recipeLink{
+    text-decoration: none;
+    color: whitesmoke;
 }
