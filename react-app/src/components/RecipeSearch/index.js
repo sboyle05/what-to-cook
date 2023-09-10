@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IngredientSearch from '../IngredientSearch';
 import { deselectIngredient, searchRecipes, selectIngredient } from '../../store/recipe';
-
+import './recipeSearch.css'
 function RecipeSearch() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [exactMatch, setExactMatch] = useState(false);
@@ -36,7 +36,7 @@ function RecipeSearch() {
 
   return (
     <>
-      <section className='mainContainer'>
+      <section className='mainRecipeContainer'>
         <h1 id='whatyouhave'>What ingredients do you have?</h1>
         <IngredientSearch
           addIngredient={addIngredient}
@@ -74,11 +74,13 @@ function RecipeSearch() {
                 disabled={selectedIngredients.length === 0}>
           Search Recipes
         </button>
-        <ul>
+        <section className='reciperesults'>
+        <ul className='recipesMapped'>
           {recipes ? recipes.map((recipe, index) => (
             <li key={index}>{recipe.name}</li>
           )) : "Loading recipes..."}
         </ul>
+        </section>
       </section>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { searchRecipes } from "../../store/recipe";
-
+import './ingredientSearch.css'
 const IngredientSearch = ({ addIngredient, selectedIngredients, removeIngredient }) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -59,7 +59,8 @@ const IngredientSearch = ({ addIngredient, selectedIngredients, removeIngredient
   };
 
 const handleClick = (suggestion, index) => {
-    setInput(suggestion);
+    setInput("");
+    setSuggestions([]);
     addIngredient(suggestion);
     setSelectedIndex(-1);
   };
@@ -69,34 +70,30 @@ const handleClick = (suggestion, index) => {
 
   return (
     <section>
-      <input
+        <section className="inputContainer">
+      <input id="ingredientInput"
         type="text"
         value={input}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder="Search for ingredients"
       />
-      <section>
-      {suggestions.map((suggestion, index) => (
-        <div
-          key={index}
-          onClick={() => handleClick(suggestion, index)}
-          style={{
-            backgroundColor: index === selectedIndex ? "#ccc" : "transparent",
-          }}
-        >
-          {suggestion}
-          </div>
+
+        <section className={`suggestedIngredients ${suggestions.length > 0 ? 'open' : ''}`}>
+        {suggestions.map((suggestion, index) => (
+            <div key={index} onClick={() => handleClick(suggestion, index)}>
+            {suggestion}
+            </div>
         ))}
+        </section>
       </section>
-      <section>
-        {selectedIngredients.map((ingredient, index) => (
-          <div key={index}>
-            {ingredient}
-            <button onClick={() => handleRemoveIngredient(ingredient)}>Remove</button>
-          </div>
-        ))}
-      </section>
+      <div className="selectedIngredients">
+      {selectedIngredients.map((ingredient, index) => (
+        <div key={index} onClick={() => removeIngredient(ingredient)}>
+          {ingredient}
+        </div>
+      ))}
+    </div>
     </section>
   );
 };
