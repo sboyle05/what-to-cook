@@ -14,7 +14,7 @@ def search_ingredients():
         if not search_term:
             return jsonify({"suggestions": []})
 
-        query = session.query(Ingredient).filter(Ingredient.name.like(f"%{search_term}%"))
+        query = session.query(Ingredient).filter(Ingredient.name.ilike(f"%{search_term}%"))
         ingredients = query.all()
         suggestions = [ingredient.name for ingredient in ingredients]
         return jsonify({"suggestions": suggestions})

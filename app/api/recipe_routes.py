@@ -27,11 +27,17 @@ def get_recipes():
         return jsonify({"message": "No ingredients were provided", "recipes": []}), 400
 
     # Subquery to filter recipes containing all the ingredients in the list
-    subquery = session.query(recipe_ingredients_association.c.recipe_id)\
-                      .join(Ingredient)\
-                      .filter(Ingredient.name.in_(ingredients_list))\
-                      .group_by(recipe_ingredients_association.c.recipe_id)\
-                      .having(db.func.count() == len(ingredients_list))
+    if request.args.get('partial'):
+        subquery = session.query(recipe_ingredients_association.c.recipe_id)\
+                          .join(Ingredient)\
+                          .filter(or_(*[Ingredient.name.like(f"%{term}%") for term in ingredients_list]))\
+                          .group_by(recipe_ingredients_association.c.recipe_id)
+    else:
+        subquery = session.query(recipe_ingredients_association.c.recipe_id)\
+                          .join(Ingredient)\
+                          .filter(Ingredient.name.in_(ingredients_list))\
+                          .group_by(recipe_ingredients_association.c.recipe_id)\
+                          .having(db.func.count() == len(ingredients_list))
 
     query = None
 

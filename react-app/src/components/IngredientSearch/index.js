@@ -53,12 +53,17 @@ const IngredientSearch = ({ addIngredient, selectedIngredients, removeIngredient
         const selectedIngredient = suggestions[indexToUse];
         setInput("");
         addIngredient(selectedIngredient);
+        setSelectedIndex(-1)
       }
     }
   };
 
+const handleClick = (suggestion, index) => {
+    setInput(suggestion);
+    addIngredient(suggestion);
+    setSelectedIndex(-1);
+  };
   const handleRemoveIngredient = (ingredientToRemove) => {
-    // Implement the logic to remove an ingredient from the selected list
     removeIngredient(ingredientToRemove);
   };
 
@@ -72,15 +77,15 @@ const IngredientSearch = ({ addIngredient, selectedIngredients, removeIngredient
         placeholder="Search for ingredients"
       />
       <section>
-        {suggestions.map((suggestion, index) => (
-          <div
-            key={index}
-            onClick={() => setInput(suggestion)}
-            style={{
-              backgroundColor: index === selectedIndex ? "#ccc" : "transparent",
-            }}
-          >
-            {suggestion}
+      {suggestions.map((suggestion, index) => (
+        <div
+          key={index}
+          onClick={() => handleClick(suggestion, index)}
+          style={{
+            backgroundColor: index === selectedIndex ? "#ccc" : "transparent",
+          }}
+        >
+          {suggestion}
           </div>
         ))}
       </section>
