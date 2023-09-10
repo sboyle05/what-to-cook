@@ -2,16 +2,15 @@ const GET_RECIPES = '/search';
 const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 const DESELECT_INGREDIENT = 'DESELECT_INGREDIENT';
 
-
 export const selectIngredient = (ingredient) => ({
     type: SELECT_INGREDIENT,
     payload: ingredient
-})
+});
 
 export const deselectIngredient = (ingredient) => ({
     type: DESELECT_INGREDIENT,
     payload: ingredient
-})
+});
 
 const getRecipes = (data) => {
     return {
@@ -20,41 +19,33 @@ const getRecipes = (data) => {
     }
 }
 
-export const searchRecipes = (searchData) => async (dispatch) => {
+export const searchRecipes = (selectedIngredients, exactMatch, extraCount) => async (dispatch) => {
     try {
-        console.log("*********searchDATA",searchData)
-        const ingredientsString = searchData.map((obj) => obj.name).join(',');
-        console.log("******************ingredientsString", ingredientsString)
-        const response = await fetch(`/api/recipes/search/?ingredients=${encodeURIComponent(ingredientsString)}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
+        const ingredientList = selectedIngredients.join(',');
+        console.log()
+        let url = `/api/search/?ingredients=${encodeURIComponent(ingredientList)}`;
+        if (exactMatch) {
+            url += `&exact=true`;
+        } else if (extraCount) {
+            url += `&extra_count=${extraCount}`;
         }
-      });
-      if (response.ok){
+        const response = await fetch(url);
         const data = await response.json();
-        console.log("data in store*********************",data)
+        console.log("***********data from fetch***********", data)
         dispatch(getRecipes(data.recipes || []));
-        return data;
-      } else {
-        const errors = await response.json();
-        return errors;
-      }
     } catch (error) {
-      const errors = (error && typeof error.json === 'function') ? await error.json() : { message: error.toString()};
-      return errors;
+        console.error("Error fetching recipes:", error);
     }
-  };
-
+};
 
 const initialState = { allRecipes: [], singleRecipe: {}, selectIngredients: []};
-const recipeReducer = (state=initialState, action) => {
 
+const recipeReducer = (state=initialState, action) => {
     switch(action.type){
         case GET_RECIPES:
             return { ...state, allRecipes: action.payload };
         case SELECT_INGREDIENT:
-            return { ...state, selectIngredients: [...state.selectIngredients, action.payload]}
+            return { ...state, selectIngredients: [...state.selectIngredients, action.payload]};
         case DESELECT_INGREDIENT:
             return { ...state, selectIngredients: state.selectIngredients.filter(i => i !== action.payload) };
         default:
@@ -62,4 +53,4 @@ const recipeReducer = (state=initialState, action) => {
     }
 }
 
-export default recipeReducer
+export default recipeReducer;
