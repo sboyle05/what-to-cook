@@ -14,3 +14,10 @@ class MeasuredIngredient(db.Model):
 
     recipe = db.relationship('Recipe', back_populates='measured_ingredients')
     shopping_lists = db.relationship('ShoppingList', back_populates='measured_ingredient_rel')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'description': self.description,
+            'recipe_id': self.recipe_id
+        }

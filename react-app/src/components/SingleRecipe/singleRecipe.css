@@ -39,3 +39,7 @@ body, html {
 #individualdirection{
     /* margin-left: 80px; */
 }
+
+#addtorecipeboxbutton{
+    width: 20vh;
+}

@@ -4,17 +4,16 @@ import { useParams, NavLink } from 'react-router-dom'
 import { fetchSingleRecipe } from "../../store/recipe";
 
 import './singleRecipe.css'
+import { addExistingRecipeToBox } from "../../store/recipeBox";
 
 
 
 const SingleRecipeComponent = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
-    const recipeState = useSelector((state) => state.recipes)
-    console.log("CURRENT REDUX STATE*************", recipeState)
-
-
     const currentRecipe = useSelector((state) => state.recipes.singleRecipe)
+    const user = useSelector(state => state.session.user)
+    console.log("*******CURRENT RECIPE IN FUNCTION*****", currentRecipe)
 
     useEffect(() => {
         dispatch(fetchSingleRecipe(id))
@@ -23,6 +22,11 @@ const SingleRecipeComponent = () => {
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
       }
+
+    const handleAddToRecipeBox = () => {
+        console.log("********HANDLEADDTORECIPEBOX : CURRENT RECIPE****", currentRecipe)
+        dispatch(addExistingRecipeToBox(currentRecipe))
+    }
 
         return (
         <>
@@ -47,26 +51,34 @@ const SingleRecipeComponent = () => {
                 <section className="recipeDirections">
                 <h3>Directions</h3>
                 <ol>
-                    {currentRecipe.directions
-                    ? JSON.parse(currentRecipe.directions).flatMap(
-                        (direction, index) => {
-                            const steps = direction
-                            .split(/\.|;/)
-                            .filter((step) => step.trim() !== "");
+  {currentRecipe.directions
+    ? (() => {
+        try {
+          const parsedDirections = JSON.parse(currentRecipe.directions);
+          return parsedDirections.flatMap((direction, index) => {
+            const steps = direction
+              .split(/\.|;/)
+              .filter((step) => step.trim() !== "");
 
-                            return steps.map((step, subIndex) => (
-                            <li
-                                id="individualdirection"
-                                key={`${index}-${subIndex}`}
-                            >
-                                {capitalizeFirstLetter(step.trim())}
-                            </li>
-                            ));
-                        }
-                        )
-                    : null}
-                </ol>
+            return steps.map((step, subIndex) => (
+              <li
+                id="individualdirection"
+                key={`${index}-${subIndex}`}
+              >
+                {capitalizeFirstLetter(step.trim())}
+              </li>
+            ));
+          });
+        } catch (error) {
+          return <li>{currentRecipe.directions}</li>;
+        }
+      })()
+    : null}
+</ol>
                 </section>
+                {user && (
+                    <button id="addtorecipeboxbutton" onClick={handleAddToRecipeBox}>Add to Recipe Box</button>
+                )}
             </section>
             ) : (
             <p>Loading...</p>

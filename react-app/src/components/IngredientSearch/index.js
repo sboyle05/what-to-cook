@@ -60,20 +60,21 @@
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === "ArrowDown") {
-        setSelectedIndex((prevIndex) => Math.min(prevIndex + 1, suggestions.length - 1));
-        } else if (e.key === "ArrowUp") {
-        setSelectedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-        } else if (e.key === "Enter") {
-        const indexToUse = selectedIndex === -1 ? 0 : selectedIndex;
-        if (indexToUse >= 0 && indexToUse < suggestions.length) {
-            const selectedIngredient = suggestions[indexToUse];
-            setInput("");
-            addIngredient(selectedIngredient);
-            setSelectedIndex(-1)
-        }
-        }
-    };
+  if (e.key === "ArrowDown") {
+    setSelectedIndex((prevIndex) => Math.min(prevIndex + 1, suggestions.length - 1));
+  } else if (e.key === "ArrowUp") {
+    setSelectedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    const indexToUse = selectedIndex === -1 ? 0 : selectedIndex;
+    if (indexToUse >= 0 && indexToUse < suggestions.length) {
+      const selectedIngredient = suggestions[indexToUse];
+      setInput("");
+      addIngredient(selectedIngredient);
+      setSelectedIndex(-1);
+    }
+  }
+};
 
     const handleClick = (suggestion, index) => {
         setInput("");

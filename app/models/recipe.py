@@ -21,6 +21,7 @@ class Recipe(db.Model):
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')
     user = db.relationship('User', back_populates='recipes')
     ingredients = db.relationship('Ingredient', secondary=recipe_ingredients_association, back_populates='recipes')
+    recipe_boxes = db.relationship('RecipeBox', back_populates='recipe', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
@@ -30,4 +31,6 @@ class Recipe(db.Model):
             'user_id': self.user_id,
             'is_seeded': self.is_seeded,
             'submitted_date': self.submitted_date.isoformat(),
+            'measured_ingredients': [measured_ingredient.to_dict() for measured_ingredient in self.measured_ingredients],
+            'ingredients': [ingredient.to_dict() for ingredient in self.ingredients]
         }

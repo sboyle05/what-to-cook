@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     recipes = db.relationship('Recipe', back_populates='user')
     shopping_lists = db.relationship('ShoppingList', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
+    recipe_boxes = db.relationship('RecipeBox', back_populates='user', cascade='all, delete-orphan')
 
     @property
     def password(self):

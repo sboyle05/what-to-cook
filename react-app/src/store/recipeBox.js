@@ -3,7 +3,7 @@ const GET_RECIPE_BOX = 'GET_RECIPE_BOX';
 const ADD_TO_RECIPE_BOX = 'ADD_TO_RECIPE_BOX';
 const UPDATE_RECIPE_BOX = 'UPDATE_RECIPE_BOX';
 const DELETE_FROM_RECIPE_BOX = 'DELETE_FROM_RECIPE_BOX'
-
+const ADD_EXISTING_TO_RECIPE_BOX = 'ADD_EXISTING_TO_RECIPE_BOX';
 
 //action creators
 export const getRecipeBox = (data) => ({
@@ -15,6 +15,12 @@ export const addToRecipeBox = (data) => ({
     type: ADD_TO_RECIPE_BOX,
     payload: data,
 });
+
+export const addExistingToRecipeBox = (data) => ({
+    type: ADD_EXISTING_TO_RECIPE_BOX,
+    payload: data,
+});
+
 
 export const updateRecipeBox = (data) => ({
     type: UPDATE_RECIPE_BOX,
@@ -37,9 +43,28 @@ export const fetchRecipeBox = () => async (dispatch) => {
     }
 }
 
+export const addExistingRecipeToBox = (recipeIdData) => async (dispatch) => {
+    try {
+        const response = await fetch('/api/recipebox/add_existing/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(recipeIdData),
+        });
+        console.log("********EXISTING THUNK*******RESPONSE", response)
+        const data = await response.json();
+        console.log("***********DATA FROM THUNK********", data)
+        dispatch(addExistingToRecipeBox(data));
+    } catch (error) {
+        console.error("Error adding existing recipe to Recipe Box:", error);
+    }
+};
+
+
 export const addRecipeToBox = (recipeData) => async (dispatch) => {
     try {
-        const response = await fetch('/api/recipebox', {
+        const response = await fetch('/api/recipebox/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,6 +72,7 @@ export const addRecipeToBox = (recipeData) => async (dispatch) => {
             body: JSON.stringify(recipeData),
         });
         const data = await response.json();
+        console.log("*********THUNK ADD TO BOX DATA**********", data)
         dispatch(addToRecipeBox(data));
     } catch (error) {
         console.error("Error adding recipe to Recipe Box:", error);
@@ -55,7 +81,7 @@ export const addRecipeToBox = (recipeData) => async (dispatch) => {
 
 export const updateRecipeInBox = (recipeId, updatedData) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/recipebox/${recipeId}`, {
+        const response = await fetch(`/api/recipebox/${recipeId}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +97,7 @@ export const updateRecipeInBox = (recipeId, updatedData) => async (dispatch) => 
 
 export const deleteRecipeFromBox = (recipeId) => async (dispatch) => {
     try {
-        await fetch(`/api/recipebox/${recipeId}`, {
+        await fetch(`/api/recipebox/${recipeId}/`, {
             method: 'DELETE',
         });
         dispatch(deleteFromRecipeBox(recipeId));
@@ -88,6 +114,8 @@ const recipeBoxReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_RECIPE_BOX:
             return { ...state, recipesInBox: action.payload};
+        case ADD_EXISTING_TO_RECIPE_BOX:
+            return { ...state, recipesInBox: [...state.recipesInBox, action.payload]};
         case ADD_TO_RECIPE_BOX:
             return { ...state, recipesInBox: [...state.recipesInBox, action.payload]};
         case UPDATE_RECIPE_BOX:
