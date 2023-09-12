@@ -14,3 +14,15 @@ body, html {
     width: 100%;
     min-height: 100vh;
   }
+
+  .recipesInBox a{
+    color: whitesmoke;
+    text-decoration: none;
+    margin-right: 5px;
+  }
+
+  .recipeBoxSection li{
+    list-style-type: none;
+    text-decoration: none;
+
+  }

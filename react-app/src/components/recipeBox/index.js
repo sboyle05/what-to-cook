@@ -44,7 +44,8 @@ function RecipeBox() {
         <section className='recipeBoxContainer'>
             <h1>{userName}'s Recipe Box</h1>
             <NavLink exact to="/recipebox/new"><button>Create New Recipe</button></NavLink>
-            <ul>
+            <section className='recipeBoxSection'>
+            <ul className='recipesInBox'>
                 {userRecipeBox.map(({ name, id, user_id }) => (
                     <li key={id}>
                     <NavLink exact to={`/recipes/${id}`}>{name}</NavLink>
@@ -58,6 +59,7 @@ function RecipeBox() {
                     </li>
                 ))}
             </ul>
+            </section>
         </section>
         </>
     );
