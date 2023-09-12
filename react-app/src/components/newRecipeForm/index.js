@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addRecipeToBox } from '../../store/recipeBox';
 import IngredientSearch from '../IngredientSearch';
 import './newRecipeForm.css';
 
 const NewRecipe = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [name, setName] = useState("");
   const [directions, setDirections] = useState("");
   const [customIngredients, setCustomIngredients] = useState([]);
@@ -15,7 +17,7 @@ const NewRecipe = () => {
 
 
   useEffect(() => {
-    setDirections(""); // Set directions as an empty string when the component loads
+    setDirections("");
   }, []);
 
   useEffect(() => {
@@ -42,20 +44,25 @@ const NewRecipe = () => {
 }, [customIngredients, selectedIngredients]);
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newRecipeData = {
-      name,
-      directions,
-      ingredients: [
-        ...customIngredients,
-        ...selectedIngredients.map(ingredient => ({ name: ingredient }))
-      ],
-      measuredIngredients,
-    };
-    console.log("*********NEW RECIPE***************",newRecipeData)
-    dispatch(addRecipeToBox(newRecipeData));
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const newRecipeData = {
+    name,
+    directions,
+    ingredients: [
+      ...customIngredients,
+      ...selectedIngredients.map(ingredient => ({ name: ingredient }))
+    ],
+    measuredIngredients,
   };
+  dispatch(addRecipeToBox(newRecipeData))
+  .then(() => {
+    history.push('/recipebox')
+  })
+  .catch((error) => {
+    console.error("Failed to update the recipe:", error);
+  });
+};
 
   const handleCustomIngredientChange = (index, event) => {
     const newCustomIngredients = [...customIngredients];

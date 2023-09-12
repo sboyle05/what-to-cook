@@ -16,8 +16,6 @@ recipe_ingredients_association = db.Table(
     **table_args
 )
 
-
-
 class Ingredient(db.Model):
     __tablename__ = 'ingredients'
 

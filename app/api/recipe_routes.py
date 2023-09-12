@@ -74,7 +74,15 @@ def get_recipes():
 
     return jsonify({"recipes": recipe_dicts}), 200
 
+@recipe_routes.route('/recipes/<int:recipe_id>', methods=["DELETE"])
+def delete_recipe(recipe_id):
+    recipe = Recipe.query.get(recipe_id)
+    if recipe is None:
+        return jsonify({"error": "Recipe not found"}), 404
+    db.session.delete(recipe)
+    db.session.commit()
 
+    return jsonify({"message": "Recipe deleted successfully"}), 200
 
 @recipe_routes.route('/recipes/<int:id>', methods=["GET"])
 def single_recipe(id):

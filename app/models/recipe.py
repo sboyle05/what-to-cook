@@ -17,7 +17,7 @@ class Recipe(db.Model):
     is_seeded = db.Column(db.Boolean, default=False, nullable=False)
     submitted_date = db.Column(db.Date, default=date.today, nullable=False)
 
-    measured_ingredients = db.relationship('MeasuredIngredient', back_populates='recipe')
+    measured_ingredients = db.relationship('MeasuredIngredient', back_populates='recipe', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='recipe', cascade='all, delete-orphan')
     user = db.relationship('User', back_populates='recipes')
     ingredients = db.relationship('Ingredient', secondary=recipe_ingredients_association, back_populates='recipes')

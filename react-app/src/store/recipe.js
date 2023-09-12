@@ -3,6 +3,7 @@ const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 const DESELECT_INGREDIENT = 'DESELECT_INGREDIENT';
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE';
 const CLEAR_RECIPES = 'CLEAR_RECIPES';
+const DELETE_RECIPE = 'DELETE_RECIPE';
 
 export const selectIngredient = (ingredient) => ({
     type: SELECT_INGREDIENT,
@@ -33,6 +34,23 @@ const getSingleRecipe = (data) => {
         payload: data,
     };
 };
+
+export const deleteRecipe = (id) => ({
+    type: DELETE_RECIPE,
+    payload: id,
+})
+
+
+export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
+    try {
+        await fetch(`/api/recipes/${recipeId}`, {
+            method: 'DELETE',
+        });
+        dispatch(deleteRecipe(recipeId));
+    } catch (error) {
+        console.error("Error deleting recipe", error)
+    }
+}
 
 
 export const fetchSingleRecipe = (id) => async (dispatch) => {

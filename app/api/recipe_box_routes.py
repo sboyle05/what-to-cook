@@ -69,7 +69,6 @@ def add_to_recipe_box():
 def add_existing_to_recipe_box():
     user_id = current_user.id
     data = request.json
-    print("*************ADD EXISITNG RECIPE DATA FROM BACKEND****************",data)
     recipe_id = data["id"]
 
     existing_recipe = Recipe.query.filter_by(id=recipe_id).first()

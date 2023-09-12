@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, NavLink } from 'react-router-dom';
-import { fetchRecipeBox, deleteRecipeFromBox, updateRecipeInBox } from '../../store/recipeBox';
+import { fetchRecipeBox, deleteRecipeFromBox, updateRecipeInBox, deleteFromRecipeBox } from '../../store/recipeBox';
+import { finalDeleteRecipe } from '../../store/recipe';
 import './recipeBox.css';
 
 function RecipeBox() {
@@ -27,6 +28,12 @@ function RecipeBox() {
     }
 
     const handleDelete = async (id) => {
+        await dispatch(finalDeleteRecipe(id));
+
+        dispatch(deleteFromRecipeBox(id));
+    }
+
+    const removeFromBox = async (id) => {
         await dispatch(deleteRecipeFromBox(id));
     }
 
@@ -47,7 +54,7 @@ function RecipeBox() {
                     <button onClick={() => handleDelete(id)}>Delete</button>
                     </>
                         )}
-                        <button onClick={() => handleDelete(id)}>Remove from Box</button>
+                        <button onClick={() => removeFromBox(id)}>Remove from Box</button>
                     </li>
                 ))}
             </ul>
