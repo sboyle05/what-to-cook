@@ -1,8 +1,8 @@
 """cookingtime
 
-Revision ID: 59eaae42fd1c
+Revision ID: 4e5517eb06bb
 Revises: 
-Create Date: 2023-09-11 11:00:42.373678
+Create Date: 2023-09-11 17:23:18.821040
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '59eaae42fd1c'
+revision = '4e5517eb06bb'
 down_revision = None
 branch_labels = None
 depends_on = None

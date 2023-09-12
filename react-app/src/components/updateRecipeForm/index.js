@@ -1,76 +1,91 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { updateRecipeInBox, fetchRecipeBox } from '../../store/recipeBox';
 import IngredientSearch from '../IngredientSearch';
 import './updateRecipeForm.css';
 
 const UpdateRecipe = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { id } = useParams();
   const existingRecipe = useSelector(state =>
     state.recipeBox.recipesInBox.find(recipe => recipe.id === Number(id))
   );
-    console.log("************existing RECIPE*******", existingRecipe)
+
   const [name, setName] = useState(existingRecipe ? existingRecipe.name : "");
   const [directions, setDirections] = useState(existingRecipe ? existingRecipe.directions : "");
-  const [customIngredients, setCustomIngredients] = useState(existingRecipe ? existingRecipe.customIngredients : []);
-  const [measuredIngredients, setMeasuredIngredients] = useState(existingRecipe ? existingRecipe.measuredIngredients : {});
-
-  const [selectedIngredients, setSelectedIngredients] = useState(existingRecipe ? existingRecipe.selectedIngredients : []);
+  const [measuredIngredients, setMeasuredIngredients] = useState(
+    existingRecipe ? existingRecipe.measured_ingredients.map(m => m.description) : []
+  );
+  const [selectedIngredients, setSelectedIngredients] = useState(
+    existingRecipe ? existingRecipe.ingredients.map(i => i.name) : []
+  );
+  const [customIngredients, setCustomIngredients] = useState([]);
 
   useEffect(() => {
-    if (!existingRecipe) {
-
-      dispatch(fetchRecipeBox());
-    } else {
+    console.log('existingRecipe:', existingRecipe);
+    if (existingRecipe) {
       setName(existingRecipe.name);
       setDirections(existingRecipe.directions);
-      setCustomIngredients(existingRecipe.customIngredients);
-      setMeasuredIngredients(existingRecipe.measuredIngredients);
-      setSelectedIngredients(existingRecipe.selectedIngredients);
+      setMeasuredIngredients(existingRecipe.measured_ingredients.map(m => m.description));
+      setSelectedIngredients(existingRecipe.ingredients.map(i => i.name));
+    } else {
+      dispatch(fetchRecipeBox());
     }
   }, [existingRecipe, dispatch]);
 
+  useEffect(() => {
+    const allIngredients = [...selectedIngredients, ...customIngredients.map(ing => ing.name)];
+
+    setMeasuredIngredients(prevMeasured => {
+      const newMeasuredIngredients = allIngredients.map((ingredientName) => {
+        const existingMeasured = prevMeasured.find(
+          (m) => m.split(":")[0].trim() === ingredientName
+        );
+
+        return existingMeasured || `${ingredientName}: `;
+      });
+
+      return newMeasuredIngredients;
+    });
+
+  }, [selectedIngredients, customIngredients]);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const measuredIngredientsArray = measuredIngredients.map(description => {
+      return { description };
+    });
+
     const newRecipeData = {
       id: Number(id),
       name,
       directions,
-      customIngredients,
-      measuredIngredients,
-      selectedIngredients
+      measuredIngredients: measuredIngredientsArray,
+      ingredients: [...selectedIngredients, ...customIngredients.map(ci => ci.name)].map(name => ({ name }))
     };
-    dispatch(updateRecipeInBox(Number(id), newRecipeData));
+
+    dispatch(updateRecipeInBox(Number(id), newRecipeData))
+    .then(() => {
+      history.push(`/recipes/${id}`)
+    })
+    .catch((error) => {
+      console.error("Failed to update the recipe:", error);
+    });
+  };
+
+
+  const addCustomIngredient = () => {
+    setCustomIngredients([...customIngredients, { name: '' }]);
   };
 
   const handleCustomIngredientChange = (index, event) => {
     const newCustomIngredients = [...customIngredients];
     newCustomIngredients[index][event.target.name] = event.target.value;
     setCustomIngredients(newCustomIngredients);
-  };
-
-  const handleMeasuredIngredientChange = (ingredient, event) => {
-    const newMeasuredIngredients = { ...measuredIngredients };
-    newMeasuredIngredients[ingredient] = event.target.value;
-    setMeasuredIngredients(newMeasuredIngredients);
-  };
-
-  const addCustomIngredient = () => {
-    setCustomIngredients([...customIngredients, { name: '' }]);
-  };
-
-  const addSearchIngredient = (ingredient) => {
-    console.log("***************Adding ingredient:", ingredient); // Debug statement
-    setSelectedIngredients([...selectedIngredients, ingredient]);
-  };
-
-  const removeSearchIngredient = (ingredientToRemove) => {
-    const newSelectedIngredients = selectedIngredients.filter(
-      ingredient => ingredient !== ingredientToRemove
-    );
-    setSelectedIngredients(newSelectedIngredients);
   };
 
   return (
@@ -84,9 +99,14 @@ const UpdateRecipe = () => {
       <fieldset>
         <legend>Search for Ingredients</legend>
         <IngredientSearch
-          addIngredient={addSearchIngredient}
+          addIngredient={(ingredient) => setSelectedIngredients([...selectedIngredients, ingredient])}
           selectedIngredients={selectedIngredients}
-          removeIngredient={removeSearchIngredient}
+          removeIngredient={(ingredientToRemove) => {
+            const newSelectedIngredients = selectedIngredients.filter(
+              ingredient => ingredient !== ingredientToRemove
+            );
+            setSelectedIngredients(newSelectedIngredients);
+          }}
         />
       </fieldset>
 
@@ -110,21 +130,29 @@ const UpdateRecipe = () => {
       </fieldset>
 
       <fieldset>
-        <legend>Measured Ingredients</legend>
-        {Object.keys(measuredIngredients).map((ingredient, index) => (
-          <div key={index}>
-            <label>
-              {ingredient}:
-              <input
-                type="text"
-                value={measuredIngredients[ingredient]}
-                onChange={(event) => handleMeasuredIngredientChange(ingredient, event)}
-                required
-              />
-            </label>
-          </div>
-        ))}
-      </fieldset>
+      <legend>Measured Ingredients</legend>
+      {measuredIngredients.map((ingredientDesc, index) => (
+        <div key={index}>
+          <label>
+            {ingredientDesc.split(':')[0]}:
+            <input
+              type="text"
+              value={ingredientDesc.split(':')[1].trimStart()}
+              onChange={(event) => {
+                const newValue = event.target.value;
+                setMeasuredIngredients(prevMeasured => {
+                  const newMeasured = [...prevMeasured];
+                  const currentIngredient = newMeasured[index].split(':')[0];
+                  newMeasured[index] = `${currentIngredient}: ${newValue}`;
+                  return newMeasured;
+                });
+              }}
+              required
+            />
+          </label>
+        </div>
+      ))}
+    </fieldset>
 
       <button type="submit">Update Recipe</button>
     </form>

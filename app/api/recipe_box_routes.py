@@ -117,23 +117,23 @@ def update_recipe_box(recipe_id):
                 db.session.add(ingredient)
             recipe.ingredients.append(ingredient)
 
-    # Update Measured Ingredients
-    for measured_ingredient_name, measured_ingredient_value in data.get('measuredIngredients', {}).items():
-        measured_ingredient = MeasuredIngredient.query.filter(
-            MeasuredIngredient.recipe_id == recipe_id,
-            MeasuredIngredient.description == f"{measured_ingredient_name}: {measured_ingredient_value}"
-        ).first()
+    # Delete existing measured ingredients
+    MeasuredIngredient.query.filter_by(recipe_id=recipe_id).delete()
 
-        if measured_ingredient is None:
-            measured_ingredient = MeasuredIngredient(
-                description=f"{measured_ingredient_name}: {measured_ingredient_value}",
-                recipe=recipe
-            )
-            db.session.add(measured_ingredient)
-        else:
-            measured_ingredient.description = f"{measured_ingredient_name}: {measured_ingredient_value}"
+    # Update Measured Ingredients
+    for measured_ingredient_data in data.get('measuredIngredients', []):
+        measured_ingredient_description = measured_ingredient_data.get('description')
+        if measured_ingredient_description is None:
+            continue
+
+        new_measured_ingredient = MeasuredIngredient(
+            description=measured_ingredient_description,
+            recipe=recipe
+        )
+        db.session.add(new_measured_ingredient)
 
     db.session.commit()
+
 
     return jsonify(recipe.to_dict())
 

@@ -36,11 +36,11 @@ function RecipeBox() {
         <>
         <section className='recipeBoxContainer'>
             <h1>{userName}'s Recipe Box</h1>
-
+            <NavLink exact to="/recipebox/new"><button>Create New Recipe</button></NavLink>
             <ul>
                 {userRecipeBox.map(({ name, id, user_id }) => (
                     <li key={id}>
-                    {name}
+                    <NavLink exact to={`/recipes/${id}`}>{name}</NavLink>
                     {user_id === sessionUser.id && (
                     <>
                     <NavLink exact to={`/recipebox/update/${id}`}><button>Update</button></NavLink>
