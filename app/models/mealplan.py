@@ -10,7 +10,7 @@ class MealPlan(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
-    meal_type = db.Column(Enum('breakfast', 'brunch', 'lunch', 'dinner', 'snack', 'dessert'), nullable=False)
+    meal_type = db.Column(Enum('breakfast', 'brunch', 'lunch', 'dinner', 'snack', 'dessert', name='mealtype_enum'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
 
