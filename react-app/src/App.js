@@ -11,6 +11,8 @@ import RecipeBox from "./components/recipeBox";
 import NewRecipe from "./components/newRecipeForm";
 import UpdateRecipe from "./components/updateRecipeForm";
 import MealPlanner from "./components/mealplanner";
+
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,6 +23,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+
       {isLoaded && (
         <Switch>
           <Route exact path="/login" >
@@ -49,6 +52,7 @@ function App() {
           </Route>
         </Switch>
       )}
+
     </>
   );
 }

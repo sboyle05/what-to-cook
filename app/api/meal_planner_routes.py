@@ -47,7 +47,7 @@ def add_to_meal_planner():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@meal_planner_routes.route('/mealplanner/<int:id>/update', methods=['PUT'])
+@meal_planner_routes.route('/mealplanner/<int:id>/edit/', methods=['PUT'])
 def update_meal_plan(id):
     meal_plan = MealPlan.query.get(id)
 
