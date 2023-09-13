@@ -12,6 +12,7 @@ import UpdateMealPlannerModal from '../updateMealPlannerModal';
 const MealPlanner = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [selectedMealPlanner, setSelectedMealPlanner] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
@@ -29,6 +30,7 @@ const MealPlanner = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log("meals:**********", meals)
     const fetchRecipeNames = async () => {
       const newCalendarEvents = [];
       const flattenedMeals = meals.flat();
@@ -77,26 +79,27 @@ const MealPlanner = () => {
   };
 
   const handleEventClick = (info) => {
-    const clickedEvent = {
-      id: parseInt(info.event.id),
-      title: info.event.title,
-      start: info.event.start,
-    };
-
-    setSelectedRecipe(clickedEvent.id);
+    // flatten arrays into single array
+    const flattenedMeals = meals.flat();
+    const clickedMealPlanner = flattenedMeals.find(meal => meal.recipe_id == info.event.id);
+    setSelectedMealPlanner(clickedMealPlanner);
     setShowModal(true);
   };
 
+  useEffect(() => {
+    console.log("selectedMealPlanner: ", selectedMealPlanner);
+  }, [selectedMealPlanner]);
+
   const closeModal = () => {
     setShowModal(false);
-    setSelectedRecipe(null);
+    setSelectedMealPlanner(null);
   };
 
   return (
     <>
       {showModal && (
         <section className='modalPlanner'>
-        <UpdateMealPlannerModal recipeId={selectedRecipe} userId={userId} onClose={closeModal} />
+        <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} onClose={closeModal} />
         </section>
       )}
       <section className="mainCalendarContainer">

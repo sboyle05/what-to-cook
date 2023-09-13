@@ -68,13 +68,22 @@ def update_meal_plan(id):
 
 
 
-@meal_planner_routes.route('/mealplanner/<int:id>/delete', methods=['DELETE'])
+@meal_planner_routes.route('/mealplanner/<int:id>/delete/', methods=['DELETE'])
 def delete_meal_plan(id):
+    print("Deleting meal plan with ID:", id)
     meal_plan = MealPlan.query.get(id)
+
+    if meal_plan is None:
+        return {"message": "Meal plan not found"}, 404
 
     if meal_plan.user_id != current_user.id:
         return {"message": "You don't have the permissions to delete this."}, 404
 
-    db.session.delete(meal_plan)
-    db.session.commit()
-    return meal_plan.to_dict()
+    try:
+        db.session.delete(meal_plan)
+        db.session.commit()
+    except Exception as e:
+        print("Database Exception:", str(e))
+        return {"message": "Internal Server Error"}, 500
+
+    return meal_plan.to_dict(), 200

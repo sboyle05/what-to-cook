@@ -2,44 +2,55 @@ import React, { useState, useEffect } from "react";
 import './updateMealPlannerModal.css'
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { updateMealPlanner } from "../../store/mealPlanner";
-import { deleteMealPlanner } from "../../store/mealPlanner";
+import { editMealPlanner } from "../../store/mealPlanner";
+import { removeMealPlanner } from "../../store/mealPlanner";
+import { fetchMealPlanner } from "../../store/mealPlanner";
 
-const UpdateMealPlannerModal = ({ recipeId, userId}) => {
+const UpdateMealPlannerModal = ({ mealPlanner, userId, onClose }) => {
     const [date, setDate] = useState("");
     const [mealType, setMealType] = useState('Breakfast');
     const dispatch = useDispatch();
     const [errors, setErrors] = useState([]);
     const {closeModal} = useModal();
 
+    console.log("mealPlanner in Modal ***************", mealPlanner)
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!mealPlanner) {
+            console.error("mealPlanner is undefined.");
+            return;
+        }
         const newMealData = {
-            user_id: userId,
-            date,
-            meal_type: mealType.toLowerCase(),
-            recipe_id: recipeId
+          id: mealPlanner.id,
+          user_id: userId,
+          date,
+          meal_type: mealType.toLowerCase(),
+          recipe_id: mealPlanner.recipe_id
         };
-
-        const data = await dispatch(updateMealPlanner(newMealData))
+        console.log("**********newMealData in MODAL", newMealData)
+        const data = await dispatch(editMealPlanner(newMealData, newMealData));
 
         if (data) {
             setErrors(data);
         } else {
-            closeModal()
+            onClose()
         }
     }
 
     const handleDelete = async () => {
-        await dispatch(deleteMealPlanner(recipeId));
-        closeModal();
+        console.log("DELETING MEAL WITH ID:*******", mealPlanner.id)
+        await dispatch(removeMealPlanner(mealPlanner.id));
+        await dispatch(fetchMealPlanner());
+        onClose();
     }
 
 
     return (
         <>
-        <div className='update-modal-backdrop'></div>
-        <section className="mealPlannerModalContainer">
+         <div className='update-modal-backdrop' onClick={onClose}></div>
+        <section className="mealPlannerModalContainer" onClick={e => e.stopPropagation()}>
             <h2 className="modalTitle">Update Your Meal Planner</h2>
             <form onSubmit={handleSubmit}>
 
@@ -63,7 +74,7 @@ const UpdateMealPlannerModal = ({ recipeId, userId}) => {
                 <button type="submit">Update</button>
             </form>
                 <button onClick={handleDelete}>Remove from Meal Planner</button>
-                <button onClick={closeModal}>Cancel</button>
+                <button onClick={onClose}>Cancel</button>
         </section>
 
         </>

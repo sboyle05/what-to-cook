@@ -59,8 +59,9 @@ export const addMealPlanner = (newMealData) => async (dispatch) => {
     }
 }
 
-export const editMealPlanner = (mealPlanId, updatedData) => async (dispatch) => {
+export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) => {
     try {
+        const mealPlanId = mealPlanData.id;
         const response = await fetch(`/api/mealplanner/${mealPlanId}/edit/`, {
             method: 'PUT',
             headers: {
@@ -68,8 +69,10 @@ export const editMealPlanner = (mealPlanId, updatedData) => async (dispatch) => 
             },
             body: JSON.stringify(updatedData)
         })
+
         const data = await response.json();
         dispatch(updateMealPlanner(data));
+        dispatch(fetchMealPlanner())
     } catch (error) {
         console.error("Error updating meal:", error);
     }
@@ -77,14 +80,23 @@ export const editMealPlanner = (mealPlanId, updatedData) => async (dispatch) => 
 
 export const removeMealPlanner = (mealPlanId) => async (dispatch) => {
     try{
-        await fetch(`/api/mealplanner/${mealPlanId}`, {
+        const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, {
             method: 'DELETE'
         });
+        const data = await response.json();
+        console.log("Server Response:", data);
+
+        if (!response.ok) {
+            console.error("Server Response Error:", response.status);
+            return;
+        }
+
         dispatch(deleteMealPlanner(mealPlanId));
     } catch (error) {
         console.error("Error deleting meal:", error);
     }
 }
+
 
 const initialState = {mealPlanner: []}
 
@@ -112,7 +124,6 @@ const mealPlannerReducer = (state = initialState, action) => {
                     mealPlanner: updatedMealPlanner
                 };
             }
-
             case DELETE_MEAL_PLANNER: {
                 const updatedMealPlanner = state.mealPlanner.filter(mealPlan => mealPlan.id !== action.payload);
                 return {
