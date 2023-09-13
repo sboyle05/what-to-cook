@@ -21,10 +21,6 @@ const NewRecipe = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Inside useEffect");
-    console.log("Current selectedIngredients:", selectedIngredients);
-    console.log("Current customIngredients:", customIngredients);
-
     const allIngredientNames = [
       ...customIngredients.map(ingredient => ingredient.name),
       ...selectedIngredients
@@ -81,7 +77,6 @@ const handleSubmit = async (e) => {
   };
 
   const addSearchIngredient = (ingredient) => {
-    console.log("***************Adding ingredient:", ingredient); // Debug statement
     setSelectedIngredients([...selectedIngredients, ingredient]);
   };
 

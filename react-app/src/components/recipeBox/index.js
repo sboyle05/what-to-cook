@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, NavLink } from 'react-router-dom';
 import { fetchRecipeBox, deleteRecipeFromBox, updateRecipeInBox, deleteFromRecipeBox } from '../../store/recipeBox';
 import { finalDeleteRecipe } from '../../store/recipe';
 import './recipeBox.css';
+import OpenModalButton from '../OpenModalButton';
+import MealPlannerModal from '../addToMealPlannerModal';
 
 function RecipeBox() {
     const sessionUser = useSelector(state => state.session.user);
     const recipesInBox = useSelector(state => state.recipeBox.recipesInBox);
+    const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
+    const ulRef = useRef();
 
     let userName, userId;
 
@@ -16,6 +20,25 @@ function RecipeBox() {
         userName = sessionUser.username;
         userId = sessionUser.id;
     }
+
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+      };
+
+      useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = (e) => {
+          if (!ulRef.current.contains(e.target)) {
+            setShowMenu(false);
+          }
+        };
+
+        document.addEventListener("click", closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+      }, [showMenu]);
 
     useEffect(() => {
         if (userId) {
@@ -38,6 +61,7 @@ function RecipeBox() {
     }
 
     const userRecipeBox = Object.values(recipesInBox);
+    const closeMenu = () => setShowMenu(false);
 
     return (
         <>
@@ -49,6 +73,10 @@ function RecipeBox() {
                 {userRecipeBox.map(({ name, id, user_id }) => (
                     <li key={id}>
                     <NavLink exact to={`/recipes/${id}`}>{name}</NavLink>
+                    <section className='recipeBoxButtons'>
+                    <OpenModalButton buttonText="Add to Meal Planner"
+                    onItemClick={closeMenu}
+                    modalComponent={<MealPlannerModal recipeId={id} userId={userId} />}/>
                     {user_id === sessionUser.id && (
                     <>
                     <NavLink exact to={`/recipebox/update/${id}`}><button>Update</button></NavLink>
@@ -56,6 +84,7 @@ function RecipeBox() {
                     </>
                         )}
                         <button onClick={() => removeFromBox(id)}>Remove from Box</button>
+                        </section>
                     </li>
                 ))}
             </ul>

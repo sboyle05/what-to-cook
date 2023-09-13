@@ -15,3 +15,12 @@ class MealPlan(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
     user = db.relationship('User', back_populates='meal_plans')
+
+    def to_dict(self):
+        return{
+            'id': self.id,
+            'date': self.date,
+            'meal_type': self.meal_type,
+            'recipe_id': self.recipe_id,
+            'user_id': self.user_id
+        }

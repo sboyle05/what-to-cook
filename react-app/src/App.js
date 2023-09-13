@@ -10,6 +10,7 @@ import SingleRecipeComponent from "./components/SingleRecipe";
 import RecipeBox from "./components/recipeBox";
 import NewRecipe from "./components/newRecipeForm";
 import UpdateRecipe from "./components/updateRecipeForm";
+import MealPlanner from "./components/mealplanner";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route exact path="/recipes/:id">
             <SingleRecipeComponent/>
+          </Route>
+          <Route exact path="/mealplanner">
+            <MealPlanner/>
           </Route>
           <Route exact path="/">
           <RecipeSearch/>

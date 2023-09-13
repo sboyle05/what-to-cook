@@ -57,9 +57,8 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
     try {
         const response = await fetch(`/api/recipes/${id}`);
         const data = await response.json();
-        console.log("*********SINGLE RECIPE FETCH************", response)
-        console.log("*****************SINGLE RECIPE DATA**********", data)
         dispatch(getSingleRecipe(data));
+        return data;
     } catch(error){
         console.error("Error fetching single recipe:", error)
     }
@@ -77,7 +76,6 @@ export const searchRecipes = (selectedIngredients, exactMatch, extraCount) => as
         }
         const response = await fetch(url);
         const data = await response.json();
-        console.log("***********data from fetch***********", data)
         dispatch(getRecipes(data.recipes || []));
     } catch (error) {
         console.error("Error fetching recipes:", error);

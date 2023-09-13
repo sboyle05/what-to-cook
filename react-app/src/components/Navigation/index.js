@@ -29,6 +29,14 @@ function Navigation({ isLoaded }) {
               My RecipeBox
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              exact
+              to={sessionUser ? "/mealplanner" : "/login?redirect=/mealplanner"}
+            >
+              Meal Planner
+            </NavLink>
+          </li>
           {isLoaded && (
             <li>
               <ProfileButton user={sessionUser} />
