@@ -15,13 +15,11 @@ def get_recipes():
     # Get ingredients as a comma-separated string from query parameters
     ingredients_param = request.args.get('ingredients', '')
 
-    # Convert the comma-separated string into a list
     ingredients_list = ingredients_param.split(',')
 
     # Remove any leading/trailing white spaces from each ingredient
     ingredients_list = [ingredient.strip() for ingredient in ingredients_list]
 
-    # If no ingredients provided
     if not ingredients_list or not ingredients_list[0]:
         print("No ingredients provided.")
         return jsonify({"message": "No ingredients were provided", "recipes": []}), 400

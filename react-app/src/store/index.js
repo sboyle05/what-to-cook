@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import session from './session'
 import recipeReducer from './recipe';
 import recipeBoxReducer from './recipeBox';
+import mealPlannerReducer from './mealPlanner';
 const rootReducer = combineReducers({
   session,
   recipes: recipeReducer,
-  recipeBox: recipeBoxReducer
+  recipeBox: recipeBoxReducer,
+  mealPlanner: mealPlannerReducer
 });
 
 

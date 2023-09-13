@@ -13,7 +13,7 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     directions = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=True)
     is_seeded = db.Column(db.Boolean, default=False, nullable=False)
     submitted_date = db.Column(db.Date, default=date.today, nullable=False)
 

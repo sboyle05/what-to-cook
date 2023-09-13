@@ -13,8 +13,6 @@ const SingleRecipeComponent = () => {
     const {id} = useParams();
     const currentRecipe = useSelector((state) => state.recipes.singleRecipe)
     const user = useSelector(state => state.session.user)
-    console.log("*******CURRENT RECIPE IN FUNCTION*****", currentRecipe)
-
     useEffect(() => {
         dispatch(fetchSingleRecipe(id))
     }, [dispatch, id])
@@ -24,7 +22,6 @@ const SingleRecipeComponent = () => {
       }
 
     const handleAddToRecipeBox = () => {
-        console.log("********HANDLEADDTORECIPEBOX : CURRENT RECIPE****", currentRecipe)
         dispatch(addExistingRecipeToBox(currentRecipe))
     }
 
@@ -71,10 +68,10 @@ const SingleRecipeComponent = () => {
           });
         } catch (error) {
           return <li>{currentRecipe.directions}</li>;
-        }
-      })()
-    : null}
-</ol>
+            }
+            })()
+        : null}
+          </ol>
                 </section>
                 {user && (
                     <button id="addtorecipeboxbutton" onClick={handleAddToRecipeBox}>Add to Recipe Box</button>

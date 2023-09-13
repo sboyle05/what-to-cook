@@ -8,9 +8,9 @@ class ShoppingList(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    measured_ingredient_id = db.Column(db.Integer, db.ForeignKey('measured_ingredients.id'), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'), nullable=False)
+    measured_ingredient_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('measured_ingredients.id')), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('ingredients.id')), nullable=False)
 
     measured_ingredient_rel = db.relationship('MeasuredIngredient', back_populates='shopping_lists')
     user = db.relationship('User', back_populates='shopping_lists')

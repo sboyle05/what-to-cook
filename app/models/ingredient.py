@@ -11,8 +11,8 @@ else:
 
 recipe_ingredients_association = db.Table(
     'recipe_ingredients',
-    db.Column('recipe_id', db.Integer, db.ForeignKey('recipes.id'), primary_key=True),
-    db.Column('ingredient_id', db.Integer, db.ForeignKey('ingredients.id'), primary_key=True),
+    db.Column('recipe_id', db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), primary_key=True),
+    db.Column('ingredient_id', db.Integer, db.ForeignKey(add_prefix_for_prod('ingredients.id')), primary_key=True),
     **table_args
 )
 
