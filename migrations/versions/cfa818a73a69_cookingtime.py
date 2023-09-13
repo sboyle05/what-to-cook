@@ -59,7 +59,7 @@ def upgrade():
     op.create_table('meal_plans',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('date', sa.Date(), nullable=False),
-    sa.Column('meal_type', sa.Enum('breakfast', 'brunch', 'lunch', 'dinner', 'snack', 'dessert'), nullable=False),
+    sa.Column('meal_type', sa.Enum('breakfast', 'brunch', 'lunch', 'dinner', 'snack', 'dessert', name='mealtype_enum'), nullable=False),
     sa.Column('recipe_id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['recipe_id'], ['recipes.id'], ),
