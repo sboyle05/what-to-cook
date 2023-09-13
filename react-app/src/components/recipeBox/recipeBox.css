@@ -1,0 +1,42 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+
+  .recipeBoxContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .recipesInBox{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .recipesInBox a{
+    color: whitesmoke;
+    text-decoration: none;
+  }
+
+  .recipeBoxButtons button{
+    margin-right: 5px;
+    margin-top: 5px;
+
+  }
+
+  .recipeBoxSection li{
+    list-style-type: none;
+    text-decoration: none;
+    border: 2px solid #6200ea;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    width: 30vh;
+  }

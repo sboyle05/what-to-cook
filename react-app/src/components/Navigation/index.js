@@ -1,24 +1,52 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
-function Navigation({ isLoaded }){
-	const sessionUser = useSelector(state => state.session.user);
+function Navigation({ isLoaded }) {
+  const sessionUser = useSelector(state => state.session.user);
+  const history = useHistory();
 
-	return (
-		<ul>
-			<li>
-				<NavLink exact to="/">Home</NavLink>
-			</li>
-			{isLoaded && (
-				<li>
-					<ProfileButton user={sessionUser} />
-				</li>
-			)}
-		</ul>
-	);
+  const handleRecipeBoxClick = () => {
+	if (!sessionUser) {
+	  history.push('/login?redirect=/recipebox');
+	}
+  };
+
+  return (
+    <>
+      <section className='navigationContainer'>
+        <ul>
+          <li>
+            <NavLink exact to="/">Home</NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to={sessionUser ? "/recipebox" : "/login?redirect=/recipebox"}
+            >
+              My RecipeBox
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to={sessionUser ? "/mealplanner" : "/login?redirect=/mealplanner"}
+            >
+              Meal Planner
+            </NavLink>
+          </li>
+          {isLoaded && (
+            <li>
+              <ProfileButton user={sessionUser} />
+            </li>
+          )}
+        </ul>
+      </section>
+    </>
+  );
 }
+
 
 export default Navigation;

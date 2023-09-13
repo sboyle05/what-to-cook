@@ -1,51 +1,63 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import './LoginForm.css';
 
 function LoginFormPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return <Redirect to="/" />;
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get('redirect');
+
+  if (sessionUser) {
+    return <Redirect to={redirect || "/"} />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
+    } else {
+
+      history.push(redirect ? redirect : "/");
     }
   };
+
+
 
   return (
     <>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+        {errors.map((error, idx) => (
+          <li key={idx}>{error}</li>
           ))}
         </ul>
         <label>
           Email
           <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
           />
         </label>
         <label>
           Password
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
           />
         </label>
         <button type="submit">Log In</button>
