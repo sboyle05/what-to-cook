@@ -1,12 +1,16 @@
 """cookingtime
 
 Revision ID: cfa818a73a69
-Revises: 
+Revises:
 Create Date: 2023-09-12 20:15:38.856011
 
 """
 from alembic import op
 import sqlalchemy as sa
+
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
@@ -96,6 +100,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
+    if environment == "production":
+        op.execute(f"ALTER TABLE  ingredients SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  users SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  recipes SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  comments SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  meal_plans SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  measured_ingredients SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  recipe_boxes SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  recipe_ingredients SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE  shopping_lists SET SCHEMA {SCHEMA};")
 
 
 def downgrade():
