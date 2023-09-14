@@ -4,6 +4,8 @@ import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import './profileButton.css'
+
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -34,14 +36,14 @@ function ProfileButton({ user }) {
     dispatch(logout());
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "profile-menu" + (showMenu ? " show-menu" : "");
   const closeMenu = () => setShowMenu(false);
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
+      <span onClick={openMenu}>
+        <img id="chefIcon" src="./chef_hat.png" alt="cheficon"/>
+      </span>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
@@ -55,12 +57,14 @@ function ProfileButton({ user }) {
           <>
             <OpenModalButton
               buttonText="Log In"
+              className='loginButton'
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
 
             <OpenModalButton
               buttonText="Sign Up"
+              className='signUpButton'
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />

@@ -12,6 +12,72 @@ body, html {
   display: none;
 }
 
-.navigationContainer{
+.navigationContainer button{
+  cursor: pointer;
+}
 
+.navigationContainer{
+display: flex;
+align-items: center;
+background-color: #121212;
+border-bottom: 2px solid whitesmoke;
+align-items: flex-start;
+color: whitesmoke;
+font-family: 'Oxygen', sans-serif;
+padding-left: 10vh;
+justify-content: space-between;
+}
+
+#whatToCookLogo{
+  position: absolute;
+  width: 18vh;
+  height: 18vh;
+  margin-left: 2vh;
+  background-color: #121212;
+}
+
+.navButtonContainer{
+display: flex;
+align-items: center;
+justify-content: center;
+color: whitesmoke;
+margin-right: 2vh;
+margin-top: 5vh;
+padding-left: 15vh;
+flex-grow: 1;
+}
+
+.navList{
+  color: whitesmoke;
+  list-style-type: none;
+  display: flex;
+  /* flex-direction: row; */
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.navButtonContainer a{
+  text-decoration: none;
+  color: whitesmoke;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 18px;
+  margin-right: 2vh;
+}
+
+.navButtonContainer li{
+  display: flex;
+  text-decoration: none;
+  color: whitesmoke;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 18px;
+  margin-right: 2vh;
+  cursor: pointer;
+}
+.navButtonContainer span{
+  text-decoration: none;
+  color: whitesmoke;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 18px;
+  margin-right: 2vh;
 }

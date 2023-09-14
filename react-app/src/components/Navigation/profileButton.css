@@ -1,0 +1,40 @@
+
+@keyframes slideDown {
+    0% {
+        top: -100px;
+        opacity: 0;
+    }
+    100% {
+        top: 4vh;
+        right: 2vh;
+        opacity: 1;
+    }
+}
+
+.profile-menu {
+    position: absolute;
+    top: -100px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.profile-menu.show-menu {
+    animation: slideDown 0.3s ease forwards;
+}
+
+
+#chefIcon{
+    background-color: none;
+    width: 5.5vh;
+    height: 5.5vh;
+}
+
+.loginButton {
+    background-color: #0066b6;
+    margin-right: 5px;
+    font-family: 'Oxygen', sans-serif;
+}
+.signUpButton {
+    background-color: #0066b6;
+    font-family: 'Oxygen', sans-serif;
+}

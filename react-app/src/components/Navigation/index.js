@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
+
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory();
@@ -14,10 +15,18 @@ function Navigation({ isLoaded }) {
 	}
   };
 
+  const comingSoon = () => {
+    alert("SHOPPING LIST COMING SOON!!!");
+  };
+
   return (
     <>
+        <section className='logoContainer'>
+          <img id="whatToCookLogo" src='/whatToCookLogo2.png' alt="what-to-cook logo"/>
+        </section>
       <section className='navigationContainer'>
-        <ul>
+        <section className='navButtonContainer'>
+        <ul className='navList'>
           <li>
             <NavLink exact to="/">Home</NavLink>
           </li>
@@ -37,12 +46,16 @@ function Navigation({ isLoaded }) {
               Meal Planner
             </NavLink>
           </li>
+          <li>
+            <span onClick={comingSoon}>Shopping List</span>
+          </li>
           {isLoaded && (
             <li>
               <ProfileButton user={sessionUser} />
             </li>
           )}
         </ul>
+        </section>
       </section>
     </>
   );

@@ -75,9 +75,6 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
         </>
     )
 
-
-
 }
-
 
 export default UpdateMealPlannerModal

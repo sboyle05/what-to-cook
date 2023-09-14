@@ -2,8 +2,13 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100vh;
+    background-color: #121212;
   }
 
+  .mealPlannerContainer{
+    padding-top: 4vh;
+    background-color: #121212;
+  }
 
   .mainCalenderContainer{
     font-family: 'Oxygen', sans-serif;
@@ -30,7 +35,9 @@ body, html {
   .fc-toolbar-title{
     color: whitesmoke;
   }
+  .fc-toolbar-chunk{
 
+  }
   .fc-daygrid-day-number{
     color: whitesmoke;
   }

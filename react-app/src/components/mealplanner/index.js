@@ -90,6 +90,7 @@ const MealPlanner = () => {
 
   return (
     <>
+      <section className='mealPlannerContainer'>
       {showModal && (
         <section className='modalPlanner'>
         <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} refetch={refetchMealPlanner} onClose={closeModal} />
@@ -108,6 +109,7 @@ const MealPlanner = () => {
           }}
           events={calendarEvents}
         />
+      </section>
       </section>
     </>
   );
