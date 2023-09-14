@@ -56,7 +56,7 @@ def update_meal_plan(id):
 
     form = UpdateMealPlanForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-
+    print("************UPDATE MEAL PLAN FORM******", form)
     if form.validate_on_submit():
         meal_plan.date = form.data['date']
         meal_plan.meal_type = form.data['meal_type']

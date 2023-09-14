@@ -11,7 +11,6 @@ import UpdateMealPlannerModal from '../updateMealPlannerModal';
 
 const MealPlanner = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedMealPlanner, setSelectedMealPlanner] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -21,16 +20,21 @@ const MealPlanner = () => {
   let userName, userId;
 
   if (sessionUser) {
-    userName = sessionUser.username;
     userId = sessionUser.id;
 }
 
+  const refetchMealPlanner = () => {
+    dispatch(fetchMealPlanner());
+    console.log("MANUAL DISPATCH FIRE IN THE HOLE*****")
+  }
+
   useEffect(() => {
     dispatch(fetchMealPlanner());
+    console.log("DISPATCH FIRED USEEFFECT**************")
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("meals:**********", meals)
+    console.log("Updated meals:", meals);
     const fetchRecipeNames = async () => {
       const newCalendarEvents = [];
       const flattenedMeals = meals.flat();
@@ -38,17 +42,14 @@ const MealPlanner = () => {
       for (let meal of flattenedMeals) {
         const action = await dispatch(fetchSingleRecipe(meal.recipe_id));
         const recipe = action;
-
         if (recipe) {
-
           const mealDate = new Date(meal.date);
           const year = mealDate.getUTCFullYear();
           const month = mealDate.getUTCMonth();
           const day = mealDate.getUTCDate();
           const utcDate = new Date(Date.UTC(year, month, day));
-
           newCalendarEvents.push({
-            id: recipe.id.toString(),
+            id: meal.id.toString(),
             title: recipe.name || 'Unknown',
             start: utcDate,
             allDay: true,
@@ -56,14 +57,11 @@ const MealPlanner = () => {
           });
         }
       }
-
+      console.log("NEW CALENDAR EVENTS **********", newCalendarEvents)
       setCalendarEvents(newCalendarEvents);
     };
-
     fetchRecipeNames();
   }, [meals, dispatch]);
-
-
 
   const getColorForMealType = (mealType) => {
     const colors = {
@@ -81,7 +79,9 @@ const MealPlanner = () => {
   const handleEventClick = (info) => {
     // flatten arrays into single array
     const flattenedMeals = meals.flat();
-    const clickedMealPlanner = flattenedMeals.find(meal => meal.recipe_id == info.event.id);
+    console.log("INFO IN HANDLE CLICK*****", info)
+    const clickedMealPlanner = flattenedMeals.find(meal => meal.id === Number(info.event.id));
+    console.log("*********clicked meal planner*******", clickedMealPlanner)
     setSelectedMealPlanner(clickedMealPlanner);
     setShowModal(true);
   };
@@ -99,7 +99,7 @@ const MealPlanner = () => {
     <>
       {showModal && (
         <section className='modalPlanner'>
-        <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} onClose={closeModal} />
+        <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} refetch={refetchMealPlanner} onClose={closeModal} />
         </section>
       )}
       <section className="mainCalendarContainer">

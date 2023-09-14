@@ -6,7 +6,7 @@ import { editMealPlanner } from "../../store/mealPlanner";
 import { removeMealPlanner } from "../../store/mealPlanner";
 import { fetchMealPlanner } from "../../store/mealPlanner";
 
-const UpdateMealPlannerModal = ({ mealPlanner, userId, onClose }) => {
+const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
     const [date, setDate] = useState("");
     const [mealType, setMealType] = useState('Breakfast');
     const dispatch = useDispatch();
@@ -35,6 +35,7 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, onClose }) => {
         if (data) {
             setErrors(data);
         } else {
+            refetch()
             onClose()
         }
     }
@@ -42,10 +43,9 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, onClose }) => {
     const handleDelete = async () => {
         console.log("DELETING MEAL WITH ID:*******", mealPlanner.id)
         await dispatch(removeMealPlanner(mealPlanner.id));
-        await dispatch(fetchMealPlanner());
         onClose();
+        refetch();
     }
-
 
     return (
         <>
