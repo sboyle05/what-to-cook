@@ -10,7 +10,6 @@ session = db.session
 
 @recipe_routes.route('/search/', methods=["GET"])
 def get_recipes():
-    print("****GET RECIPES BEING CALLED*******")
 
     # Get ingredients as a comma-separated string from query parameters
     ingredients_param = request.args.get('ingredients', '')

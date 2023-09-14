@@ -26,16 +26,10 @@ const NewRecipe = () => {
       ...selectedIngredients
   ]
   .filter(ingredientName => ingredientName);
-
-    console.log("allIngredientNames:", allIngredientNames);
-
     const newMeasuredIngredients = {};
     allIngredientNames.forEach(ingredientName => {
         newMeasuredIngredients[ingredientName] = measuredIngredients[ingredientName] || '';
     });
-
-    console.log("newMeasuredIngredients:", newMeasuredIngredients);
-
     setMeasuredIngredients(newMeasuredIngredients);
 }, [customIngredients, selectedIngredients]);
 

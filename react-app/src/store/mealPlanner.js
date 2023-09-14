@@ -34,7 +34,7 @@ export const fetchMealPlanner = () => async (dispatch) => {
     try{
         const response = await fetch('/api/mealplanner/');
         const data = await response.json();
-        console.log("FETCH MEAL PLANNER DATA*************", data)
+        console.log("FETCH MEAL PLANNER FIRING************")
         dispatch(getMealPlanner(data));
     } catch (error) {
         console.error("Error fetching meal planner:", error)
@@ -60,6 +60,7 @@ export const addMealPlanner = (newMealData) => async (dispatch) => {
 }
 
 export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) => {
+
     try {
         const mealPlanId = mealPlanData.id;
         const response = await fetch(`/api/mealplanner/${mealPlanId}/edit/`, {
@@ -71,6 +72,7 @@ export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) =
         })
 
         const data = await response.json();
+        console.log("************DATA FROM THUNK RESPONSE*************", data)
         dispatch(updateMealPlanner(data));
         dispatch(fetchMealPlanner())
     } catch (error) {
@@ -79,23 +81,22 @@ export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) =
 }
 
 export const removeMealPlanner = (mealPlanId) => async (dispatch) => {
-    try{
-        const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, {
-            method: 'DELETE'
-        });
-        const data = await response.json();
-        console.log("Server Response:", data);
+    try {
+      console.log("DELETING MEAL WITH ID:", mealPlanId);
+      const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, { // Endpoint URL adjusted
+        method: 'DELETE',
+      });
 
-        if (!response.ok) {
-            console.error("Server Response Error:", response.status);
-            return;
-        }
-
+      if (response.ok) { // Check if response is OK
         dispatch(deleteMealPlanner(mealPlanId));
+      } else {
+        console.error("Server Response Error:", response.status);
+        throw new Error('Failed to delete the meal'); // Stop execution
+      }
     } catch (error) {
-        console.error("Error deleting meal:", error);
+      console.error("Error deleting meal:", error);
     }
-}
+  }
 
 
 const initialState = {mealPlanner: []}
@@ -105,7 +106,7 @@ const mealPlannerReducer = (state = initialState, action) => {
             case GET_MEAL_PLANNER:
                 return {
                     ...state,
-                    mealPlanner: [...state.mealPlanner, action.payload]
+                    mealPlanner: action.payload
                 };
             case ADD_TO_MEAL_PLANNER:
                 return {
