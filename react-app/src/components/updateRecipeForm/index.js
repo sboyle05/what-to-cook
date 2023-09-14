@@ -24,7 +24,6 @@ const UpdateRecipe = () => {
   const [customIngredients, setCustomIngredients] = useState([]);
 
   useEffect(() => {
-    console.log('existingRecipe:', existingRecipe);
     if (existingRecipe) {
       setName(existingRecipe.name);
       setDirections(existingRecipe.directions);

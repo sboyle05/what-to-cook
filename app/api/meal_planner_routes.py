@@ -56,7 +56,6 @@ def update_meal_plan(id):
 
     form = UpdateMealPlanForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("************UPDATE MEAL PLAN FORM******", form)
     if form.validate_on_submit():
         meal_plan.date = form.data['date']
         meal_plan.meal_type = form.data['meal_type']
@@ -70,7 +69,6 @@ def update_meal_plan(id):
 
 @meal_planner_routes.route('/mealplanner/<int:id>/delete/', methods=['DELETE'])
 def delete_meal_plan(id):
-    print("Deleting meal plan with ID:", id)
     meal_plan = MealPlan.query.get(id)
 
     if meal_plan is None:

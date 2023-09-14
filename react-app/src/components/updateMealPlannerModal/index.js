@@ -13,9 +13,6 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
     const [errors, setErrors] = useState([]);
     const {closeModal} = useModal();
 
-    console.log("mealPlanner in Modal ***************", mealPlanner)
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!mealPlanner) {
@@ -29,7 +26,6 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
           meal_type: mealType.toLowerCase(),
           recipe_id: mealPlanner.recipe_id
         };
-        console.log("**********newMealData in MODAL", newMealData)
         const data = await dispatch(editMealPlanner(newMealData, newMealData));
 
         if (data) {
@@ -41,7 +37,6 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
     }
 
     const handleDelete = async () => {
-        console.log("DELETING MEAL WITH ID:*******", mealPlanner.id)
         await dispatch(removeMealPlanner(mealPlanner.id));
         onClose();
         refetch();

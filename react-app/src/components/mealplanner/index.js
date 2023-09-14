@@ -25,16 +25,13 @@ const MealPlanner = () => {
 
   const refetchMealPlanner = () => {
     dispatch(fetchMealPlanner());
-    console.log("MANUAL DISPATCH FIRE IN THE HOLE*****")
   }
 
   useEffect(() => {
     dispatch(fetchMealPlanner());
-    console.log("DISPATCH FIRED USEEFFECT**************")
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("Updated meals:", meals);
     const fetchRecipeNames = async () => {
       const newCalendarEvents = [];
       const flattenedMeals = meals.flat();
@@ -57,7 +54,6 @@ const MealPlanner = () => {
           });
         }
       }
-      console.log("NEW CALENDAR EVENTS **********", newCalendarEvents)
       setCalendarEvents(newCalendarEvents);
     };
     fetchRecipeNames();
@@ -79,15 +75,12 @@ const MealPlanner = () => {
   const handleEventClick = (info) => {
     // flatten arrays into single array
     const flattenedMeals = meals.flat();
-    console.log("INFO IN HANDLE CLICK*****", info)
     const clickedMealPlanner = flattenedMeals.find(meal => meal.id === Number(info.event.id));
-    console.log("*********clicked meal planner*******", clickedMealPlanner)
     setSelectedMealPlanner(clickedMealPlanner);
     setShowModal(true);
   };
 
   useEffect(() => {
-    console.log("selectedMealPlanner: ", selectedMealPlanner);
   }, [selectedMealPlanner]);
 
   const closeModal = () => {
