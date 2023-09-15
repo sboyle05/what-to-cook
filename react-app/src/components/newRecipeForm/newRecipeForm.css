@@ -41,13 +41,19 @@ body, html {
     width: 32vh;
     height: 5vh;
     margin-bottom: 1vh;
+    font-family: 'Oxygen', sans-serif;
 }
 
 #specialMsg{
     font-size: 14px;
     color: #0066b6;
 }
-
+#addCustomButton{
+    background-color: #0066b6;
+    font-family: 'Oxygen', sans-serif;
+    box-shadow: 1px 1px 2px whitesmoke;
+    color: whitesmoke;
+}
 #removeCustomIngButton{
     margin-left: 1vh;
 }
@@ -70,4 +76,8 @@ body, html {
     padding-left: 10px;
     padding-right: 10px;
     font-weight: 700;
+}
+
+#submitNewRecipeButton:disabled{
+    color: rgb(2, 1, 1);
 }

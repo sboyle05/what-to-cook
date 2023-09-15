@@ -146,7 +146,7 @@ const handleSubmit = async (e) => {
               />
             </div>
           ))}
-            <button type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
+            <button id="addCustomButton" type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
           </fieldset>
       </section>
       <section className='formLabelInput'>

@@ -12,8 +12,8 @@ const UpdateRecipe = () => {
   const existingRecipe = useSelector(state =>
     state.recipeBox.recipesInBox.find(recipe => recipe.id === Number(id))
   );
-
   const [name, setName] = useState(existingRecipe ? existingRecipe.name : "");
+  const [isValidForm, setIsValidForm] = useState(false);
   const [directions, setDirections] = useState(existingRecipe ? existingRecipe.directions : "");
   const [measuredIngredients, setMeasuredIngredients] = useState(
     existingRecipe ? existingRecipe.measured_ingredients.map(m => m.description) : []
@@ -76,6 +76,16 @@ const UpdateRecipe = () => {
     });
   };
 
+  const addSearchIngredient = (ingredient) => {
+    setSelectedIngredients([...selectedIngredients, ingredient]);
+  };
+
+  const removeSearchIngredient = (ingredientToRemove) => {
+    const newSelectedIngredients = selectedIngredients.filter(
+      ingredient => ingredient !== ingredientToRemove
+    );
+    setSelectedIngredients(newSelectedIngredients);
+  };
 
   const addCustomIngredient = () => {
     setCustomIngredients([...customIngredients, { name: '' }]);
@@ -87,28 +97,40 @@ const UpdateRecipe = () => {
     setCustomIngredients(newCustomIngredients);
   };
 
+  useEffect(() => {
+    setIsValidForm(
+      name.trim().length >= 2 &&
+      directions.trim().length >= 3 &&
+      (customIngredients.length > 0 || selectedIngredients.length > 0)
+    );
+  }, [name, directions, customIngredients, selectedIngredients]);
+
   return (
+    <section className='updateRecipeFormContainer'>
+      <h1>Update Your Recipe</h1>
     <form onSubmit={handleSubmit}>
-      <label>Recipe Name:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-
-      <label>Directions:</label>
-      <textarea value={directions} onChange={(e) => setDirections(e.target.value)} />
-
+    <section className='formLabelInput'>
+      <label id='recipeNameLabel'>Recipe Name:</label>
+      <input id='recipeNameInput' type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      </section>
+      <section className='formLabelInput'>
+      <label id="recipeDirectionsLabel">Directions:</label>
+      <textarea id="recipeTextAreaInput" value={directions} onChange={(e) => setDirections(e.target.value)} />
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
-        <legend>Search for Ingredients</legend>
+        <legend id='newRecipeSearchForIngredients'>Search for Ingredients</legend>
+        <section className='newRecipeIngredientSearchSection'>
         <IngredientSearch
-          addIngredient={(ingredient) => setSelectedIngredients([...selectedIngredients, ingredient])}
+          className="newRecipeIngredientSearch"
+          addIngredient={addSearchIngredient}
           selectedIngredients={selectedIngredients}
-          removeIngredient={(ingredientToRemove) => {
-            const newSelectedIngredients = selectedIngredients.filter(
-              ingredient => ingredient !== ingredientToRemove
-            );
-            setSelectedIngredients(newSelectedIngredients);
-          }}
-        />
+          removeIngredient={removeSearchIngredient}
+        />{selectedIngredients.length > 0 ? <span id='specialMsg'>click on an ingredient to remove it</span> : null}
+        </section>
       </fieldset>
-
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
         <legend>Couldn't find your ingredient? Add it below:</legend>
         {customIngredients.map((ingredient, index) => (
@@ -125,9 +147,10 @@ const UpdateRecipe = () => {
             </label>
           </div>
         ))}
-        <button type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
+        <button id="addCustomButton" type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
       </fieldset>
-
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
       <legend>Measured Ingredients</legend>
       {measuredIngredients.map((ingredientDesc, index) => (
@@ -152,9 +175,13 @@ const UpdateRecipe = () => {
         </div>
       ))}
     </fieldset>
-
-      <button type="submit">Update Recipe</button>
+    </section>
+    <section className='newRecipeSubmitContainer'>
+    <button id='submitNewRecipeButton' type="submit" disabled={!isValidForm}>
+      {isValidForm ? 'Update Recipe' : 'Complete Form To Submit'}</button>
+      </section>
     </form>
+    </section>
   );
 };
 

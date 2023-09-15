@@ -34,7 +34,6 @@ export const fetchMealPlanner = () => async (dispatch) => {
     try{
         const response = await fetch('/api/mealplanner/');
         const data = await response.json();
-        console.log("FETCH MEAL PLANNER FIRING************")
         dispatch(getMealPlanner(data));
     } catch (error) {
         console.error("Error fetching meal planner:", error)
@@ -72,7 +71,6 @@ export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) =
         })
 
         const data = await response.json();
-        console.log("************DATA FROM THUNK RESPONSE*************", data)
         dispatch(updateMealPlanner(data));
         dispatch(fetchMealPlanner())
     } catch (error) {
@@ -82,7 +80,7 @@ export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) =
 
 export const removeMealPlanner = (mealPlanId) => async (dispatch) => {
     try {
-      console.log("DELETING MEAL WITH ID:", mealPlanId);
+
       const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, {
         method: 'DELETE',
       });
