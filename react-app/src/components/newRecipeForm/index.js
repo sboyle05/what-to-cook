@@ -17,7 +17,7 @@ const NewRecipe = () => {
   const [customIngredients, setCustomIngredients] = useState([]);
   const [measuredIngredients, setMeasuredIngredients] = useState({});
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-
+  const [isValidForm, setIsValidForm] = useState(false);
 
 
   useEffect(() => {
@@ -90,6 +90,14 @@ const handleSubmit = async (e) => {
     setCustomIngredients(newCustomIngredients);
   };
 
+  useEffect(() => {
+    setIsValidForm(
+      name.trim().length >= 2 &&
+      directions.trim().length >= 3 &&
+      (customIngredients.length > 0 || selectedIngredients.length > 0)
+    );
+  }, [name, directions, customIngredients, selectedIngredients]);
+
   return (
     <section className='newRecipeFormContainer'>
       <h1>Create A New Recipe</h1>
@@ -160,7 +168,8 @@ const handleSubmit = async (e) => {
       </fieldset>
       </section>
       <section className='newRecipeSubmitContainer'>
-      <button id='submitNewRecipeButton' type="submit">Add Recipe</button>
+      <button id='submitNewRecipeButton' type="submit" disabled={!isValidForm}>
+      {isValidForm ? 'Add Recipe' : 'Complete Form To Submit'}</button>
       </section>
     </form>
     </section>

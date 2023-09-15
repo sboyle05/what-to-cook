@@ -42,6 +42,20 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
         refetch();
     }
 
+    useEffect(() => {
+        if(mealPlanner) {
+            const dateObj = new Date(mealPlanner.date);
+            const year = dateObj.getUTCFullYear();
+            const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getUTCDate()).padStart(2, '0');
+
+            const formattedDate = `${year}-${month}-${day}`;
+
+            setDate(formattedDate);
+            setMealType(mealPlanner.meal_type.toLowerCase());
+        }
+    }, [mealPlanner]);
+
     return (
         <>
          <div className='update-modal-backdrop' onClick={onClose}></div>

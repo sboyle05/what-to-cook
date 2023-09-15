@@ -18,7 +18,6 @@ body, html {
 .recipeIngredientSection{
     display: flex;
     flex-direction: column;
-    align-items: left;
 
 }
 
@@ -33,12 +32,9 @@ body, html {
 .recipeDirections{
     display: flex;
     flex-direction: column;
-    align-items: left;
+
 }
 
-#individualdirection{
-    /* margin-left: 80px; */
-}
 
 #addtorecipeboxbutton{
     width: 20vh;

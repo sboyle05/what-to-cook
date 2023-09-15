@@ -83,15 +83,15 @@ export const editMealPlanner = (mealPlanData, updatedData) => async (dispatch) =
 export const removeMealPlanner = (mealPlanId) => async (dispatch) => {
     try {
       console.log("DELETING MEAL WITH ID:", mealPlanId);
-      const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, { // Endpoint URL adjusted
+      const response = await fetch(`/api/mealplanner/${mealPlanId}/delete/`, {
         method: 'DELETE',
       });
 
-      if (response.ok) { // Check if response is OK
+      if (response.ok) {
         dispatch(deleteMealPlanner(mealPlanId));
       } else {
         console.error("Server Response Error:", response.status);
-        throw new Error('Failed to delete the meal'); // Stop execution
+        throw new Error('Failed to delete the meal');
       }
     } catch (error) {
       console.error("Error deleting meal:", error);
