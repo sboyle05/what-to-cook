@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addRecipeToBox } from '../../store/recipeBox';
 import IngredientSearch from '../IngredientSearch';
+
+
 import './newRecipeForm.css';
 
 const NewRecipe = () => {
@@ -81,42 +85,63 @@ const handleSubmit = async (e) => {
     setSelectedIngredients(newSelectedIngredients);
   };
 
+  const removeCustomIngredient = (indexToRemove) => {
+    const newCustomIngredients = customIngredients.filter((_, index) => index !== indexToRemove);
+    setCustomIngredients(newCustomIngredients);
+  };
+
   return (
+    <section className='newRecipeFormContainer'>
+      <h1>Create A New Recipe</h1>
     <form onSubmit={handleSubmit}>
-      <label>Recipe Name:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-
-      <label>Directions:</label>
-      <textarea value={directions} onChange={(e) => setDirections(e.target.value)} />
-
+      <section className='formLabelInput'>
+      <label id='recipeNameLabel'>Recipe Name:</label>
+      <input id='recipeNameInput' type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      </section>
+      <section className='formLabelInput'>
+      <label id="recipeDirectionsLabel">Directions:</label>
+      <textarea id="recipeTextAreaInput" value={directions} onChange={(e) => setDirections(e.target.value)} />
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
-        <legend>Search for Ingredients</legend>
+        <legend id='newRecipeSearchForIngredients'>Search for Ingredients</legend>
+        <section className='newRecipeIngredientSearchSection'>
         <IngredientSearch
+          className="newRecipeIngredientSearch"
           addIngredient={addSearchIngredient}
           selectedIngredients={selectedIngredients}
           removeIngredient={removeSearchIngredient}
-        />
+        />{selectedIngredients.length > 0 ? <span id='specialMsg'>click on an ingredient to remove it</span> : null}
+        </section>
       </fieldset>
-
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
-        <legend>Couldn't find your ingredient? Add it below:</legend>
-        {customIngredients.map((ingredient, index) => (
-          <div key={index}>
-            <label>
-              Ingredient {index + 1}:
-              <input
-                type="text"
-                name="name"
-                value={ingredient.name}
-                onChange={(event) => handleCustomIngredientChange(index, event)}
-                required
+            <legend>Couldn't find your ingredient? Add it below:</legend>
+            {customIngredients.map((ingredient, index) => (
+              <div key={index}>
+                <label>
+                  Ingredient {index + 1}:
+                  <input
+                    type="text"
+                    name="name"
+                    value={ingredient.name}
+                    onChange={(event) => handleCustomIngredientChange(index, event)}
+                    required
+                  />
+                  </label>
+                <FontAwesomeIcon
+                id='removeCustomIngButton'
+                icon={faTrash}
+                style={{ color: "#ffffff", cursor: "pointer" }}
+                onClick={() => removeCustomIngredient(index)}
               />
-            </label>
-          </div>
-        ))}
-        <button type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
-      </fieldset>
-
+            </div>
+          ))}
+            <button type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
+          </fieldset>
+      </section>
+      <section className='formLabelInput'>
       <fieldset>
         <legend>Measured Ingredients</legend>
         {Object.keys(measuredIngredients).map((ingredient, index) => (
@@ -133,9 +158,12 @@ const handleSubmit = async (e) => {
           </div>
         ))}
       </fieldset>
-
-      <button type="submit">Add Recipe</button>
+      </section>
+      <section className='newRecipeSubmitContainer'>
+      <button id='submitNewRecipeButton' type="submit">Add Recipe</button>
+      </section>
     </form>
+    </section>
   );
 };
 

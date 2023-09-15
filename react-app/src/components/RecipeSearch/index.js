@@ -59,7 +59,7 @@ function RecipeSearch() {
           addIngredient={addIngredient}
           removeIngredient={removeIngredient}
           selectedIngredients={selectedIngredients}
-        />
+        />{selectedIngredients.length > 0 ? <span id='specialMsgSearch'>click on an ingredient to remove it</span> : null}
 
         <div>
           <input type="radio" id="any" name="filter" value="any"

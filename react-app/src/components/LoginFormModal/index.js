@@ -15,7 +15,7 @@ function LoginFormModal() {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
-      setErrors(data);
+      setErrors(['Invalid Credentials, please check your email/password and try again.']);
     } else {
         closeModal()
     }
