@@ -33,19 +33,20 @@ const MealPlannerModal = ({ recipeId, userId}) => {
 
     return (
         <>
-        <section className="mealPlannerModalContainer">
+        <section className="addToMealPlannerModalContainer">
             <h2 className="modalTitle">Add to Meal Planner</h2>
             <form onSubmit={handleSubmit}>
-
-                <label>
+                <section className="addToMpLabel_Input">
+                <label id="addToMPLabel">
                     Date:
-                </label>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-
-                <label>
+                </label><br/>
+                <input id="addToMpInput" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                </section>
+                <section className="addToMpLabel_Input">
+                <label id="addToMPLabel">
                     Meal Type:
-                </label>
-                <select value={mealType} onChange={(e) =>
+                </label><br/>
+                <select id="addToMpInput" value={mealType} onChange={(e) =>
                     setMealType(e.target.value)}>
                     <option value="breakfast">Breakfast</option>
                     <option value="brunch">Brunch</option>
@@ -54,7 +55,10 @@ const MealPlannerModal = ({ recipeId, userId}) => {
                     <option value="snack">Snack</option>
                     <option value="dessert">Dessert</option>
                 </select>
-                <button type="submit">Add to Meal Planner</button>
+                </section>
+                <section className="addToMPContainer">
+                <button id="addToMPButton" type="submit">Add to Meal Planner</button>
+                </section>
             </form>
 
         </section>

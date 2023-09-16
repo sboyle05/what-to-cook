@@ -2,44 +2,68 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100vh;
-  }
+}
 
-  .singleRecipeContainer{
+.singleRecipeContainer{
     font-family: 'Oxygen', sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     background-color: #121212;
     color: #ffffff;
     width: 100%;
     min-height: 100vh;
-
-  }
-.recipeIngredientSection{
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-
+    margin-top: 1vh;
 }
 
-#numberIngredients{
-    margin-bottom: -5px;
+.recipeIngredientSection,
+.recipeDirections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin-bottom: 1rem;
+}
+
+#numberIngredients,
+#recipeDirectionsH3 {
+    letter-spacing: 0.1rem;
+    margin-bottom: 0.5rem;
 }
 
 .measuredIngredientsList{
     list-style-type: none;
 }
 
-.recipeDirections{
+.updateNavBut{
+    text-decoration: none;
+}
+
+#addtorecipeboxbutton, #removeFromRecipeBoxButton, #recipeUpdateButton, #recipeDeleteButton{
+    background-color: #0066b6;
+    height: 24px;
+    width: 165px;
+    font-size: 16px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
     display: flex;
-    flex-direction: column;
-    align-items: left;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
+    #addtorecipeboxbutton:hover, #removeFromRecipeBoxButton:hover, #recipeUpdateButton:hover, #recipeDeleteButton:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    }
 
-#individualdirection{
-    /* margin-left: 80px; */
-}
-
-#addtorecipeboxbutton{
-    width: 20vh;
-}
+    #addtorecipeboxbutton:active, #removeFromRecipeBoxButton:active, #recipeUpdateButton:active, #recipeDeleteButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }

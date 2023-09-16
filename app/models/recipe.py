@@ -22,7 +22,7 @@ class Recipe(db.Model):
     user = db.relationship('User', back_populates='recipes')
     ingredients = db.relationship('Ingredient', secondary=recipe_ingredients_association, back_populates='recipes')
     recipe_boxes = db.relationship('RecipeBox', back_populates='recipe', cascade='all, delete-orphan')
-
+    meal_plans = db.relationship('MealPlan', back_populates='recipe', cascade='all, delete-orphan')
     def to_dict(self):
         return {
             'id': self.id,

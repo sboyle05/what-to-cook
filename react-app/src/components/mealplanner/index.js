@@ -88,8 +88,11 @@ const MealPlanner = () => {
     setSelectedMealPlanner(null);
   };
 
+
+
   return (
     <>
+      <section className='mealPlannerContainer'>
       {showModal && (
         <section className='modalPlanner'>
         <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} refetch={refetchMealPlanner} onClose={closeModal} />
@@ -98,6 +101,8 @@ const MealPlanner = () => {
       <section className="mainCalendarContainer">
         <FullCalendar
           timeZone='PST'
+          // height='100%'
+          handleWindowResize={true}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView="dayGridMonth"
           eventClick={handleEventClick}
@@ -108,6 +113,7 @@ const MealPlanner = () => {
           }}
           events={calendarEvents}
         />
+      </section>
       </section>
     </>
   );

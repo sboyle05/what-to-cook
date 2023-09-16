@@ -2,29 +2,55 @@ import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import DualPurposeModal from '../dualPurposeModal';
 import './Navigation.css';
+import wtcLogo from '../../assets/whatToCookLogo2.png'
+import { useModal } from '../../context/Modal';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory();
+  const { setModalContent, setUseSlideDown } = useModal();
+
 
   const handleRecipeBoxClick = () => {
-	if (!sessionUser) {
-	  history.push('/login?redirect=/recipebox');
-	}
+    if (!sessionUser) {
+      setModalContent(<DualPurposeModal />);
+      setUseSlideDown(true);
+    } else {
+      history.push("/recipebox");
+    }
+  };
+
+  const handleMealPlannerClick = () => {
+    if (!sessionUser) {
+      setModalContent(<DualPurposeModal />);
+      setUseSlideDown(true);
+    } else {
+      history.push("/mealplanner");
+    }
+  };
+
+  const comingSoon = () => {
+    alert("SHOPPING LIST COMING SOON!!!");
   };
 
   return (
     <>
+        <section className='logoContainer'>
+          <img id="whatToCookLogo" src={wtcLogo} alt="what-to-cook logo"/>
+        </section>
       <section className='navigationContainer'>
-        <ul>
-          <li>
+        <section className='navButtonContainer'>
+        <ul className='navList'>
+        <li>
             <NavLink exact to="/">Home</NavLink>
           </li>
           <li>
             <NavLink
               exact
-              to={sessionUser ? "/recipebox" : "/login?redirect=/recipebox"}
+              to="/recipebox"
+              onClick={handleRecipeBoxClick}
             >
               My RecipeBox
             </NavLink>
@@ -32,10 +58,14 @@ function Navigation({ isLoaded }) {
           <li>
             <NavLink
               exact
-              to={sessionUser ? "/mealplanner" : "/login?redirect=/mealplanner"}
+              to="/mealplanner"
+              onClick={handleMealPlannerClick}
             >
               Meal Planner
             </NavLink>
+          </li>
+          <li>
+            <span onClick={comingSoon}>Shopping List</span>
           </li>
           {isLoaded && (
             <li>
@@ -43,6 +73,7 @@ function Navigation({ isLoaded }) {
             </li>
           )}
         </ul>
+        </section>
       </section>
     </>
   );

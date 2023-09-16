@@ -2,11 +2,23 @@ from flask import Blueprint, request, jsonify
 from app.models import User, Recipe, Ingredient, MeasuredIngredient, RecipeBox
 from ..models.db import db
 from datetime import date
+from app.forms.new_recipe import NewRecipeForm, MeasuredIngredient
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 import json
 
 recipe_box_routes = Blueprint('recipe_box', __name__)
+
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'A recipe {field} is required')
+    return errorMessages
 
 @recipe_box_routes.route('/recipebox/', methods=["GET"])
 def get_recipe_box():
@@ -14,6 +26,7 @@ def get_recipe_box():
     recipe_boxes = RecipeBox.query.filter(RecipeBox.user_id == user_id).all()
     recipes = [box.recipe for box in recipe_boxes]
     return jsonify([recipe.to_dict() for recipe in recipes])
+
 
 @recipe_box_routes.route('/recipebox/', methods=["POST"])
 def add_to_recipe_box():
@@ -23,7 +36,6 @@ def add_to_recipe_box():
     user_id = current_user.id
     data = request.json
 
-    # Validate the incoming data
     if not all(key in data for key in ("name", "directions")):
         return jsonify({"error": "Missing required fields"}), 400
 
@@ -63,6 +75,7 @@ def add_to_recipe_box():
     db.session.commit()
 
     return jsonify(new_recipe.to_dict())
+
 
 
 @recipe_box_routes.route('/recipebox/add_existing/', methods=["POST"])

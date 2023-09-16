@@ -1,3 +1,19 @@
+.slide-down {
+  animation: slideDownAnimation 0.3s ease forwards;
+}
+
+@keyframes slideDownAnimation {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  100% {
+    top: 25vh;
+    right: 50vh;
+    opacity: 1;
+  }
+}
+
 #modal {
   position: fixed;
   top: 0;

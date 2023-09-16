@@ -4,18 +4,25 @@
 
   .inputContainer {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 .selectedIngredients{
     display: flex;
     flex-direction: row;
     margin-top: 10px;
     margin-bottom: 10px;
+    max-width: 350px;
+    flex-wrap: wrap;
 
 }
+
 .selectedIngredients div {
     cursor: pointer;
     margin-right: 5px;
     margin-left: 5px;
+    margin-bottom: 5px;
   }
   .suggestedIngredients {
     position: absolute;
@@ -37,4 +44,11 @@
   .highlightedSuggestion {
     background-color: #6200ea;
     color: white;
+  }
+
+
+  .suggestedIngredients.hidden {
+    height: 0;
+    overflow-y: hidden;
+    border: none;
   }

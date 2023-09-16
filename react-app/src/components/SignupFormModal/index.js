@@ -31,6 +31,7 @@ function SignupFormModal() {
 
 	return (
 		<>
+			<section className="signUpFormContainer">
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSubmit}>
 				<ul>
@@ -38,44 +39,55 @@ function SignupFormModal() {
 						<li key={idx}>{error}</li>
 					))}
 				</ul>
+				<section className="signUpLabelInput">
 				<label>
-					Email
+					Email</label>
 					<input
 						type="text"
+						id="emailId"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-				</label>
+				</section>
+				<section className="signUpLabelInput">
 				<label>
-					Username
+					Username</label>
 					<input
 						type="text"
+						id="userNameId"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 						required
 					/>
-				</label>
+				</section>
+				<section className="signUpLabelInput">
 				<label>
-					Password
+					Password</label>
 					<input
 						type="password"
+						id="passwordId"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-				</label>
+				</section>
+				<section className="signUpLabelInput">
 				<label>
-					Confirm Password
+					Confirm Password</label>
 					<input
 						type="password"
+						id="confirmPasswordId"
 						value={confirmPassword}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 					/>
-				</label>
-				<button type="submit">Sign Up</button>
+				</section>
+				<section className="signUpButContainer">
+				<button id="signUpButton" type="submit">Sign Up</button>
+				</section>
 			</form>
+			</section>
 		</>
 	);
 }

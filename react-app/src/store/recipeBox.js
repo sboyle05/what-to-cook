@@ -28,8 +28,10 @@ export const updateRecipeBox = (data) => ({
 });
 
 export const deleteFromRecipeBox = (id) => ({
+
     type: DELETE_FROM_RECIPE_BOX,
-    payload: id,
+    payload: parseInt(id, 10),
+
 });
 
 //thunks
@@ -52,9 +54,7 @@ export const addExistingRecipeToBox = (recipeIdData) => async (dispatch) => {
             },
             body: JSON.stringify(recipeIdData),
         });
-        console.log("********EXISTING THUNK*******RESPONSE", response)
         const data = await response.json();
-        console.log("***********DATA FROM THUNK********", data)
         dispatch(addExistingToRecipeBox(data));
     } catch (error) {
         console.error("Error adding existing recipe to Recipe Box:", error);
@@ -72,7 +72,6 @@ export const addRecipeToBox = (recipeData) => async (dispatch) => {
             body: JSON.stringify(recipeData),
         });
         const data = await response.json();
-        console.log("*********THUNK ADD TO BOX DATA**********", data)
         dispatch(addToRecipeBox(data));
     } catch (error) {
         console.error("Error adding recipe to Recipe Box:", error);
@@ -101,6 +100,7 @@ export const deleteRecipeFromBox = (recipeId) => async (dispatch) => {
             method: 'DELETE',
         });
         dispatch(deleteFromRecipeBox(recipeId));
+        dispatch(fetchRecipeBox());
     } catch (error) {
         console.error("Error deleting recipe from Recipe Box", error);
     }
@@ -124,8 +124,19 @@ const recipeBoxReducer = (state = initialState, action) => {
                         recipe.id === action.payload.id ? action.payload : recipe
                         ),
                     };
-        case DELETE_FROM_RECIPE_BOX:
-            return { ...state, recipesInBox: state.recipesInBox.filter((recipe) => recipe.id !== action.payload)};
+                    case DELETE_FROM_RECIPE_BOX: {
+
+                        const updatedRecipesInBox = state.recipesInBox.filter(recipe => {
+                            const recipeIdAsInt = parseInt(recipe.id, 10);
+                            const payloadAsInt = parseInt(action.payload, 10);
+                            const isMatch = recipeIdAsInt !== payloadAsInt;
+                            return isMatch;
+                        });
+                        return {
+                            ...state,
+                            recipesInBox: updatedRecipesInBox
+                        };
+                    }
         default:
             return state;
     }

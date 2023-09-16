@@ -1,0 +1,196 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+
+
+.newRecipeFormContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 1vh;
+}
+
+#recipeNameLabel{
+    margin-right: 1vh;
+}
+
+#recipeNameInput{
+    width: 100%;
+    margin-top: 1vh;
+    height: 2vh;
+    font-family: 'Oxygen', sans-serif;
+}
+
+#recipeDirectionsLabel{
+    margin-right: 1vh;
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 1vh;
+}
+
+#recipeTextAreaInput{
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 1vh;
+    width: 100%;
+    height: 5vh;
+    margin-bottom: 1vh;
+    font-family: 'Oxygen', sans-serif;
+}
+.newRecipeIngredientSearchSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.newRecipeIngredientSearchSection #ingredientInput {
+    width: 33vh!important;
+    height: 20px;
+    font-family: 'Oxygen', sans-serif;
+}
+
+#specialMsg{
+    font-size: 14px;
+    color: #0066b6;
+}
+
+.customIngFS{
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.customTitleNewRecipe{
+    margin-bottom: .5vh;
+}
+
+.label-input-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 1vh;
+}
+
+#customIngLabel{
+    width: 97px;
+}
+
+#customIngInput{
+    flex-grow: 1;
+    flex-shrink: 0;
+    max-width: 80%;
+    height: 18px;
+    font-family: 'Oxygen', sans-serif;
+}
+
+#removeCustomIngButton {
+    flex-shrink: 0;
+    margin-left: 1vh;
+}
+
+.addCustomButtonContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#addCustomButton{
+    background-color: #0066b6;
+    margin-right: 5px;
+    font-size: 14px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    width: 225px;
+    margin-bottom: 1vh;
+}
+
+#addCustomButton:hover{
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#addCustomButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#removeCustomIngButton{
+    margin-left: 1vh;
+}
+
+.newRecipeFormContainer .suggestedIngredients{
+    width: 25vh !important;
+}
+
+#measuredIngContainer{
+    width: 100%;
+    display: flex;
+    margin-top: 1vh;
+
+}
+.measuredIngLabelNR {
+    display: inline-block;
+    vertical-align: top;
+    width: 35%;
+}
+
+.measuredIngInputNR {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 1vh;
+    width: 65%;
+    height: 18px;
+}
+
+.newRecipeSubmitContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
+#submitNewRecipeButton{
+    background-color: #0066b6;
+    height: 35px;
+    width: 250px;
+    font-size: 16px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+#submitNewRecipeButton:hover{
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#submitNewRecipeButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#submitNewRecipeButton:disabled{
+    cursor: not-allowed;
+}

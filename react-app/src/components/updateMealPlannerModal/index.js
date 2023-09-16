@@ -42,22 +42,37 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
         refetch();
     }
 
+    useEffect(() => {
+        if(mealPlanner) {
+            const dateObj = new Date(mealPlanner.date);
+            const year = dateObj.getUTCFullYear();
+            const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getUTCDate()).padStart(2, '0');
+
+            const formattedDate = `${year}-${month}-${day}`;
+
+            setDate(formattedDate);
+            setMealType(mealPlanner.meal_type.toLowerCase());
+        }
+    }, [mealPlanner]);
+
     return (
         <>
          <div className='update-modal-backdrop' onClick={onClose}></div>
         <section className="mealPlannerModalContainer" onClick={e => e.stopPropagation()}>
             <h2 className="modalTitle">Update Your Meal Planner</h2>
             <form onSubmit={handleSubmit}>
-
-                <label>
+            <section className="updateToMpLabel_Input">
+                <label id="updateToMPLabel">
                     Date:
-                </label>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-
-                <label>
+                </label><br/>
+                <input id="updateToMpInput" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                </section>
+                <section className="updateToMpLabel_Input">
+                <label id="updateToMPLabel">
                     Meal Type:
-                </label>
-                <select value={mealType} onChange={(e) =>
+                </label><br/>
+                <select id="updateToMpInput" value={mealType} onChange={(e) =>
                     setMealType(e.target.value)}>
                     <option value="breakfast">Breakfast</option>
                     <option value="brunch">Brunch</option>
@@ -66,18 +81,20 @@ const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
                     <option value="snack">Snack</option>
                     <option value="dessert">Dessert</option>
                 </select>
-                <button type="submit">Update</button>
+                </section>
+                <section className="updateToMPContainer">
+                <button id="updateToMPButton" type="submit">Update</button>
+                </section>
             </form>
-                <button onClick={handleDelete}>Remove from Meal Planner</button>
-                <button onClick={onClose}>Cancel</button>
+                <button id="removeMPButton" onClick={handleDelete}>Remove from Meal Planner</button>
+                <section className="cancelContainer">
+                <button id="cancelMPButton" onClick={onClose}>Cancel</button>
+                </section>
         </section>
 
         </>
     )
 
-
-
 }
-
 
 export default UpdateMealPlannerModal
