@@ -1,1 +1,7 @@
 /* TODO Add site wide styles */
+button,
+a,
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer;
+}

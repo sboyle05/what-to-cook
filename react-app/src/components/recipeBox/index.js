@@ -66,24 +66,27 @@ function RecipeBox() {
     return (
         <>
         <section className='recipeBoxContainer'>
-            <h1>{userName}'s Recipe Box</h1>
-            <NavLink exact to="/recipebox/new"><button>Create New Recipe</button></NavLink>
+            <section className='recipeBoxTitleContainer'>
+            <h1 id='recipeBoxTitle'>{userName}'s Recipe Box</h1>
+            </section>
+            <NavLink exact to="/recipebox/new"><button id='createNewRecipeButton'>Create New Recipe</button></NavLink>
             <section className='recipeBoxSection'>
             <ul className='recipesInBox'>
                 {userRecipeBox.map(({ name, id, user_id }) => (
-                    <li key={id}>
+                    <li id='mappedRecipesInBox' key={id}>
                     <NavLink exact to={`/recipes/${id}`}>{name}</NavLink>
                     <section className='recipeBoxButtons'>
                     <OpenModalButton buttonText="Add to Meal Planner"
                     onItemClick={closeMenu}
+                    className='recipeBoxAddTo'
                     modalComponent={<MealPlannerModal recipeId={id} userId={userId} />}/>
                     {user_id === sessionUser.id && (
                     <>
-                    <NavLink exact to={`/recipebox/update/${id}`}><button>Update</button></NavLink>
-                    <button onClick={() => handleDelete(id)}>Delete</button>
+                    <NavLink exact to={`/recipebox/update/${id}`}><button className='rbUpdate'>Update</button></NavLink>
+                    <button className='rbDelete' onClick={() => handleDelete(id)}>Delete</button>
                     </>
                         )}
-                        <button onClick={() => removeFromBox(id)}>Remove from Box</button>
+                        <button className='rbRemove' onClick={() => removeFromBox(id)}>Remove from Box</button>
                         </section>
                     </li>
                 ))}

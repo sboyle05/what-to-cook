@@ -11,8 +11,7 @@ import RecipeBox from "./components/recipeBox";
 import NewRecipe from "./components/newRecipeForm";
 import UpdateRecipe from "./components/updateRecipeForm";
 import MealPlanner from "./components/mealplanner";
-
-
+import LostPage from "./components/lostPage";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -49,6 +48,9 @@ function App() {
           </Route>
           <Route exact path="/">
           <RecipeSearch/>
+          </Route>
+          <Route>
+            <LostPage/>
           </Route>
         </Switch>
       )}

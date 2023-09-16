@@ -88,6 +88,8 @@ const MealPlanner = () => {
     setSelectedMealPlanner(null);
   };
 
+
+
   return (
     <>
       <section className='mealPlannerContainer'>
@@ -99,6 +101,8 @@ const MealPlanner = () => {
       <section className="mainCalendarContainer">
         <FullCalendar
           timeZone='PST'
+          // height='100%'
+          handleWindowResize={true}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView="dayGridMonth"
           eventClick={handleEventClick}

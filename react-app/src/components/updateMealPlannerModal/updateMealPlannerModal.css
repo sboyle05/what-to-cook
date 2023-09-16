@@ -1,7 +1,111 @@
 .mealPlannerModalContainer{
-    background-color: black;
-    color: whitesmoke;
-    z-index: 9000;
+    z-index: 500;
+    width: 370px;
+    height: 330px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #5d5d5d;
+    border: 1px solid whitesmoke;
+    font-family: 'Oxygen', sans-serif;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.3);
+}
+
+
+#updateToMPLabel{
+    margin-bottom: 1vh;
+
+}
+
+.updateToMpLabel_Input{
+    margin-bottom: .5vh;
+    font-family: 'Oxygen', sans-serif;
+
+}
+
+#updateToMpInput{
+    width: 15vh;
+    margin-top: .5vh;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.updateToMPContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#updateToMPButton{
+    background-color: #0066b6;
+    height: 28px;
+    width: 150px;
+    font-size: 14px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid #121212;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-top: 1vh;
+    margin-bottom: .5vh;
+
+}
+
+#updateToMPButton:hover{
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#updateToMPButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#removeMPButton{
+    background-color: #0066b6;
+    height: 22px;
+    width: 200px;
+    font-size: 14px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid #121212;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: .5vh;
+}
+
+#cancelMPButton{
+    background-color: #0066b6;
+    height: 22px;
+    width: 100px;
+    font-size: 14px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: 1px solid #121212;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: .5vh;
+
+}
+
+#updateToMPButton:hover, #removeMPButton:hover, #cancelMPButton:hover{
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+#updateToMPButton:active, #removeMPButton:active, #cancelMPButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cancelContainer{
+    margin-bottom: 1vh;
 }
 
 .update-modal-backdrop {

@@ -103,11 +103,11 @@ const handleSubmit = async (e) => {
       <h1>Create A New Recipe</h1>
     <form onSubmit={handleSubmit}>
       <section className='formLabelInput'>
-      <label id='recipeNameLabel'>Recipe Name:</label>
+      <label id='recipeNameLabel'>Recipe Name:</label><br/>
       <input id='recipeNameInput' type="text" value={name} onChange={(e) => setName(e.target.value)} />
       </section>
       <section className='formLabelInput'>
-      <label id="recipeDirectionsLabel">Directions:</label>
+      <label id="recipeDirectionsLabel">Directions:</label><br/>
       <textarea id="recipeTextAreaInput" value={directions} onChange={(e) => setDirections(e.target.value)} />
       </section>
       <section className='formLabelInput'>
@@ -124,45 +124,52 @@ const handleSubmit = async (e) => {
       </fieldset>
       </section>
       <section className='formLabelInput'>
-      <fieldset>
-            <legend>Couldn't find your ingredient? Add it below:</legend>
+      <fieldset className='customIngFS'>
+            <legend className='customTitleNewRecipe'>Couldn't find your ingredient? Add it below:</legend>
             {customIngredients.map((ingredient, index) => (
-              <div key={index}>
-                <label>
-                  Ingredient {index + 1}:
-                  <input
-                    type="text"
-                    name="name"
-                    value={ingredient.name}
-                    onChange={(event) => handleCustomIngredientChange(index, event)}
-                    required
-                  />
-                  </label>
-                <FontAwesomeIcon
-                id='removeCustomIngButton'
-                icon={faTrash}
-                style={{ color: "#ffffff", cursor: "pointer" }}
-                onClick={() => removeCustomIngredient(index)}
-              />
-            </div>
-          ))}
+  <div key={index}>
+    <div className="label-input-wrapper">
+      <label id='customIngLabel'>
+        Ingredient {index + 1}:
+      </label>
+      <input
+        type="text"
+        name="name"
+        id='customIngInput'
+        value={ingredient.name}
+        onChange={(event) => handleCustomIngredientChange(index, event)}
+        required
+      />
+
+    <FontAwesomeIcon
+      id='removeCustomIngButton'
+      icon={faTrash}
+      style={{ color: "#ffffff", cursor: "pointer" }}
+      onClick={() => removeCustomIngredient(index)}
+    />
+     </div>
+  </div>
+))}
+          <section className='addCustomButtonContainer'>
             <button id="addCustomButton" type="button" onClick={addCustomIngredient}>Add Custom Ingredient</button>
+            </section>
           </fieldset>
       </section>
       <section className='formLabelInput'>
       <fieldset>
         <legend>Measured Ingredients</legend>
         {Object.keys(measuredIngredients).map((ingredient, index) => (
-          <div key={index}>
-            <label>
-              {ingredient}:
+          <div id='measuredIngContainer' key={index}>
+            <label className='measuredIngLabelNR'>
+              {ingredient}:</label>
               <input
                 type="text"
+                className='measuredIngInputNR'
                 value={measuredIngredients[ingredient]}
                 onChange={(event) => handleMeasuredIngredientChange(ingredient, event)}
                 required
               />
-            </label>
+
           </div>
         ))}
       </fieldset>

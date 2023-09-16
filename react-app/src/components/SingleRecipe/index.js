@@ -36,12 +36,13 @@ const SingleRecipeComponent = () => {
 
   const removeFromBox = async (id) => {
     await dispatch(deleteRecipeFromBox(id));
+    history.push('/recipebox')
 }
 
 const handleDelete = async (id) => {
   await dispatch(finalDeleteRecipe(id));
-
   dispatch(deleteFromRecipeBox(id));
+  history.push('/recipebox')
 }
 
   return (
@@ -63,7 +64,7 @@ const handleDelete = async (id) => {
             </ol>
           </section>
           <section className="recipeDirections">
-            <h3>Directions</h3>
+            <h3 id="recipeDirectionsH3">Directions</h3>
             <ol>
               {currentRecipe.directions
                 ? (() => {
@@ -98,11 +99,11 @@ const handleDelete = async (id) => {
                 <>
                   {currentRecipe.user_id === user.id && (
                     <>
-                      <NavLink exact to={`/recipebox/update/${id}`}><button>Update</button></NavLink>
-                      <button onClick={() => handleDelete(id)}>Delete</button>
+                      <NavLink className="updateNavBut"exact to={`/recipebox/update/${id}`}><button id="recipeUpdateButton">Update</button></NavLink>
+                      <button id="recipeDeleteButton" onClick={() => handleDelete(id)}>Delete</button>
                     </>
                   )}
-                  <button onClick={() => removeFromBox(id)}>Remove from Box</button>
+                  <button id="removeFromRecipeBoxButton" onClick={() => removeFromBox(id)}>Remove from Box</button>
                 </>
               ) : (
                 <button

@@ -40,27 +40,38 @@ function LoginFormModal() {
             <li key={idx}>{error}</li>
           ))}
         </ul>
+        <section className="loginLabelInput">
         <label>
-          Email
+          Email</label>
           <input
             type="text"
+            id="emailInput"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
+        </section>
+        <section className="loginLabelInput">
         <label>
-          Password
+          Password</label>
           <input
             type="password"
+            id="passwordInput"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
+
+        </section>
+        <section className="loginFormButs">
+        <section className="loginSubmitBut">
+        <button className="loginSubmit" type="submit">Log In</button>
+        </section>
+        <section className="demoUserSubmitBut">
+        <button className='demo-user' onClick={loginDemo}>Log In as Demo User</button>
+        </section>
+        </section>
       </form>
-      <button className='demo-user' onClick={loginDemo}>Log In as Demo User</button>
       </section>
     </>
   );

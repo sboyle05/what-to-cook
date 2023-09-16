@@ -72,7 +72,6 @@ export const addRecipeToBox = (recipeData) => async (dispatch) => {
             body: JSON.stringify(recipeData),
         });
         const data = await response.json();
-        console.log("*********THUNK ADD TO BOX DATA**********", data)
         dispatch(addToRecipeBox(data));
     } catch (error) {
         console.error("Error adding recipe to Recipe Box:", error);

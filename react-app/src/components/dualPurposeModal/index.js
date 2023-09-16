@@ -1,27 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
-import './dualPurposeModal.css'
+import React from "react";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/session";
-
+import './dualPurposeModal.css';
 
 function DualPurposeModal() {
-    const dispatch = useDispatch();
-    const [showMenu, setShowMenu] = useState(false);
-    const ulRef = useRef();
-    const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
-      };
-
-    const closeMenu = (e) => {
-        if (!ulRef.current.contains(e.target)) {
-          setShowMenu(false);
-        }
-      };
-
-      document.addEventListener("click", closeMenu);
-
+  return (
+    <>
+      <section className="dualPurposeContainer">
+      <OpenModalButton
+        buttonText="Log In"
+        className='dpLoginButton'
+        modalComponent={<LoginFormModal />}
+      />
+      <OpenModalButton
+        buttonText="Sign Up"
+        className='dpSignUpButton'
+        modalComponent={<SignupFormModal />}
+      />
+      </section>
+    </>
+  );
 }
+
+export default DualPurposeModal;

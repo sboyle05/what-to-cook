@@ -54,10 +54,20 @@ justify-content: center;
     background: linear-gradient(145deg, #333, #222);
     color: #fff;
     font-weight: bold;
+    transition: all 0.3s ease;
+}
+#clearButton{
+    margin-top: 10px;
+    padding: 2px 10px;
+    border: 1px solid #5d5d5d;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #333, #222);
+    color: #fff;
+
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 #searchButton:hover {
     background: linear-gradient(145deg, #555, #444);
 }
@@ -65,6 +75,15 @@ justify-content: center;
 #searchButton:active {
     background: linear-gradient(145deg, #222, #111);
 }
+
+#clearButton:hover{
+    background: linear-gradient(145deg, #555, #444);
+}
+
+#clearButton:active{
+    background: linear-gradient(145deg, #222, #111);
+}
+
 
 input[type="radio"] {
     cursor: pointer;

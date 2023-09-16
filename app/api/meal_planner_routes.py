@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 from ..forms.meal_plan import NewMealPlanForm, UpdateMealPlanForm
 import json
-
+from sqlalchemy.orm import joinedload
 
 meal_planner_routes = Blueprint('meal_planner', __name__)
 
@@ -67,21 +67,16 @@ def update_meal_plan(id):
 
 
 
-@meal_planner_routes.route('/mealplanner/<int:id>/delete/', methods=['DELETE'])
-def delete_meal_plan(id):
-    meal_plan = MealPlan.query.get(id)
-
+@meal_planner_routes.route('/mealplanner/<int:meal_plan_id>/delete/', methods=['DELETE'])
+@login_required
+def delete_meal_plan(meal_plan_id):
+    meal_plan = db.session.query(MealPlan).options(joinedload(MealPlan.recipe)).get(meal_plan_id)
     if meal_plan is None:
-        return {"message": "Meal plan not found"}, 404
-
+        return jsonify({'error': 'MealPlan not found'}), 404
     if meal_plan.user_id != current_user.id:
-        return {"message": "You don't have the permissions to delete this."}, 404
+        return jsonify({'error': 'Unauthorized'}), 401
 
-    try:
-        db.session.delete(meal_plan)
-        db.session.commit()
-    except Exception as e:
-        print("Database Exception:", str(e))
-        return {"message": "Internal Server Error"}, 500
+    db.session.delete(meal_plan)
+    db.session.commit()
 
     return meal_plan.to_dict(), 200
