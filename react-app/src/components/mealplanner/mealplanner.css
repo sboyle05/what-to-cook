@@ -1,20 +1,23 @@
 body, html {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-  }
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+}
 
+.mealPlannerContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4vh;
+  background-color: #121212;
+}
 
-  .mainCalenderContainer{
-    font-family: 'Oxygen', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #121212;
-    color: #ffffff;
-    width: 100%;
-    min-height: 100vh;
-  }
+.mainCalendarContainer {
+  flex: 1;
+}
 
 
   .fc{
@@ -30,7 +33,9 @@ body, html {
   .fc-toolbar-title{
     color: whitesmoke;
   }
+  .fc-toolbar-chunk{
 
+  }
   .fc-daygrid-day-number{
     color: whitesmoke;
   }

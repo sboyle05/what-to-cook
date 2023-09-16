@@ -49,7 +49,11 @@ function RecipeSearch() {
     dispatch(deselectIngredient(ingredient));
   };
 
-
+  const clearSearchResults = () => {
+    setSelectedIngredients([]);
+    setInitialSearchDone(false);
+    dispatch(clearRecipes());
+  };
 
   return (
     <>
@@ -59,7 +63,7 @@ function RecipeSearch() {
           addIngredient={addIngredient}
           removeIngredient={removeIngredient}
           selectedIngredients={selectedIngredients}
-        />
+        />{selectedIngredients.length > 0 ? <span id='specialMsgSearch'>click on an ingredient to remove it</span> : null}
 
         <div>
           <input type="radio" id="any" name="filter" value="any"
@@ -91,6 +95,9 @@ function RecipeSearch() {
                 disabled={selectedIngredients.length === 0}>
           Search Recipes
         </button>
+        <button id="clearButton" onClick={clearSearchResults}>
+        Clear Results
+      </button>
         <section className='reciperesults'>
         <ul className='recipesMapped'>
           {recipes ? recipes.map((recipe, index) => (

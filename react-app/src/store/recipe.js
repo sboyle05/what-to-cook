@@ -4,6 +4,8 @@ const DESELECT_INGREDIENT = 'DESELECT_INGREDIENT';
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE';
 const CLEAR_RECIPES = 'CLEAR_RECIPES';
 const DELETE_RECIPE = 'DELETE_RECIPE';
+const SAVE_SEARCH_STATE = 'SAVE_SEARCH_STATE';
+const CLEAR_SEARCH_STATE = 'CLEAR_SEARCH_STATE';
 
 export const selectIngredient = (ingredient) => ({
     type: SELECT_INGREDIENT,
@@ -40,6 +42,14 @@ export const deleteRecipe = (id) => ({
     payload: id,
 })
 
+export const saveSearchState = (searchState) => ({
+    type: SAVE_SEARCH_STATE,
+    payload: searchState,
+});
+
+export const clearSearchState = () => ({
+    type: CLEAR_SEARCH_STATE,
+});
 
 export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
     try {
@@ -82,7 +92,7 @@ export const searchRecipes = (selectedIngredients, exactMatch, extraCount) => as
     }
 };
 
-const initialState = { allRecipes: [], singleRecipe: {}, selectIngredients: []};
+const initialState = { allRecipes: [], singleRecipe: {}, selectIngredients: [], savedSearchState: null};
 
 const recipeReducer = (state=initialState, action) => {
     switch(action.type){
@@ -99,6 +109,10 @@ const recipeReducer = (state=initialState, action) => {
                 ...state,
                 allRecipes: []
             }
+        case SAVE_SEARCH_STATE:
+            return { ...state, savedSearchState: action.payload };
+        case CLEAR_SEARCH_STATE:
+            return { ...state, savedSearchState: null };
         default:
             return state;
     }

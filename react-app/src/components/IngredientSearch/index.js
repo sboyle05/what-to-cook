@@ -57,7 +57,8 @@
     const handleChange = (e) => {
         setInput(e.target.value);
         fetchSuggestions();
-    };
+        setDropdownOpen(true);
+      };
 
     const handleKeyDown = (e) => {
   if (e.key === "ArrowDown") {
@@ -76,13 +77,13 @@
   }
 };
 
-    const handleClick = (suggestion, index) => {
-        setInput("");
-        setSuggestions([]);
-        addIngredient(suggestion);
-        setSelectedIndex(-1);
-        setDropdownOpen(false);
-    };
+const handleClick = (suggestion, index) => {
+    setInput("");
+    setSuggestions([]);
+    addIngredient(suggestion);
+    setSelectedIndex(-1);
+    setDropdownOpen(false);
+  };
     const handleRemoveIngredient = (ingredientToRemove) => {
         removeIngredient(ingredientToRemove);
     };
@@ -104,7 +105,7 @@
                     placeholder="Search for ingredients"
                 />
 
-                <section className={`suggestedIngredients ${suggestions.length > 0 ? 'open' : ''}`}>
+                <section className={`suggestedIngredients ${suggestions.length > 0 && dropdownOpen ? 'open' : 'hidden'}`}>
                     {suggestions.map((suggestion, index) => (
                         <div
                             key={index}
