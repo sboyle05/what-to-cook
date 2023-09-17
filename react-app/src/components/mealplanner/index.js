@@ -35,6 +35,16 @@ const MealPlanner = () => {
     const fetchRecipeNames = async () => {
       const newCalendarEvents = [];
       const flattenedMeals = meals.flat();
+      const MEAL_TYPE_RANK = {
+        'breakfast': 1,
+        'brunch': 2,
+        'lunch': 3,
+        'snack': 4,
+        'dinner': 5,
+        'dessert': 6
+      };
+
+      flattenedMeals.sort((a, b) => MEAL_TYPE_RANK[a.meal_type] - MEAL_TYPE_RANK[b.meal_type]);
 
       for (let meal of flattenedMeals) {
         const action = await dispatch(fetchSingleRecipe(meal.recipe_id));
@@ -51,6 +61,9 @@ const MealPlanner = () => {
             start: utcDate,
             allDay: true,
             color: getColorForMealType(meal.meal_type),
+            extendedProps: {
+              mealTypeRank: MEAL_TYPE_RANK[meal.meal_type]
+            }
           });
         }
       }
@@ -101,7 +114,8 @@ const MealPlanner = () => {
       <section className="mainCalendarContainer">
         <FullCalendar
           timeZone='PST'
-          // height='100%'
+          height='100%'
+          contentHeight={'auto'}
           handleWindowResize={true}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView="dayGridMonth"

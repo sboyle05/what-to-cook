@@ -1,15 +1,14 @@
 .slide-down {
-  animation: slideDownAnimation 0.3s ease forwards;
+  animation: slideDownAnimation 0.7s ease forwards;
 }
 
 @keyframes slideDownAnimation {
   0% {
-    top: -100px;
+    transform: translateY(-100%);
     opacity: 0;
   }
   100% {
-    top: 25vh;
-    right: 50vh;
+    transform: translateY(-70%);
     opacity: 1;
   }
 }
@@ -17,8 +16,8 @@
 #modal {
   position: fixed;
   top: 0;
-  right: 0vh;
   left: 0;
+  right: 0;
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -36,6 +35,7 @@
 }
 
 #modal-content {
-  position: absolute;
-  background-color:white;
+  position: relative;
+  background-color: white;
+  transform: translate(0%, -50%);
 }
