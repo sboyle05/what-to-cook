@@ -1,10 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useParams, NavLink, useHistory } from "react-router-dom";
-import { fetchSingleRecipe, finalDeleteRecipe } from "../../store/recipe";
-import { deleteRecipeFromBox, addExistingRecipeToBox, deleteFromRecipeBox } from "../../store/recipeBox";
-import "./singleRecipe.css";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useParams, NavLink, useHistory } from 'react-router-dom';
+import { fetchSingleRecipe, finalDeleteRecipe } from '../../store/recipe';
+import {
+  deleteRecipeFromBox,
+  addExistingRecipeToBox,
+  deleteFromRecipeBox,
+} from '../../store/recipeBox';
+import './singleRecipe.css';
 
 const SingleRecipeComponent = () => {
   const dispatch = useDispatch();
@@ -13,12 +16,28 @@ const SingleRecipeComponent = () => {
   const recipesInBox = useSelector((state) => state.recipeBox.recipesInBox);
   const user = useSelector((state) => state.session.user);
   const history = useHistory();
-
+  const [fetchStatus, setFetchStatus] = useState('idle');
 
   useEffect(() => {
     console.log('recipesInBox:', recipesInBox);
-    dispatch(fetchSingleRecipe(id));
+    dispatch(fetchSingleRecipe(id))
+      .then((data) => {
+        if (data) {
+          setFetchStatus('done');
+        } else {
+          setFetchStatus('error');
+        }
+      })
+      .catch(() => {
+        setFetchStatus('error');
+      });
   }, [dispatch, id, recipesInBox]);
+
+  useEffect(() => {
+    if (fetchStatus === 'error') {
+      history.push('/going-nowhere-fast');
+    }
+  }, [fetchStatus, history]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -36,26 +55,26 @@ const SingleRecipeComponent = () => {
 
   const removeFromBox = async (id) => {
     await dispatch(deleteRecipeFromBox(id));
-    history.push('/recipebox')
-}
+    history.push('/recipebox');
+  };
 
-const handleDelete = async (id) => {
-  await dispatch(finalDeleteRecipe(id));
-  dispatch(deleteFromRecipeBox(id));
-  history.push('/recipebox')
-}
+  const handleDelete = async (id) => {
+    await dispatch(finalDeleteRecipe(id));
+    dispatch(deleteFromRecipeBox(id));
+    history.push('/recipebox');
+  };
 
   return (
     <>
       {currentRecipe ? (
-        <section className="singleRecipeContainer">
+        <section className='singleRecipeContainer'>
           <h1>{currentRecipe.name}</h1>
-          <section className="recipeIngredientSection">
-            <h3 id="numberIngredients">
-              {currentRecipe.ingredients ? currentRecipe.ingredients.length : 0}{" "}
+          <section className='recipeIngredientSection'>
+            <h3 id='numberIngredients'>
+              {currentRecipe.ingredients ? currentRecipe.ingredients.length : 0}{' '}
               Ingredients
             </h3>
-            <ol className="measuredIngredientsList">
+            <ol className='measuredIngredientsList'>
               {currentRecipe.measured_ingredients
                 ? currentRecipe.measured_ingredients.map(
                     (ingredient, index) => <li key={index}>{ingredient}</li>
@@ -63,8 +82,8 @@ const handleDelete = async (id) => {
                 : null}
             </ol>
           </section>
-          <section className="recipeDirections">
-            <h3 id="recipeDirectionsH3">Directions</h3>
+          <section className='recipeDirections'>
+            <h3 id='recipeDirectionsH3'>Directions</h3>
             <ol>
               {currentRecipe.directions
                 ? (() => {
@@ -75,11 +94,11 @@ const handleDelete = async (id) => {
                       return parsedDirections.flatMap((direction, index) => {
                         const steps = direction
                           .split(/\.|;/)
-                          .filter((step) => step.trim() !== "");
+                          .filter((step) => step.trim() !== '');
 
                         return steps.map((step, subIndex) => (
                           <li
-                            id="individualdirection"
+                            id='individualdirection'
                             key={`${index}-${subIndex}`}
                           >
                             {capitalizeFirstLetter(step.trim())}
@@ -99,16 +118,33 @@ const handleDelete = async (id) => {
                 <>
                   {currentRecipe.user_id === user.id && (
                     <>
-                      <NavLink className="updateNavBut"exact to={`/recipebox/update/${id}`}><button id="recipeUpdateButton">Update</button></NavLink>
-                      <button id="recipeDeleteButton" onClick={() => handleDelete(id)}>Delete</button>
+                      <NavLink
+                        className='updateNavBut'
+                        exact
+                        to={`/recipebox/update/${id}`}
+                      >
+                        <button id='recipeUpdateButton'>Update</button>
+                      </NavLink>
+                      <button
+                        id='recipeDeleteButton'
+                        onClick={() => handleDelete(id)}
+                      >
+                        Delete
+                      </button>
                     </>
                   )}
-                  <button id="removeFromRecipeBoxButton" onClick={() => removeFromBox(id)}>Remove from Box</button>
+                  <button
+                    id='removeFromRecipeBoxButton'
+                    onClick={() => removeFromBox(id)}
+                  >
+                    Remove from Box
+                  </button>
                 </>
               ) : (
                 <button
-                  id="addtorecipeboxbutton"
-                  onClick={handleAddToRecipeBox}>
+                  id='addtorecipeboxbutton'
+                  onClick={handleAddToRecipeBox}
+                >
                   Add to Recipe Box
                 </button>
               )}
