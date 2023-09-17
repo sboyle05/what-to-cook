@@ -13,8 +13,9 @@ function Navigation({ isLoaded }) {
   const { setModalContent, setUseSlideDown } = useModal();
 
 
-  const handleRecipeBoxClick = () => {
+  const handleRecipeBoxClick = (e) => {
     if (!sessionUser) {
+      e.preventDefault();
       setModalContent(<DualPurposeModal />);
       setUseSlideDown(true);
     } else {
@@ -22,8 +23,9 @@ function Navigation({ isLoaded }) {
     }
   };
 
-  const handleMealPlannerClick = () => {
+  const handleMealPlannerClick = (e) => {
     if (!sessionUser) {
+      e.preventDefault();
       setModalContent(<DualPurposeModal />);
       setUseSlideDown(true);
     } else {
@@ -50,7 +52,7 @@ function Navigation({ isLoaded }) {
             <NavLink
               exact
               to="/recipebox"
-              onClick={handleRecipeBoxClick}
+              onClick={(e) => handleRecipeBoxClick(e)}
             >
               My RecipeBox
             </NavLink>
@@ -59,7 +61,7 @@ function Navigation({ isLoaded }) {
             <NavLink
               exact
               to="/mealplanner"
-              onClick={handleMealPlannerClick}
+              onClick={(e) => handleMealPlannerClick(e)}
             >
               Meal Planner
             </NavLink>
