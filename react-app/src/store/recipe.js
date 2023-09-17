@@ -65,14 +65,23 @@ export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 
 export const fetchSingleRecipe = (id) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/recipes/${id}`);
+      const response = await fetch(`/api/recipes/${id}`);
+
+      if (response.ok) {
         const data = await response.json();
         dispatch(getSingleRecipe(data));
         return data;
-    } catch(error){
-        console.error("Error fetching single recipe:", error)
+      } else {
+        dispatch(getSingleRecipe(null));
+        return null;
+      }
+
+    } catch (error) {
+      console.error("Error fetching single recipe:", error);
+      dispatch(getSingleRecipe(null));
+      return null;
     }
-}
+  };
 
 export const searchRecipes = (selectedIngredients, exactMatch, extraCount) => async (dispatch) => {
     try {
