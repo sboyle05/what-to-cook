@@ -15,7 +15,7 @@ function RecipeSearch() {
 	const [exactMatch, setExactMatch] = useState(false);
 	const [extraCount, setExtraCount] = useState('');
 	const [initialSearchDone, setInitialSearchDone] = useState(false);
-
+	const [showPaginationButtons, setShowPaginationButtons] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(50);
 	const total = useSelector((state) => state.recipes?.pagination.total);
@@ -28,6 +28,7 @@ function RecipeSearch() {
 
 	const fetchRecipes = useCallback(() => {
 		if (selectedIngredients.length === 0) {
+			setShowPaginationButtons(false);
 			return;
 		}
 
@@ -41,6 +42,7 @@ function RecipeSearch() {
 			)
 		);
 		setInitialSearchDone(true);
+		setShowPaginationButtons(true);
 	}, [
 		selectedIngredients,
 		exactMatch,
@@ -50,6 +52,13 @@ function RecipeSearch() {
 		perPage,
 	]);
 
+	useEffect(() => {
+		if(recipes.length === 0){
+			setShowPaginationButtons(false)
+		} else {
+			setShowPaginationButtons(true)
+		}
+	}, [recipes])
 
 	useEffect(() => {
 		if (initialSearchDone) {
@@ -94,6 +103,7 @@ function RecipeSearch() {
 		setSelectedIngredients([]);
 		setInitialSearchDone(false);
 		dispatch(clearRecipes());
+		setShowPaginationButtons(false);
 	};
 
 	return (
@@ -192,7 +202,7 @@ function RecipeSearch() {
 				</section>
 
 				<section className='paginationButtons'>
-					{total > 0 && (
+					{showPaginationButtons && total > 0 && (
 						<>
 							{currentPage > 1 && (
 								<button

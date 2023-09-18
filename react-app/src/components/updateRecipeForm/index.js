@@ -177,25 +177,26 @@ const UpdateRecipe = () => {
 								</label>
 							</div>
 						))}
-
+						<section className='addCustomButtonContainer'>
 						<button
 							id='addCustomButton'
 							type='button'
 							onClick={addCustomIngredient}
 						>
-
 							Add Custom Ingredient
 						</button>
+						</section>
 					</fieldset>
 				</section>
 				<section className='formLabelInput'>
 					<fieldset>
 						<legend>Measured Ingredients</legend>
 						{measuredIngredients.map((ingredientDesc, index) => (
-							<div key={index}>
-								<label>
-									{ingredientDesc.split(':')[0]}:
+							<div id='measuredIngContainer' key={index}>
+								<label className='measuredIngLabelNR'>
+									{ingredientDesc.split(':')[0]}: </label>
 									<input
+										className='measuredIngInputNR'
 										type='text'
 										value={ingredientDesc.split(':')[1].trimStart()}
 										onChange={(event) => {
@@ -211,7 +212,7 @@ const UpdateRecipe = () => {
 										}}
 										required
 									/>
-								</label>
+
 							</div>
 						))}
 					</fieldset>
