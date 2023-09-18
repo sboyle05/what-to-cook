@@ -10,113 +10,117 @@ import { fetchSingleRecipe } from '../../store/recipe';
 import UpdateMealPlannerModal from '../updateMealPlannerModal';
 
 const MealPlanner = () => {
-  const [calendarEvents, setCalendarEvents] = useState([]);
-  const [selectedMealPlanner, setSelectedMealPlanner] = useState(null)
-  const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
-  const meals = useSelector(state => state.mealPlanner.mealPlanner);
+	const [calendarEvents, setCalendarEvents] = useState([]);
+	const [selectedMealPlanner, setSelectedMealPlanner] = useState(null);
+	const [showModal, setShowModal] = useState(false);
+	const dispatch = useDispatch();
+	const sessionUser = useSelector((state) => state.session.user);
+	const meals = useSelector((state) => state.mealPlanner.mealPlanner);
 
-  let userName, userId;
+	let userName, userId;
 
-  if (sessionUser) {
-    userId = sessionUser.id;
-}
+	if (sessionUser) {
+		userId = sessionUser.id;
+	}
 
-  const refetchMealPlanner = () => {
-    dispatch(fetchMealPlanner());
-  }
+	const refetchMealPlanner = () => {
+		dispatch(fetchMealPlanner());
+	};
 
-  useEffect(() => {
-    dispatch(fetchMealPlanner());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchMealPlanner());
+	}, [dispatch]);
 
-  useEffect(() => {
-    const fetchRecipeNames = async () => {
-      const newCalendarEvents = [];
-      const flattenedMeals = meals.flat();
+	useEffect(() => {
+		const fetchRecipeNames = async () => {
+			const newCalendarEvents = [];
+			const flattenedMeals = meals.flat();
 
-      for (let meal of flattenedMeals) {
-        const action = await dispatch(fetchSingleRecipe(meal.recipe_id));
-        const recipe = action;
-        if (recipe) {
-          const mealDate = new Date(meal.date);
-          const year = mealDate.getUTCFullYear();
-          const month = mealDate.getUTCMonth();
-          const day = mealDate.getUTCDate();
-          const utcDate = new Date(Date.UTC(year, month, day));
-          newCalendarEvents.push({
-            id: meal.id.toString(),
-            title: recipe.name || 'Unknown',
-            start: utcDate,
-            allDay: true,
-            color: getColorForMealType(meal.meal_type),
-          });
-        }
-      }
-      setCalendarEvents(newCalendarEvents);
-    };
-    fetchRecipeNames();
-  }, [meals, dispatch]);
+			for (let meal of flattenedMeals) {
+				const action = await dispatch(fetchSingleRecipe(meal.recipe_id));
+				const recipe = action;
+				if (recipe) {
+					const mealDate = new Date(meal.date);
+					const year = mealDate.getUTCFullYear();
+					const month = mealDate.getUTCMonth();
+					const day = mealDate.getUTCDate();
+					const utcDate = new Date(Date.UTC(year, month, day));
+					newCalendarEvents.push({
+						id: meal.id.toString(),
+						title: recipe.name || 'Unknown',
+						start: utcDate,
+						allDay: true,
+						color: getColorForMealType(meal.meal_type),
+					});
+				}
+			}
+			setCalendarEvents(newCalendarEvents);
+		};
+		fetchRecipeNames();
+	}, [meals, dispatch]);
 
-  const getColorForMealType = (mealType) => {
-    const colors = {
-      'breakfast': 'red',
-      'lunch': 'blue',
-      'dinner': 'green',
-      'brunch': 'purple',
-      'snack': '#6200ea',
-      'dessert': 'brown'
-    };
+	const getColorForMealType = (mealType) => {
+		const colors = {
+			breakfast: 'red',
+			lunch: 'blue',
+			dinner: 'green',
+			brunch: 'purple',
+			snack: '#6200ea',
+			dessert: 'brown',
+		};
 
-    return colors[mealType] || 'gray';
-  };
+		return colors[mealType] || 'gray';
+	};
 
-  const handleEventClick = (info) => {
-    // flatten arrays into single array
-    const flattenedMeals = meals.flat();
-    const clickedMealPlanner = flattenedMeals.find(meal => meal.id === Number(info.event.id));
-    setSelectedMealPlanner(clickedMealPlanner);
-    setShowModal(true);
-  };
+	const handleEventClick = (info) => {
+		// flatten arrays into single array
+		const flattenedMeals = meals.flat();
+		const clickedMealPlanner = flattenedMeals.find(
+			(meal) => meal.id === Number(info.event.id)
+		);
+		setSelectedMealPlanner(clickedMealPlanner);
+		setShowModal(true);
+	};
 
-  useEffect(() => {
-  }, [selectedMealPlanner]);
+	useEffect(() => {}, [selectedMealPlanner]);
 
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedMealPlanner(null);
-  };
+	const closeModal = () => {
+		setShowModal(false);
+		setSelectedMealPlanner(null);
+	};
 
-
-
-  return (
-    <>
-      <section className='mealPlannerContainer'>
-      {showModal && (
-        <section className='modalPlanner'>
-        <UpdateMealPlannerModal mealPlanner={selectedMealPlanner} userId={userId} refetch={refetchMealPlanner} onClose={closeModal} />
-        </section>
-      )}
-      <section className="mainCalendarContainer">
-        <FullCalendar
-          timeZone='PST'
-          // height='100%'
-          handleWindowResize={true}
-          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-          initialView="dayGridMonth"
-          eventClick={handleEventClick}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek'
-          }}
-          events={calendarEvents}
-        />
-      </section>
-      </section>
-    </>
-  );
+	return (
+		<>
+			<section className='mealPlannerContainer'>
+				{showModal && (
+					<section className='modalPlanner'>
+						<UpdateMealPlannerModal
+							mealPlanner={selectedMealPlanner}
+							userId={userId}
+							refetch={refetchMealPlanner}
+							onClose={closeModal}
+						/>
+					</section>
+				)}
+				<section className='mainCalendarContainer'>
+					<FullCalendar
+						timeZone='PST'
+						// height='100%'
+						handleWindowResize={true}
+						plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+						initialView='dayGridMonth'
+						eventClick={handleEventClick}
+						headerToolbar={{
+							left: 'prev,next today',
+							center: 'title',
+							right: 'dayGridMonth,timeGridWeek,listWeek',
+						}}
+						events={calendarEvents}
+					/>
+				</section>
+			</section>
+		</>
+	);
 };
 
 export default MealPlanner;

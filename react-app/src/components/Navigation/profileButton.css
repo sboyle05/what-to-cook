@@ -1,75 +1,76 @@
 @keyframes slideDown {
-    0% {
-      top: -100px;
-      opacity: 0;
-    }
-    100% {
-      top: 4vh;
-      right: 2vh;
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideDownForLoggedIn {
-    0% {
-      top: -100px;
-      opacity: 0;
-    }
-    100% {
-      top: 1vh;
-      right: 7vh;
-      opacity: 1;
-    }
-  }
-
-  .profile-menu {
-    position: absolute;
-    top: -100px;
-    opacity: 0;
-    transition: all 0.7s ease;
-  }
-
-  .profile-menu.logged-out.show-menu {
-    animation: slideDown 0.3s ease forwards;
-  }
-
-  .profile-menu.logged-in.show-menu {
-    animation: slideDownForLoggedIn 0.7s ease forwards;
-  }
-
-
-
-#chefIcon{
-    background-color: none;
-    width: 5.5vh;
-    height: 5.5vh;
+	0% {
+		top: -100px;
+		opacity: 0;
+	}
+	100% {
+		top: 4vh;
+		right: 2vh;
+		opacity: 1;
+	}
 }
 
-.loginButton, .signUpButton {
-  background-color: #0066b6;
-  margin-right: 5px;
-  font-size: 14px;
-  font-family: 'Oxygen', sans-serif;
-  color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  }
+@keyframes slideDownForLoggedIn {
+	0% {
+		top: -100px;
+		opacity: 0;
+	}
+	100% {
+		top: 1vh;
+		right: 7vh;
+		opacity: 1;
+	}
+}
 
-  .loginButton:hover, .signUpButton:hover {
-  background-color: #005a99;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-  }
+.profile-menu {
+	position: absolute;
+	top: -100px;
+	opacity: 0;
+	transition: all 0.7s ease;
+}
 
-  .loginButton:active, .signUpButton:active {
-    background-color: #004d80;
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+.profile-menu.logged-out.show-menu {
+	animation: slideDown 0.3s ease forwards;
+}
 
-#logOutButton{
-    background-color: #0066b6;
-    font-family: 'Oxygen', sans-serif;
+.profile-menu.logged-in.show-menu {
+	animation: slideDownForLoggedIn 0.7s ease forwards;
+}
+
+#chefIcon {
+	background-color: none;
+	width: 5.5vh;
+	height: 5.5vh;
+}
+
+.loginButton,
+.signUpButton {
+	background-color: #0066b6;
+	margin-right: 5px;
+	font-size: 14px;
+	font-family: 'Oxygen', sans-serif;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+}
+
+.loginButton:hover,
+.signUpButton:hover {
+	background-color: #005a99;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
+}
+
+.loginButton:active,
+.signUpButton:active {
+	background-color: #004d80;
+	transform: translateY(1px);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#logOutButton {
+	background-color: #0066b6;
+	font-family: 'Oxygen', sans-serif;
 }

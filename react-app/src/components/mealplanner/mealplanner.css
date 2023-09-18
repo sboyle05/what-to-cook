@@ -1,58 +1,55 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background-color: #121212;
-  display: flex;
-  flex-direction: column;
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	background-color: #121212;
+	display: flex;
+	flex-direction: column;
 }
 
 .mealPlannerContainer {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding-top: 4vh;
-  background-color: #121212;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding-top: 4vh;
+	background-color: #121212;
 }
 
 .mainCalendarContainer {
-  flex: 1;
+	flex: 1;
 }
 
+.fc {
+	background-color: #121212;
+	z-index: 1;
+}
 
-  .fc{
-    background-color: #121212;
-    z-index: 1;
-  }
+.fc-event-title {
+	color: whitesmoke;
+}
 
+.fc-toolbar-title {
+	color: whitesmoke;
+}
+.fc-toolbar-chunk {
+}
+.fc-daygrid-day-number {
+	color: whitesmoke;
+}
 
-  .fc-event-title {
-    color: whitesmoke;
-  }
+.fc-col-header-cell {
+	color: whitesmoke;
+}
 
-  .fc-toolbar-title{
-    color: whitesmoke;
-  }
-  .fc-toolbar-chunk{
-
-  }
-  .fc-daygrid-day-number{
-    color: whitesmoke;
-  }
-
-  .fc-col-header-cell{
-    color: whitesmoke;
-  }
-
-
-  .modalPlanner{
-    position: fixed;
-  top: 0;
-  right: 0vh;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  }
+.modalPlanner {
+	position: fixed;
+	top: 0;
+	right: 0vh;
+	left: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+}
