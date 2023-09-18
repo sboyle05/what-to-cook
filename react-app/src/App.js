@@ -12,6 +12,9 @@ import NewRecipe from "./components/newRecipeForm";
 import UpdateRecipe from "./components/updateRecipeForm";
 import MealPlanner from "./components/mealplanner";
 import LostPage from "./components/lostPage";
+import Footer from "./components/footer";
+import AboutPage from "./components/aboutpage";
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,6 +49,9 @@ function App() {
           <Route exact path="/mealplanner">
             <MealPlanner/>
           </Route>
+          <Route exact path="/about">
+            <AboutPage/>
+          </Route>
           <Route exact path="/">
           <RecipeSearch/>
           </Route>
@@ -54,7 +60,7 @@ function App() {
           </Route>
         </Switch>
       )}
-
+        <Footer/>
     </>
   );
 }

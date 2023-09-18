@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMealPlanner } from '../../store/mealPlanner';
 import { fetchSingleRecipe } from '../../store/recipe';
 import UpdateMealPlannerModal from '../updateMealPlannerModal';
-FullCalendar.debug = true;
+
 const MealPlanner = () => {
 
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -104,7 +104,6 @@ const MealPlanner = () => {
     setShowModal(false);
     setSelectedMealPlanner(null);
   };
-  FullCalendar.debug = true;
 
   return (
     <>
