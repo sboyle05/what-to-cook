@@ -1,0 +1,37 @@
+.aboutPageContainer{
+  color: whitesmoke;
+  font-family: 'Oxygen', sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.titlePicName{
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+#samPic{
+  width: 150px;
+  height: 150px;
+  position: relative;
+  border-radius: 40px;
+  margin-right: 10px;
+}
+#aboutTitle{
+margin-bottom: -10px;
+font-size: 28px;
+}
+
+.aboutPageContainer p{
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: -5px;
+  font-size: 15px;
+}
+
+.aboutPageContainer a{
+  color: #0066b6;
+  text-decoration: none;
+}
