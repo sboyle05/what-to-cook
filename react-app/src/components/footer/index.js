@@ -8,10 +8,10 @@ const Footer = () => {
   return (
     <>
       <section className='footerContainer'>
-        <section className='navButtonContainer'>
-          <NavLink exact to='/about'>About</NavLink>
+        <section className='navFooterButtonContainer'>
+          <NavLink id="footNav" exact to='/about'>About</NavLink>
           <a href="https://github.com/sboyle05" target="_blank" rel="noopener noreferrer">
-      <img id='gitHubIcon' src={gitHubIcon} alt='GitHub icon' />
+      <img id='gitHubIcon' src={gitHubIcon} alt='GitHub icon'/>
     </a>
     <a href="https://www.linkedin.com/in/samboyle12/" target="_blank" rel="noopener noreferrer">
       <img id='liIcon' src={liIcon} alt='linkedIn icon' />
