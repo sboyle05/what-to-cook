@@ -23,15 +23,19 @@ function SignupFormModal() {
 				closeModal();
 			}
 		} else {
+
 			setErrors([
 				'Confirm Password field must be the same as the Password field',
 			]);
+
 		}
 	};
 
 	return (
 		<>
+
 			<section className='signUpFormContainer'>
+
 				<h1>Sign Up</h1>
 				<form onSubmit={handleSubmit}>
 					<ul>

@@ -1,117 +1,115 @@
-body,
-html {
-	margin: 0;
-	padding: 0;
-	height: 100vh;
-}
 
-.recipeBoxContainer {
-	font-family: 'Oxygen', sans-serif;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #121212;
-	color: #ffffff;
-	width: 100%;
-	min-height: 100vh;
-	align-items: center;
-}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
 
-.recipeBoxTitleContainer {
-	margin-top: 10px;
-	font-size: 20px;
-}
+  .recipeBoxContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+  }
 
-#createNewRecipeButton {
-	background-color: #0066b6;
-	height: 30px;
-	width: 165px;
-	font-size: 16px;
-	font-family: 'Oxygen', sans-serif;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
-	transition: all 0.3s ease;
-}
+  .recipeBoxTitleContainer{
+    margin-top: 10px;
+    font-size: 20px;
+  }
 
-#createNewRecipeButton:hover {
-	background-color: #005a99;
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-	transform: translateY(-2px);
-}
+  #createNewRecipeButton {
+    background-color: #0066b6;
+    height: 30px;
+    width: 165px;
+    font-size: 16px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
 
-#createNewRecipeButton:active {
-	transform: translateY(1px);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.recipesInBox {
-	display: flex;
-	flex-direction: column;
-	margin-left: 0;
+  #createNewRecipeButton:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
 
-	padding: 0;
-}
 
-.recipesInBox a {
-	color: whitesmoke;
-	text-decoration: none;
-}
+  #createNewRecipeButton:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-#mappedRecipesInBox {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-	padding-top: 5px;
-	width: 30vh;
-	border: 2px solid #6200ea;
-}
+  .recipesInBox{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
 
-.recipeBoxButtons {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-}
-.recipeBoxAddTo,
-.rbUpdate,
-.rbDelete,
-.rbRemove {
-	margin-top: 5px;
-	background-color: #0066b6;
-	margin-right: 5px;
-	font-size: 14px;
-	font-family: 'Oxygen', sans-serif;
-	color: white;
-	border: 1px solid black;
-	border-radius: 5px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: all 0.3s ease;
-	width: 98%;
-	height: 25px;
-}
+    padding: 0;
+  }
 
-.recipeBoxAddTo:hover,
-.rbUpdate:hover,
-.rbDelete:hover,
-.rbRemove:hover {
-	background-color: #005a99;
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-	transform: translateY(-2px);
-}
+  .recipesInBox a{
+    color: whitesmoke;
+    text-decoration: none;
+  }
 
-.recipeBoxAddTo:active,
-.rbUpdate:active,
-.rbDelete:active,
-.rbRemove:active {
-	background-color: #004d80;
-	transform: translateY(1px);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  #mappedRecipesInBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 30vh;
+    border: 2px solid #6200ea;
+  }
 
-.recipeBoxSection {
-	display: flex;
-	align-items: center;
-}
+  .recipeBoxButtons{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .recipeBoxAddTo, .rbUpdate, .rbDelete, .rbRemove {
+  margin-top: 5px;
+  background-color: #0066b6;
+  margin-right: 5px;
+  font-size: 12px;
+  font-family: 'Oxygen', sans-serif;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 125px;
+  height: 25px;
+
+  }
+
+
+  .recipeBoxAddTo:hover, .rbUpdate:hover, .rbDelete:hover, .rbRemove:hover {
+    background-color: #005a99;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    }
+
+    .recipeBoxAddTo:active, .rbUpdate:active, .rbDelete:active, .rbRemove:active{
+      background-color: #004d80;
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+  .recipeBoxSection{
+    display: flex;
+    align-items: center;
+  }
+

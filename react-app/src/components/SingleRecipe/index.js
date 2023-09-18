@@ -17,9 +17,29 @@ const SingleRecipeComponent = () => {
 	const user = useSelector((state) => state.session.user);
 	const history = useHistory();
 
+	const [fetchStatus, setFetchStatus] = useState('idle');
+
 	useEffect(() => {
-		dispatch(fetchSingleRecipe(id));
+		console.log('recipesInBox:', recipesInBox);
+		dispatch(fetchSingleRecipe(id))
+			.then((data) => {
+				if (data) {
+					setFetchStatus('done');
+				} else {
+					setFetchStatus('error');
+				}
+			})
+			.catch(() => {
+				setFetchStatus('error');
+			});
 	}, [dispatch, id, recipesInBox]);
+
+	useEffect(() => {
+		if (fetchStatus === 'error') {
+			history.push('/going-nowhere-fast');
+		}
+	}, [fetchStatus, history]);
+
 
 	const capitalizeFirstLetter = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);

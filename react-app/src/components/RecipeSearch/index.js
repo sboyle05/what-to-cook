@@ -15,11 +15,13 @@ function RecipeSearch() {
 	const [exactMatch, setExactMatch] = useState(false);
 	const [extraCount, setExtraCount] = useState('');
 	const [initialSearchDone, setInitialSearchDone] = useState(false);
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(50);
 	const total = useSelector((state) => state.recipes?.pagination.total);
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
+
 
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) => state.recipes?.allRecipes);
@@ -28,6 +30,7 @@ function RecipeSearch() {
 		if (selectedIngredients.length === 0) {
 			return;
 		}
+
 		dispatch(
 			searchRecipes(
 				selectedIngredients,
@@ -47,6 +50,7 @@ function RecipeSearch() {
 		perPage,
 	]);
 
+
 	useEffect(() => {
 		if (initialSearchDone) {
 			if (selectedIngredients.length > 0) {
@@ -62,8 +66,10 @@ function RecipeSearch() {
 		dispatch,
 		fetchRecipes,
 		initialSearchDone,
+
 		currentPage,
 		perPage,
+
 	]);
 
 	const addIngredient = (ingredient) => {
@@ -171,17 +177,20 @@ function RecipeSearch() {
 					<ul className='recipesMapped'>
 						{recipes
 							? recipes.map((recipe, index) => (
+
 									<Link
 										key={index}
 										className='recipeLink'
 										to={`/recipes/${recipe.id}`}
 									>
 										<li>{recipe.name}</li>
+
 									</Link>
 							  ))
 							: 'Loading recipes...'}
 					</ul>
 				</section>
+
 				<section className='paginationButtons'>
 					{total > 0 && (
 						<>
@@ -204,6 +213,7 @@ function RecipeSearch() {
 						</>
 					)}
 				</section>
+
 			</section>
 		</>
 	);

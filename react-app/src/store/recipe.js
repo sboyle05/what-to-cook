@@ -52,10 +52,12 @@ export const clearSearchState = () => ({
 	type: CLEAR_SEARCH_STATE,
 });
 
+
 export const updatePagination = (payload) => ({
 	type: UPDATE_PAGINATION,
 	payload,
 });
+
 
 export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 	try {
@@ -71,15 +73,18 @@ export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 export const fetchSingleRecipe = (id) => async (dispatch) => {
 	try {
 		const response = await fetch(`/api/recipes/${id}`);
+
 		const data = await response.json();
 		dispatch(getSingleRecipe(data));
 		return data;
 	} catch (error) {
 		console.error('Error fetching single recipe:', error);
+
 	}
 };
 
 export const searchRecipes =
+
 	(selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) =>
 	async (dispatch) => {
 		try {
@@ -87,6 +92,7 @@ export const searchRecipes =
 			let url = `/api/search/?ingredients=${encodeURIComponent(
 				ingredientList
 			)}&page=${page}&per_page=${perPage}`;
+
 			if (exactMatch) {
 				url += `&exact=true`;
 			} else if (extraCount) {
@@ -94,12 +100,14 @@ export const searchRecipes =
 			}
 			const response = await fetch(url);
 			const data = await response.json();
+
 			dispatch(
 				getRecipes({
 					recipes: data.recipes || [],
 					pagination: data.pagination || {},
 				})
 			);
+
 		} catch (error) {
 			console.error('Error fetching recipes:', error);
 		}
@@ -110,17 +118,21 @@ const initialState = {
 	singleRecipe: {},
 	selectIngredients: [],
 	savedSearchState: null,
+
 	pagination: { page: 1, per_page: 50, total: 0, total_pages: 1 },
+
 };
 
 const recipeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_RECIPES:
+
 			return {
 				...state,
 				allRecipes: action.payload.recipes,
 				pagination: action.payload.pagination || initialState.pagination,
 			};
+
 		case SELECT_INGREDIENT:
 			return {
 				...state,

@@ -138,9 +138,11 @@ const UpdateRecipe = () => {
 				</section>
 				<section className='formLabelInput'>
 					<fieldset>
+
 						<legend id='newRecipeSearchForIngredients'>
 							Search for Ingredients
 						</legend>
+
 						<section className='newRecipeIngredientSearchSection'>
 							<IngredientSearch
 								className='newRecipeIngredientSearch'
@@ -165,19 +167,23 @@ const UpdateRecipe = () => {
 										type='text'
 										name='name'
 										value={ingredient.name}
+
 										onChange={(event) =>
 											handleCustomIngredientChange(index, event)
 										}
+
 										required
 									/>
 								</label>
 							</div>
 						))}
+
 						<button
 							id='addCustomButton'
 							type='button'
 							onClick={addCustomIngredient}
 						>
+
 							Add Custom Ingredient
 						</button>
 					</fieldset>
@@ -196,11 +202,10 @@ const UpdateRecipe = () => {
 											const newValue = event.target.value;
 											setMeasuredIngredients((prevMeasured) => {
 												const newMeasured = [...prevMeasured];
-												const currentIngredient =
-													newMeasured[index].split(':')[0];
-												newMeasured[
-													index
-												] = `${currentIngredient}: ${newValue}`;
+
+												const currentIngredient = newMeasured[index].split(':')[0];
+												newMeasured[index] = `${currentIngredient}: ${newValue}`;
+
 												return newMeasured;
 											});
 										}}
@@ -212,11 +217,9 @@ const UpdateRecipe = () => {
 					</fieldset>
 				</section>
 				<section className='newRecipeSubmitContainer'>
-					<button
-						id='submitNewRecipeButton'
-						type='submit'
-						disabled={!isValidForm}
-					>
+
+					<button id='submitNewRecipeButton' type='submit' disabled={!isValidForm}>
+
 						{isValidForm ? 'Update Recipe' : 'Complete Form To Submit'}
 					</button>
 				</section>
