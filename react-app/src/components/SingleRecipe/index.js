@@ -23,7 +23,7 @@ const SingleRecipeComponent = () => {
 		console.log('recipesInBox:', recipesInBox);
 		dispatch(fetchSingleRecipe(id))
 			.then((data) => {
-				if (data) {
+				if (data && Object.keys(data).length !== 0 && 'name' in data) {
 					setFetchStatus('done');
 				} else {
 					setFetchStatus('error');
@@ -39,7 +39,6 @@ const SingleRecipeComponent = () => {
 			history.push('/going-nowhere-fast');
 		}
 	}, [fetchStatus, history]);
-
 
 	const capitalizeFirstLetter = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
