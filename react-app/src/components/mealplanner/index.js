@@ -10,6 +10,7 @@ import { fetchSingleRecipe } from '../../store/recipe';
 import UpdateMealPlannerModal from '../updateMealPlannerModal';
 
 const MealPlanner = () => {
+
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [selectedMealPlanner, setSelectedMealPlanner] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -137,6 +138,7 @@ const MealPlanner = () => {
       </section>
     </>
   );
+
 };
 
 export default MealPlanner;

@@ -8,6 +8,7 @@ import wtcLogo from '../../assets/whatToCookLogo2.png';
 import { useModal } from '../../context/Modal';
 
 function Navigation({ isLoaded }) {
+
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
   const { setModalContent, setUseSlideDown } = useModal();
@@ -80,6 +81,7 @@ function Navigation({ isLoaded }) {
       </section>
     </>
   );
+
 }
 
 export default Navigation;

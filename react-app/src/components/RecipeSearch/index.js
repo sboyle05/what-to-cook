@@ -16,6 +16,13 @@ function RecipeSearch() {
 	const [extraCount, setExtraCount] = useState('');
 	const [initialSearchDone, setInitialSearchDone] = useState(false);
 
+	const [currentPage, setCurrentPage] = useState(1);
+	const [perPage, setPerPage] = useState(50);
+	const total = useSelector((state) => state.recipes?.pagination.total);
+	const totalNumberOfPages = Math.ceil(total / perPage);
+	const veryLastPage = currentPage === totalNumberOfPages;
+
+
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) => state.recipes?.allRecipes);
 
@@ -23,9 +30,26 @@ function RecipeSearch() {
 		if (selectedIngredients.length === 0) {
 			return;
 		}
-		dispatch(searchRecipes(selectedIngredients, exactMatch, extraCount));
+
+		dispatch(
+			searchRecipes(
+				selectedIngredients,
+				exactMatch,
+				extraCount,
+				currentPage,
+				perPage
+			)
+		);
 		setInitialSearchDone(true);
-	}, [selectedIngredients, exactMatch, extraCount, dispatch]);
+	}, [
+		selectedIngredients,
+		exactMatch,
+		extraCount,
+		dispatch,
+		currentPage,
+		perPage,
+	]);
+
 
 	useEffect(() => {
 		if (initialSearchDone) {
@@ -42,6 +66,10 @@ function RecipeSearch() {
 		dispatch,
 		fetchRecipes,
 		initialSearchDone,
+
+		currentPage,
+		perPage,
+
 	]);
 
 	const addIngredient = (ingredient) => {
@@ -149,13 +177,43 @@ function RecipeSearch() {
 					<ul className='recipesMapped'>
 						{recipes
 							? recipes.map((recipe, index) => (
-									<Link className='recipeLink' exact to={`/recipes/${recipe.id}`}>
-										<li key={index}>{recipe.name}</li>
+
+									<Link
+										key={index}
+										className='recipeLink'
+										to={`/recipes/${recipe.id}`}
+									>
+										<li>{recipe.name}</li>
+
 									</Link>
 							  ))
 							: 'Loading recipes...'}
 					</ul>
 				</section>
+
+				<section className='paginationButtons'>
+					{total > 0 && (
+						<>
+							{currentPage > 1 && (
+								<button
+									id='previousPageButton'
+									onClick={() => setCurrentPage(currentPage - 1)}
+								>
+									Previous
+								</button>
+							)}
+							{!veryLastPage && (
+								<button
+									id='nextPageButton'
+									onClick={() => setCurrentPage(currentPage + 1)}
+								>
+									Next
+								</button>
+							)}
+						</>
+					)}
+				</section>
+
 			</section>
 		</>
 	);
