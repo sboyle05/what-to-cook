@@ -118,7 +118,7 @@ const MealPlanner = () => {
             />
           </section>
         )}
-        FullCalendar.debug = true;
+
         <section className='mainCalendarContainer'>
           <FullCalendar
 
