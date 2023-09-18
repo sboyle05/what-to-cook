@@ -15,17 +15,50 @@ function RecipeSearch() {
 	const [exactMatch, setExactMatch] = useState(false);
 	const [extraCount, setExtraCount] = useState('');
 	const [initialSearchDone, setInitialSearchDone] = useState(false);
+	const [showPaginationButtons, setShowPaginationButtons] = useState(true);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [perPage, setPerPage] = useState(50);
+	const total = useSelector((state) => state.recipes?.pagination.total);
+	const totalNumberOfPages = Math.ceil(total / perPage);
+	const veryLastPage = currentPage === totalNumberOfPages;
+
 
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) => state.recipes?.allRecipes);
 
 	const fetchRecipes = useCallback(() => {
 		if (selectedIngredients.length === 0) {
+			setShowPaginationButtons(false);
 			return;
 		}
-		dispatch(searchRecipes(selectedIngredients, exactMatch, extraCount));
+
+		dispatch(
+			searchRecipes(
+				selectedIngredients,
+				exactMatch,
+				extraCount,
+				currentPage,
+				perPage
+			)
+		);
 		setInitialSearchDone(true);
-	}, [selectedIngredients, exactMatch, extraCount, dispatch]);
+		setShowPaginationButtons(true);
+	}, [
+		selectedIngredients,
+		exactMatch,
+		extraCount,
+		dispatch,
+		currentPage,
+		perPage,
+	]);
+
+	useEffect(() => {
+		if(recipes.length === 0){
+			setShowPaginationButtons(false)
+		} else {
+			setShowPaginationButtons(true)
+		}
+	}, [recipes])
 
 	useEffect(() => {
 		if (initialSearchDone) {
@@ -42,6 +75,10 @@ function RecipeSearch() {
 		dispatch,
 		fetchRecipes,
 		initialSearchDone,
+
+		currentPage,
+		perPage,
+
 	]);
 
 	const addIngredient = (ingredient) => {
@@ -66,6 +103,7 @@ function RecipeSearch() {
 		setSelectedIngredients([]);
 		setInitialSearchDone(false);
 		dispatch(clearRecipes());
+		setShowPaginationButtons(false);
 	};
 
 	return (
@@ -149,13 +187,43 @@ function RecipeSearch() {
 					<ul className='recipesMapped'>
 						{recipes
 							? recipes.map((recipe, index) => (
-									<Link className='recipeLink' exact to={`/recipes/${recipe.id}`}>
-										<li key={index}>{recipe.name}</li>
+
+									<Link
+										key={index}
+										className='recipeLink'
+										to={`/recipes/${recipe.id}`}
+									>
+										<li>{recipe.name}</li>
+
 									</Link>
 							  ))
 							: 'Loading recipes...'}
 					</ul>
 				</section>
+
+				<section className='paginationButtons'>
+					{showPaginationButtons && total > 0 && (
+						<>
+							{currentPage > 1 && (
+								<button
+									id='previousPageButton'
+									onClick={() => setCurrentPage(currentPage - 1)}
+								>
+									Previous
+								</button>
+							)}
+							{!veryLastPage && (
+								<button
+									id='nextPageButton'
+									onClick={() => setCurrentPage(currentPage + 1)}
+								>
+									Next
+								</button>
+							)}
+						</>
+					)}
+				</section>
+
 			</section>
 		</>
 	);

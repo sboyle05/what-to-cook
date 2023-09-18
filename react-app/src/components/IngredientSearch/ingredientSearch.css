@@ -1,54 +1,52 @@
 #ingredientInput {
-    width: 250px;
-  }
+	width: 250px;
+}
 
-  .inputContainer {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-.selectedIngredients{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    max-width: 350px;
-    flex-wrap: wrap;
-
+.inputContainer {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.selectedIngredients {
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	max-width: 350px;
+	flex-wrap: wrap;
 }
 
 .selectedIngredients div {
-    cursor: pointer;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-bottom: 5px;
-  }
-  .suggestedIngredients {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 10;
-    background-color: rgb(105, 105, 105);
-    border: 1px solid #ccc;
-    width: 100%;
-    height: 0;
-    overflow-y: hidden;
-  }
+	cursor: pointer;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+.suggestedIngredients {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 10;
+	background-color: rgb(105, 105, 105);
+	border: 1px solid #ccc;
+	width: 100%;
+	height: 0;
+	overflow-y: hidden;
+}
 
-  .suggestedIngredients.open {
-    height: 50vh;
-    overflow-y: scroll;
-  }
+.suggestedIngredients.open {
+	height: 50vh;
+	overflow-y: scroll;
+}
 
-  .highlightedSuggestion {
-    background-color: #6200ea;
-    color: white;
-  }
+.highlightedSuggestion {
+	background-color: #6200ea;
+	color: white;
+}
 
-
-  .suggestedIngredients.hidden {
-    height: 0;
-    overflow-y: hidden;
-    border: none;
-  }
+.suggestedIngredients.hidden {
+	height: 0;
+	overflow-y: hidden;
+	border: none;
+}

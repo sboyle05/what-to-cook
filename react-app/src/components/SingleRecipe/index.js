@@ -16,6 +16,7 @@ const SingleRecipeComponent = () => {
 	const recipesInBox = useSelector((state) => state.recipeBox.recipesInBox);
 	const user = useSelector((state) => state.session.user);
 	const history = useHistory();
+
 	const [fetchStatus, setFetchStatus] = useState('idle');
 
 	useEffect(() => {
@@ -38,6 +39,7 @@ const SingleRecipeComponent = () => {
 			history.push('/going-nowhere-fast');
 		}
 	}, [fetchStatus, history]);
+
 
 	const capitalizeFirstLetter = (string) => {
 		return string.charAt(0).toUpperCase() + string.slice(1);

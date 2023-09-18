@@ -138,7 +138,11 @@ const UpdateRecipe = () => {
 				</section>
 				<section className='formLabelInput'>
 					<fieldset>
-						<legend id='newRecipeSearchForIngredients'>Search for Ingredients</legend>
+
+						<legend id='newRecipeSearchForIngredients'>
+							Search for Ingredients
+						</legend>
+
 						<section className='newRecipeIngredientSearchSection'>
 							<IngredientSearch
 								className='newRecipeIngredientSearch'
@@ -163,45 +167,60 @@ const UpdateRecipe = () => {
 										type='text'
 										name='name'
 										value={ingredient.name}
-										onChange={(event) => handleCustomIngredientChange(index, event)}
+
+										onChange={(event) =>
+											handleCustomIngredientChange(index, event)
+										}
+
 										required
 									/>
 								</label>
 							</div>
 						))}
-						<button id='addCustomButton' type='button' onClick={addCustomIngredient}>
+						<section className='addCustomButtonContainer'>
+						<button
+							id='addCustomButton'
+							type='button'
+							onClick={addCustomIngredient}
+						>
 							Add Custom Ingredient
 						</button>
+						</section>
 					</fieldset>
 				</section>
 				<section className='formLabelInput'>
 					<fieldset>
 						<legend>Measured Ingredients</legend>
 						{measuredIngredients.map((ingredientDesc, index) => (
-							<div key={index}>
-								<label>
-									{ingredientDesc.split(':')[0]}:
+							<div id='measuredIngContainer' key={index}>
+								<label className='measuredIngLabelNR'>
+									{ingredientDesc.split(':')[0]}: </label>
 									<input
+										className='measuredIngInputNR'
 										type='text'
 										value={ingredientDesc.split(':')[1].trimStart()}
 										onChange={(event) => {
 											const newValue = event.target.value;
 											setMeasuredIngredients((prevMeasured) => {
 												const newMeasured = [...prevMeasured];
+
 												const currentIngredient = newMeasured[index].split(':')[0];
 												newMeasured[index] = `${currentIngredient}: ${newValue}`;
+
 												return newMeasured;
 											});
 										}}
 										required
 									/>
-								</label>
+
 							</div>
 						))}
 					</fieldset>
 				</section>
 				<section className='newRecipeSubmitContainer'>
+
 					<button id='submitNewRecipeButton' type='submit' disabled={!isValidForm}>
+
 						{isValidForm ? 'Update Recipe' : 'Complete Form To Submit'}
 					</button>
 				</section>
