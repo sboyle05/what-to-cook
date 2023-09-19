@@ -28,10 +28,10 @@ const AboutPage = () => {
 				<p>
 					Born with an insatiable curiosity, Sam earned a Bachelor's degree in
 					Counter Terrorism, Security, and Intelligence with a major in
-					Criminology from Edith Cowan University in Perth, Australia. Not
-					stopping there, he also holds an Associate's degree in Enology and
-					Viticulture from Walla Walla Community College, demonstrating his
-					broad interests and academic rigor.
+					Criminology from Edith Cowan University in Perth, Australia. He also
+					holds an Associate's degree in Enology and Viticulture from Walla
+					Walla Community College, demonstrating his broad interests and
+					academic rigor.
 				</p>
 				<p>
 					Having lived overseas for over a decade, including 3.5 years in China,
@@ -54,10 +54,10 @@ const AboutPage = () => {
 					a well-rounded skill set that sets him apart.
 				</p>
 				<p>
-					As he prepares to complete his software engineering bootcamp, Sam is
-					eager to embark on his journey as a junior-level software engineer.
-					With a professional goal centered around continuous learning, he is
-					committed to solving the endless puzzles that programming presents.
+					As he completes his software engineering bootcamp, Sam is eager to
+					embark on his journey as a junior-level software engineer. With a
+					professional goal centered around continuous learning, he is committed
+					to solving the endless puzzles that programming presents.
 				</p>
 				<p>
 					When he isn't coding or troubleshooting complex problems, Sam loves to
