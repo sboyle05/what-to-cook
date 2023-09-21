@@ -112,7 +112,13 @@ def single_recipe(id):
 
     ingredients = recipe.ingredients
 
-    result['measured_ingredients'] = [measured_ingredient.description for measured_ingredient in measured_ingredients]
+    result['measured_ingredients'] = [
+    {
+        'id': measured_ingredient.id,
+        'description': measured_ingredient.description
+    }
+    for measured_ingredient in measured_ingredients
+]
     result['ingredients'] = [ingredient.name for ingredient in ingredients]
 
     return jsonify(result)

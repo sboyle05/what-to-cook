@@ -1,0 +1,60 @@
+
+
+.newListModalContainer{
+
+  border: 1px whitesmoke solid;
+  z-index: 500;
+  width: 275px;
+  min-height: 200px;
+  background-color: #5d5d5d;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Oxygen', sans-serif;
+}
+
+.newListModalContainer.extended {
+  min-height: 450px;
+  max-height: none;
+  min-width: 375px;
+  overflow: visible;
+  padding: 10px;
+
+}
+
+#createNewListTitle{
+  font-size: 24px;
+  color: black;
+  font-weight: 900;
+  font-family: 'Oxygen', sans-serif;
+  background-color: #5d5d5d;
+}
+.createNewListLabel_Input{
+  display: flex;
+  flex-direction: column;
+
+}
+
+#newListTitleName{
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+#createNewListButton, #showDetailButton{
+  background-color: #0066b6;
+	height: 28px;
+	width: 100px;
+	font-size: 14px;
+	font-family: 'Oxygen', sans-serif;
+	color: white;
+	border: 1px solid #121212;
+	border-radius: 5px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+  margin-top: 5px;
+
+}
+#showDetailButton{
+  margin-right: 5px;
+  margin-bottom: 5px;
+}

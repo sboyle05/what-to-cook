@@ -15,7 +15,7 @@
 
 #modal {
   position: fixed;
-  top: 100px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -37,5 +37,6 @@
 #modal-content {
   /* position: relative; */
   background-color: white;
-  transform: translate(0%, -50%);
+  /* transform: translate(0%, -50%); */
+  transform: translate(0%, 0%);
 }
