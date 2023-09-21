@@ -46,6 +46,7 @@ const NewRecipe = () => {
 			],
 			measuredIngredients,
 		};
+
 		dispatch(addRecipeToBox(newRecipeData))
 			.then(() => {
 				history.push('/recipebox');

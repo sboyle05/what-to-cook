@@ -52,12 +52,10 @@ export const clearSearchState = () => ({
 	type: CLEAR_SEARCH_STATE,
 });
 
-
 export const updatePagination = (payload) => ({
 	type: UPDATE_PAGINATION,
 	payload,
 });
-
 
 export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 	try {
@@ -79,12 +77,10 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
 		return data;
 	} catch (error) {
 		console.error('Error fetching single recipe:', error);
-
 	}
 };
 
 export const searchRecipes =
-
 	(selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) =>
 	async (dispatch) => {
 		try {
@@ -107,44 +103,49 @@ export const searchRecipes =
 					pagination: data.pagination || {},
 				})
 			);
-
 		} catch (error) {
 			console.error('Error fetching recipes:', error);
 		}
 	};
 
 const initialState = {
-	allRecipes: [],
+	allRecipes: {},
 	singleRecipe: {},
-	selectIngredients: [],
+	selectIngredients: {},
 	savedSearchState: null,
 
 	pagination: { page: 1, per_page: 50, total: 0, total_pages: 1 },
-
 };
 
 const recipeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_RECIPES:
-
 			return {
 				...state,
-				allRecipes: action.payload.recipes,
+				allRecipes: {
+					...action.payload.recipes.reduce((acc, recipe) => {
+						acc[recipe.id] = recipe;
+						return acc;
+					}, {}),
+				},
 				pagination: action.payload.pagination || initialState.pagination,
 			};
 
 		case SELECT_INGREDIENT:
 			return {
 				...state,
-				selectIngredients: [...state.selectIngredients, action.payload],
+				selectIngredients: {
+					...state.selectIngredients,
+					[action.payload.id]: action.payload
+				},
 			};
 		case DESELECT_INGREDIENT:
-			return {
-				...state,
-				selectIngredients: state.selectIngredients.filter(
-					(i) => i !== action.payload
-				),
-			};
+				const newIngredients = { ...state.selectIngredients };
+				delete newIngredients[action.payload.id];
+				return {
+					...state,
+					selectIngredients: newIngredients,
+				}
 		case GET_SINGLE_RECIPE:
 			return { ...state, singleRecipe: action.payload };
 		case CLEAR_RECIPES:

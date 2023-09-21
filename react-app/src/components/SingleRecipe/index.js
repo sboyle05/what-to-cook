@@ -7,6 +7,7 @@ import {
 	addExistingRecipeToBox,
 	deleteFromRecipeBox,
 } from '../../store/recipeBox';
+import AddToListModal from '../addToListModal';
 import './singleRecipe.css';
 
 const SingleRecipeComponent = () => {
@@ -16,11 +17,11 @@ const SingleRecipeComponent = () => {
 	const recipesInBox = useSelector((state) => state.recipeBox.recipesInBox);
 	const user = useSelector((state) => state.session.user);
 	const history = useHistory();
-
+	const [showModal, setShowModal] = useState(false);
+	const [selectedIngredient, setSelectedIngredient] = useState(null);
 	const [fetchStatus, setFetchStatus] = useState('idle');
 
 	useEffect(() => {
-		console.log('recipesInBox:', recipesInBox);
 		dispatch(fetchSingleRecipe(id))
 			.then((data) => {
 				if (data && Object.keys(data).length !== 0 && 'name' in data) {
@@ -65,6 +66,16 @@ const SingleRecipeComponent = () => {
 		history.push('/recipebox');
 	};
 
+	const handleIngredientClick = (ingredientObj) => {
+		setSelectedIngredient(ingredientObj);
+		setShowModal(true);
+	};
+
+	const closeModal = () => {
+		setShowModal(false);
+		setSelectedIngredient(null);
+	};
+
 	return (
 		<>
 			{currentRecipe ? (
@@ -75,13 +86,32 @@ const SingleRecipeComponent = () => {
 							{currentRecipe.ingredients ? currentRecipe.ingredients.length : 0}{' '}
 							Ingredients
 						</h3>
+						{user && (
+							<h4 className='spcMsg'>
+								click an ingredient to add it to your shopping list
+							</h4>
+						)}
 						<ol className='measuredIngredientsList'>
-							{currentRecipe.measured_ingredients
-								? currentRecipe.measured_ingredients.map(
-										(ingredient, index) => <li key={index}>{ingredient}</li>
-								  )
-								: null}
+							{currentRecipe.measured_ingredients?.map((ingredientObj) => (
+								<li
+									key={ingredientObj.id}
+									style={{ cursor: user ? 'pointer' : 'default' }}
+									onClick={
+										user ? () => handleIngredientClick(ingredientObj) : null
+									}
+								>
+									{ingredientObj.description}
+								</li>
+							))}
 						</ol>
+						{showModal && (
+							<div className='ingredientModal'>
+								<AddToListModal
+									selectedIngredient={selectedIngredient}
+									onClose={closeModal}
+								/>
+							</div>
+						)}
 					</section>
 					<section className='recipeDirections'>
 						<h3 id='recipeDirectionsH3'>Directions</h3>

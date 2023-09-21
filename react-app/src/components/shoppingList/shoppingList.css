@@ -1,0 +1,79 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.shoppingListContainer{
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121212;
+    color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.shoppingListTitleContainer{
+  margin-top: 28px;
+  font-size: 24px;
+
+}
+.shoppingListSection{
+  display: flex;
+  align-items: center;
+}
+
+.newListSectionButton{
+  display: flex;
+  align-items: center;
+}
+
+.newShoppingListButton{
+  margin-top: 5px;
+  background-color: #0066b6;
+  font-size: 14px;
+  font-family: 'Oxygen', sans-serif;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 200px;
+  height: 30px;
+}
+.newShoppingListButton:hover {
+  background-color: #005a99;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  }
+  .newShoppingListButton:active{
+    background-color: #004d80;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+.shoppinglistsrendered a{
+  color: whitesmoke;
+    text-decoration: none;
+}
+
+  #mappedLists{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 200px;
+    border: 2px solid #6200ea;
+
+  }
+
+  .shoppinglistsrendered{
+    padding-left: 0;
+  }

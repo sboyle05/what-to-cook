@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+from .shoppinglist import shoppinglist_measured_ingredients_association
 
 class MeasuredIngredient(db.Model):
     __tablename__ = 'measured_ingredients'
@@ -10,10 +10,10 @@ class MeasuredIngredient(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(200), nullable=False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=True)
 
     recipe = db.relationship('Recipe', back_populates='measured_ingredients')
-    shopping_lists = db.relationship('ShoppingList', back_populates='measured_ingredient_rel')
+    shopping_lists = db.relationship('ShoppingList', secondary=shoppinglist_measured_ingredients_association, back_populates='measured_ingredients')
 
     def to_dict(self):
         return {

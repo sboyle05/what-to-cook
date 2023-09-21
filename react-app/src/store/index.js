@@ -4,11 +4,13 @@ import session from './session'
 import recipeReducer from './recipe';
 import recipeBoxReducer from './recipeBox';
 import mealPlannerReducer from './mealPlanner';
+import shoppingListReducer from './shoppingList';
 const rootReducer = combineReducers({
   session,
   recipes: recipeReducer,
   recipeBox: recipeBoxReducer,
-  mealPlanner: mealPlannerReducer
+  mealPlanner: mealPlannerReducer,
+  shoppingList: shoppingListReducer
 });
 
 
