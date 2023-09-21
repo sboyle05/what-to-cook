@@ -23,7 +23,7 @@ class Ingredient(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
+    name = db.Column(db.String(200), nullable=False, unique=True, index=True)
     recipes = db.relationship('Recipe', secondary=recipe_ingredients_association, back_populates='ingredients')
     shopping_lists = db.relationship('ShoppingList', secondary=shoppinglist_ingredients_association, back_populates='ingredients')
     def to_dict(self):
