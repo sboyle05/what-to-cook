@@ -13,7 +13,7 @@ const AddToListModal = ({ selectedIngredient, onClose }) => {
 	);
 	const shoppingListArray = shoppingLists ? Object.values(shoppingLists) : [];
 	const dispatch = useDispatch();
-	const [selectedList, setSelectedList] = useState(null);
+	const [selectedList, setSelectedList] = useState('');
 	const [newListName, setNewListName] = useState('');
 
 	useEffect(() => {

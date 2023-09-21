@@ -11,7 +11,7 @@ class Recipe(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, index=True)
     directions = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=True)
     is_seeded = db.Column(db.Boolean, default=False, nullable=False)
