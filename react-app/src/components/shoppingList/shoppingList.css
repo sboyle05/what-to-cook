@@ -17,15 +17,23 @@ body, html {
 }
 
 .shoppingListTitleContainer{
-  margin-top: 25px;
-  font-size: 20px;
+  margin-top: 28px;
+  font-size: 24px;
 
+}
+.shoppingListSection{
+  display: flex;
+  align-items: center;
+}
+
+.newListSectionButton{
+  display: flex;
+  align-items: center;
 }
 
 .newShoppingListButton{
   margin-top: 5px;
   background-color: #0066b6;
-  margin-right: 5px;
   font-size: 14px;
   font-family: 'Oxygen', sans-serif;
   color: white;
@@ -45,4 +53,27 @@ body, html {
     background-color: #004d80;
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+.shoppinglistsrendered a{
+  color: whitesmoke;
+    text-decoration: none;
+}
+
+  #mappedLists{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 200px;
+    border: 2px solid #6200ea;
+
+  }
+
+  .shoppinglistsrendered{
+    padding-left: 0;
   }

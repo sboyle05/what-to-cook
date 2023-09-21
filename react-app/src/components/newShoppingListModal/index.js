@@ -44,7 +44,7 @@ const NewShoppingListModal = () => {
 			],
 			measuredIngredients,
 		};
-		console.log("new shopping list data***", newShoppingListData)
+
 		dispatch(addShoppingList(newShoppingListData))
 			.catch((error) => {
 				console.error('Failed to update the shopping list:', error);
@@ -77,7 +77,7 @@ const NewShoppingListModal = () => {
 	};
 
 	const addCustomIngredient = () => {
-    console.log("addCustomIngredient called");
+
     setCustomIngredients([...customIngredients, { name: '' }]);
 };
 	const removeCustomIngredient = (indexToRemove) => {
@@ -89,18 +89,21 @@ const NewShoppingListModal = () => {
 
 	return (
 		<>
-			<h1>Create New List</h1>
-			<section className='newListModalContainer'>
+			<section className={`newListModalContainer${showDetailedForm ? ' extended' : ''}`}>
+			<h1 id='createNewListTitle'>Create New List</h1>
 				<form onSubmit={handleSubmit}>
+				<section className='createNewListLabel_Input'>
 					<label>
 						List Name:
+						</label>
 						<input
+							id='newListTitleName'
 							type='text'
 							value={listName}
 							onChange={(e) => setListName(e.target.value)}
 						/>
-					</label>
-					<button type='button' onClick={handleToggleDetailedForm}>
+					</section>
+					<button id='showDetailButton' type='button' onClick={handleToggleDetailedForm}>
 						{showDetailedForm ? 'Hide Details' : 'Show Details'}
 					</button>
 
@@ -194,7 +197,7 @@ const NewShoppingListModal = () => {
 						</>
 					)}
 
-					<button type='submit'>Create List</button>
+					<button id='createNewListButton' type='submit'>Create List</button>
 				</form>
 			</section>
 		</>

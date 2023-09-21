@@ -46,7 +46,7 @@ const NewRecipe = () => {
 			],
 			measuredIngredients,
 		};
-		console.log("******new recipe data***", newRecipeData)
+
 		dispatch(addRecipeToBox(newRecipeData))
 			.then(() => {
 				history.push('/recipebox');

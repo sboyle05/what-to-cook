@@ -20,9 +20,8 @@ const SingleRecipeComponent = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [selectedIngredient, setSelectedIngredient] = useState(null);
 	const [fetchStatus, setFetchStatus] = useState('idle');
-	console.log('currentRECIPE*****', currentRecipe);
+
 	useEffect(() => {
-		console.log('recipesInBox:', recipesInBox);
 		dispatch(fetchSingleRecipe(id))
 			.then((data) => {
 				if (data && Object.keys(data).length !== 0 && 'name' in data) {
@@ -68,15 +67,15 @@ const SingleRecipeComponent = () => {
 	};
 
 	const handleIngredientClick = (ingredientObj) => {
-    setSelectedIngredient(ingredientObj);
-    setShowModal(true);
-};
+		setSelectedIngredient(ingredientObj);
+		setShowModal(true);
+	};
 
 	const closeModal = () => {
 		setShowModal(false);
 		setSelectedIngredient(null);
 	};
-	console.log("selected ingredient", selectedIngredient)
+
 	return (
 		<>
 			{currentRecipe ? (
@@ -87,22 +86,23 @@ const SingleRecipeComponent = () => {
 							{currentRecipe.ingredients ? currentRecipe.ingredients.length : 0}{' '}
 							Ingredients
 						</h3>
+						{user && (
+							<h4 className='spcMsg'>
+								click an ingredient to add it to your shopping list
+							</h4>
+						)}
 						<ol className='measuredIngredientsList'>
-							{currentRecipe.measured_ingredients?.map(
-
-								(ingredientObj) => (
-
-									<li
-										key={ingredientObj.id}
-										style={{ cursor: 'pointer' }}
-										onClick={() =>
-											handleIngredientClick(ingredientObj)
-										}
-									>{console.log("ING OBJ ID", ingredientObj.id)}
-										{ingredientObj.description}
-									</li>
-								)
-							)}
+							{currentRecipe.measured_ingredients?.map((ingredientObj) => (
+								<li
+									key={ingredientObj.id}
+									style={{ cursor: user ? 'pointer' : 'default' }}
+									onClick={
+										user ? () => handleIngredientClick(ingredientObj) : null
+									}
+								>
+									{ingredientObj.description}
+								</li>
+							))}
 						</ol>
 						{showModal && (
 							<div className='ingredientModal'>

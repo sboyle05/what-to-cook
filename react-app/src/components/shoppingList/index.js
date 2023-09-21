@@ -18,8 +18,7 @@ const ShoppingList = () => {
 	const [updated, setUpdated] = useState(false);
 	const dispatch = useDispatch();
 	const ulRef = useRef();
-	console.log('SHOPPING LIST ARRAY', shoppingListArray);
-	console.log('USER SHOPPING LISTS', usersShoppingLists);
+
 	let userName, userId;
 
 	if (sessionUser) {
@@ -56,19 +55,18 @@ const ShoppingList = () => {
 			<section className='shoppingListContainer'>
 				<h1 className='shoppingListTitleContainer'>
 					{userName}'s Shopping Lists
-				</h1>
+				</h1><section className='newListSectionButton'>
 				<OpenModalButton
 					buttonText='Create New Shopping List'
 					onItemClick={closeMenu}
 					className='newShoppingListButton'
 					modalComponent={<NewShoppingListModal userId={userId} />}
-				/>
+				/></section>
 				<section className='shoppingListSection'>
-					<ul className='shoppinglists'>
-						{console.log('****shopping list array', shoppingListArray)}
+					<ul className='shoppinglistsrendered'>
+
 						{shoppingListArray &&
 							shoppingListArray.map(({ name, id, user_id }) => {
-								console.log(id);
 								return (
 									<li id='mappedLists' key={id}>
 										<NavLink exact to={`/shoppinglist/${id}`}>

@@ -15,47 +15,33 @@ const AddToListModal = ({ selectedIngredient, onClose }) => {
 	const dispatch = useDispatch();
 	const [selectedList, setSelectedList] = useState(null);
 	const [newListName, setNewListName] = useState('');
-	console.log('****shoppingLists', shoppingLists);
 
 	useEffect(() => {
 		dispatch(fetchShoppingList());
 	}, [dispatch]);
 
 	useEffect(() => {
-		console.log('Component mounted');
-		return () => {
-			console.log('Component will unmount');
-		};
+		return () => {};
 	}, []);
 
-	console.log('selected list***', selectedList);
-	console.log('selected ingredient****', selectedIngredient);
 	const handleAddIngredient = () => {
-		console.log('FIRST LINE IN HANDLE', selectedIngredient);
-		if (selectedList) {
-			console.log(
-				'****LIST AND INGREDIENT***',
-				selectedList,
-				selectedIngredient
-			);
+		if (newListName.trim()) {
+			const newShoppingList = {
+				name: newListName,
+			};
+
 			dispatch(
-				addIngredientToList(
-					selectedList,
+				createNewListAndAddIngredient(
+					newShoppingList,
 					selectedIngredient.id,
 					selectedIngredient.description
 				)
 			);
-		} else if (newListName) {
-			console.log('newlistName', newListName);
-			console.log('****selected ING else ID**', selectedIngredient.id);
-			console.log('****selected ING DESCR', selectedIngredient.description);
-			const newShoppingList = {
-				name: newListName,
-			};
-			console.log('About to dispatch with ingredient: ', selectedIngredient);
+			setNewListName('');
+		} else if (selectedList) {
 			dispatch(
-				createNewListAndAddIngredient(
-					newShoppingList,
+				addIngredientToList(
+					selectedList,
 					selectedIngredient.id,
 					selectedIngredient.description
 				)
@@ -64,14 +50,32 @@ const AddToListModal = ({ selectedIngredient, onClose }) => {
 		onClose();
 	};
 
+	useEffect(() => {
+		if (shoppingLists) {
+			const array = Object.values(shoppingLists);
+			if (array.length > 0) {
+				setSelectedList(array[0].id.toString());
+			}
+		}
+	}, [shoppingLists]);
+
 	return (
 		<>
-			<section className='addToListModalContainer'>
+			<div className='backdrop' onClick={onClose} />
+			<section
+				className='addToListModalContainer'
+				onClick={(e) => e.stopPropagation()}
+			>
 				<h1 className='addToListModalTitle'>Add To List</h1>
 
-				{/* Existing lists dropdown */}
-				<select onChange={(e) => setSelectedList(e.target.value)}>
-					<option value=''>Select a list</option>
+				<select
+					id='addToListSelect'
+					value={selectedList}
+					onChange={(e) => setSelectedList(e.target.value)}
+				>
+					<option value='' disabled>
+						Select a list
+					</option>
 					{shoppingListArray.map((list, index) => (
 						<option key={list.id + '-' + index} value={list.id}>
 							{list.name}
@@ -79,16 +83,21 @@ const AddToListModal = ({ selectedIngredient, onClose }) => {
 					))}
 				</select>
 
-				{/* New list input */}
 				<input
+					id='createNewListInput'
 					type='text'
 					placeholder='Or type new list name'
 					value={newListName}
 					onChange={(e) => setNewListName(e.target.value)}
 				/>
 
-				{/* Confirm button */}
-				<button onClick={handleAddIngredient}>Add</button>
+				<button
+					onClick={handleAddIngredient}
+					id='ingAddToListButton'
+					disabled={shoppingListArray.length === 0 && !newListName.trim()}
+				>
+					Add
+				</button>
 			</section>
 		</>
 	);
