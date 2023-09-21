@@ -14,6 +14,8 @@ import MealPlanner from "./components/mealplanner";
 import LostPage from "./components/lostPage";
 import Footer from "./components/footer";
 import AboutPage from "./components/aboutpage";
+import ShoppingList from "./components/shoppingList";
+import SingleShoppingList from "./components/SingleShoppingList";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +50,12 @@ function App() {
           </Route>
           <Route exact path="/mealplanner">
             <MealPlanner/>
+          </Route>
+          <Route exact path="/shoppinglist">
+            <ShoppingList/>
+          </Route>
+          <Route exact path="/shoppinglist/:id">
+            <SingleShoppingList/>
           </Route>
           <Route exact path="/about">
             <AboutPage/>

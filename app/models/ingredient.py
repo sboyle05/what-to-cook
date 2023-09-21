@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+from .shoppinglist import shoppinglist_ingredients_association
 
 if environment == 'production':
     table_args = {'schema': SCHEMA}
@@ -25,7 +25,7 @@ class Ingredient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False, unique=True)
     recipes = db.relationship('Recipe', secondary=recipe_ingredients_association, back_populates='ingredients')
-
+    shopping_lists = db.relationship('ShoppingList', secondary=shoppinglist_ingredients_association, back_populates='ingredients')
     def to_dict(self):
         return {
             'id': self.id,

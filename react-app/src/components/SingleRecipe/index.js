@@ -7,6 +7,7 @@ import {
 	addExistingRecipeToBox,
 	deleteFromRecipeBox,
 } from '../../store/recipeBox';
+import AddToListModal from '../addToListModal';
 import './singleRecipe.css';
 
 const SingleRecipeComponent = () => {
@@ -16,9 +17,10 @@ const SingleRecipeComponent = () => {
 	const recipesInBox = useSelector((state) => state.recipeBox.recipesInBox);
 	const user = useSelector((state) => state.session.user);
 	const history = useHistory();
-
+	const [showModal, setShowModal] = useState(false);
+	const [selectedIngredient, setSelectedIngredient] = useState(null);
 	const [fetchStatus, setFetchStatus] = useState('idle');
-
+	console.log('currentRECIPE*****', currentRecipe);
 	useEffect(() => {
 		console.log('recipesInBox:', recipesInBox);
 		dispatch(fetchSingleRecipe(id))
@@ -65,6 +67,16 @@ const SingleRecipeComponent = () => {
 		history.push('/recipebox');
 	};
 
+	const handleIngredientClick = (ingredientObj) => {
+    setSelectedIngredient(ingredientObj);
+    setShowModal(true);
+};
+
+	const closeModal = () => {
+		setShowModal(false);
+		setSelectedIngredient(null);
+	};
+	console.log("selected ingredient", selectedIngredient)
 	return (
 		<>
 			{currentRecipe ? (
@@ -76,12 +88,30 @@ const SingleRecipeComponent = () => {
 							Ingredients
 						</h3>
 						<ol className='measuredIngredientsList'>
-							{currentRecipe.measured_ingredients
-								? currentRecipe.measured_ingredients.map(
-										(ingredient, index) => <li key={index}>{ingredient}</li>
-								  )
-								: null}
+							{currentRecipe.measured_ingredients?.map(
+
+								(ingredientObj) => (
+
+									<li
+										key={ingredientObj.id}
+										style={{ cursor: 'pointer' }}
+										onClick={() =>
+											handleIngredientClick(ingredientObj)
+										}
+									>{console.log("ING OBJ ID", ingredientObj.id)}
+										{ingredientObj.description}
+									</li>
+								)
+							)}
 						</ol>
+						{showModal && (
+							<div className='ingredientModal'>
+								<AddToListModal
+									selectedIngredient={selectedIngredient}
+									onClose={closeModal}
+								/>
+							</div>
+						)}
 					</section>
 					<section className='recipeDirections'>
 						<h3 id='recipeDirectionsH3'>Directions</h3>

@@ -33,6 +33,16 @@ function Navigation({ isLoaded }) {
     }
   };
 
+  const handleShoppingListClick = (e) => {
+    if (!sessionUser) {
+      e.preventDefault();
+      setModalContent(<DualPurposeModal />);
+      setUseSlideDown(true);
+    } else {
+      history.push('/shoppinglist');
+    }
+  };
+
   const comingSoon = () => {
     alert('SHOPPING LIST COMING SOON!!!');
   };
@@ -69,7 +79,13 @@ function Navigation({ isLoaded }) {
               </NavLink>
             </li>
             <li>
-              <span onClick={comingSoon}>Shopping List</span>
+              <NavLink
+                exact
+                to='/shoppingList'
+                onClick={(e) => handleShoppingListClick(e)}
+              >
+                Shopping List
+              </NavLink>
             </li>
             {isLoaded && (
               <li>

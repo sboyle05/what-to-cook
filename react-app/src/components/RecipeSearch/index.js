@@ -24,7 +24,7 @@ function RecipeSearch() {
 
 
 	const dispatch = useDispatch();
-	const recipes = useSelector((state) => state.recipes?.allRecipes);
+	const recipes = useSelector((state) => Object.values(state.recipes?.allRecipes));
 
 	const fetchRecipes = useCallback(() => {
 		if (selectedIngredients.length === 0) {
