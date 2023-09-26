@@ -157,7 +157,7 @@ const recipeReducer = (state = initialState, action) => {
 		case CLEAR_RECIPES:
 			return {
 				...state,
-				allRecipes: [],
+				allRecipes: {},
 			};
 		case SAVE_SEARCH_STATE:
 			return { ...state, savedSearchState: action.payload };
