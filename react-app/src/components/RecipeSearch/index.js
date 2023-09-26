@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IngredientSearch from '../IngredientSearch';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom';
 import {
 	deselectIngredient,
@@ -21,17 +22,19 @@ function RecipeSearch() {
 	const total = useSelector((state) => state.recipes?.pagination.total);
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
-
+	const [isLoading, setIsLoading] = useState(false);
 
 	const dispatch = useDispatch();
-	const recipes = useSelector((state) => Object.values(state.recipes?.allRecipes));
+	const recipes = useSelector((state) =>
+		Object.values(state.recipes?.allRecipes)
+	);
 
 	const fetchRecipes = useCallback(() => {
 		if (selectedIngredients.length === 0) {
 			setShowPaginationButtons(false);
 			return;
 		}
-
+		setIsLoading(true);
 		dispatch(
 			searchRecipes(
 				selectedIngredients,
@@ -53,12 +56,12 @@ function RecipeSearch() {
 	]);
 
 	useEffect(() => {
-		if(recipes.length === 0){
-			setShowPaginationButtons(false)
+		if (recipes.length === 0) {
+			setShowPaginationButtons(false);
 		} else {
-			setShowPaginationButtons(true)
+			setShowPaginationButtons(true);
 		}
-	}, [recipes])
+	}, [recipes]);
 
 	useEffect(() => {
 		if (initialSearchDone) {
@@ -78,7 +81,6 @@ function RecipeSearch() {
 
 		currentPage,
 		perPage,
-
 	]);
 
 	const addIngredient = (ingredient) => {
@@ -184,21 +186,23 @@ function RecipeSearch() {
 					Clear Results
 				</button>
 				<section className='reciperesults'>
-					<ul className='recipesMapped'>
-						{recipes
-							? recipes.map((recipe, index) => (
-
-									<Link
-										key={index}
-										className='recipeLink'
-										to={`/recipes/${recipe.id}`}
-									>
-										<li>{recipe.name}</li>
-
-									</Link>
-							  ))
-							: 'Loading recipes...'}
-					</ul>
+					{isLoading ? (
+						<CircularProgress />
+					) : (
+						<ul className='recipesMapped'>
+							{recipes
+								? recipes.map((recipe, index) => (
+										<Link
+											key={index}
+											className='recipeLink'
+											to={`/recipes/${recipe.id}`}
+										>
+											<li>{recipe.name}</li>
+										</Link>
+								  ))
+								: 'Loading recipes...'}
+						</ul>
+					)}
 				</section>
 
 				<section className='paginationButtons'>
@@ -223,7 +227,6 @@ function RecipeSearch() {
 						</>
 					)}
 				</section>
-
 			</section>
 		</>
 	);
