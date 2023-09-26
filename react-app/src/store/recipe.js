@@ -7,6 +7,12 @@ const DELETE_RECIPE = 'DELETE_RECIPE';
 const SAVE_SEARCH_STATE = 'SAVE_SEARCH_STATE';
 const CLEAR_SEARCH_STATE = 'CLEAR_SEARCH_STATE';
 const UPDATE_PAGINATION = 'UPDATE_PAGINATION';
+const SET_LOADING = 'SET_LOADING';
+
+export const setLoading = (isloading) => ({
+	type: SET_LOADING,
+	payload: isloading,
+});
 
 export const selectIngredient = (ingredient) => ({
 	type: SELECT_INGREDIENT,
@@ -80,40 +86,40 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
 	}
 };
 
-export const searchRecipes =
-	(selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) =>
-	async (dispatch) => {
-		try {
+export const searchRecipes = (selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) => async (dispatch) => {
+	dispatch(setLoading(true));
+	try {
 			const ingredientList = selectedIngredients.join(',');
-			let url = `/api/search/?ingredients=${encodeURIComponent(
-				ingredientList
-			)}&page=${page}&per_page=${perPage}`;
+			let url = `/api/search/?ingredients=${encodeURIComponent(ingredientList)}&page=${page}&per_page=${perPage}`;
 
 			if (exactMatch) {
-				url += `&exact=true`;
+					url += `&exact=true`;
 			} else if (extraCount) {
-				url += `&extra_count=${extraCount}`;
+					url += `&extra_count=${extraCount}`;
 			}
+
 			const response = await fetch(url);
+			if (!response.ok) throw new Error('Network response was not ok ' + response.statusText);
+
 			const data = await response.json();
 
-			dispatch(
-				getRecipes({
+			dispatch(getRecipes({
 					recipes: data.recipes || [],
 					pagination: data.pagination || {},
-				})
-			);
-		} catch (error) {
+			}));
+	} catch (error) {
 			console.error('Error fetching recipes:', error);
-		}
-	};
 
+	} finally {
+			dispatch(setLoading(false));
+	}
+};
 const initialState = {
 	allRecipes: {},
 	singleRecipe: {},
 	selectIngredients: {},
 	savedSearchState: null,
-
+	isLoading: false,
 	pagination: { page: 1, per_page: 50, total: 0, total_pages: 1 },
 };
 
@@ -136,16 +142,16 @@ const recipeReducer = (state = initialState, action) => {
 				...state,
 				selectIngredients: {
 					...state.selectIngredients,
-					[action.payload.id]: action.payload
+					[action.payload.id]: action.payload,
 				},
 			};
 		case DESELECT_INGREDIENT:
-				const newIngredients = { ...state.selectIngredients };
-				delete newIngredients[action.payload.id];
-				return {
-					...state,
-					selectIngredients: newIngredients,
-				}
+			const newIngredients = { ...state.selectIngredients };
+			delete newIngredients[action.payload.id];
+			return {
+				...state,
+				selectIngredients: newIngredients,
+			};
 		case GET_SINGLE_RECIPE:
 			return { ...state, singleRecipe: action.payload };
 		case CLEAR_RECIPES:
@@ -157,6 +163,8 @@ const recipeReducer = (state = initialState, action) => {
 			return { ...state, savedSearchState: action.payload };
 		case CLEAR_SEARCH_STATE:
 			return { ...state, savedSearchState: null };
+		case SET_LOADING:
+			return { ...state, isLoading: action.payload };
 		default:
 			return state;
 	}
