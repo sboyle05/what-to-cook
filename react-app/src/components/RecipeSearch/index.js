@@ -22,7 +22,8 @@ function RecipeSearch() {
 	const total = useSelector((state) => state.recipes?.pagination.total);
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
-	const [isLoading, setIsLoading] = useState(false);
+	const isLoading = useSelector(state => state.recipeReducer.isLoading);
+
 
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) =>
@@ -34,7 +35,6 @@ function RecipeSearch() {
 			setShowPaginationButtons(false);
 			return;
 		}
-		setIsLoading(true);
 		dispatch(
 			searchRecipes(
 				selectedIngredients,
@@ -54,6 +54,7 @@ function RecipeSearch() {
 		currentPage,
 		perPage,
 	]);
+
 
 	useEffect(() => {
 		if (recipes.length === 0) {
