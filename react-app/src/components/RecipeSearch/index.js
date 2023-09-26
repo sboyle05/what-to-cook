@@ -22,7 +22,8 @@ function RecipeSearch() {
 	const total = useSelector((state) => state.recipes?.pagination.total);
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
-	const isLoading = useSelector(state => state.recipeReducer.isLoading);
+	const isLoading = useSelector(state => state.recipeReducer?.isLoading);
+
 
 
 	const dispatch = useDispatch();
