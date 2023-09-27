@@ -89,9 +89,10 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
 export const searchRecipes = (selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) => async (dispatch) => {
 	dispatch(setLoading(true));
 	try {
+			console.log("selectedIngredients in thunk***", selectedIngredients)
 			const ingredientList = selectedIngredients.join(',');
 			let url = `/api/search/?ingredients=${encodeURIComponent(ingredientList)}&page=${page}&per_page=${perPage}`;
-
+			console.log("INGREDLIST*****", ingredientList)
 			if (exactMatch) {
 					url += `&exact=true`;
 			} else if (extraCount) {

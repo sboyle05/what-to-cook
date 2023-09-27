@@ -1,7 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# What-to-Cook (WTC)
+WTC is my own selfish idea turned into reality. I've always loved cooking
+and have often spent time wandering around my kitchen looking at ingredients wondering what I could make. Learning to code gave me the tools to create a solution to this problem.
+<br>
+WTC is still in the development process and will be updated as time allows.
+<br>
+<br>
+WTC was built with a variety of technologies.
+The backend is based on an flask database with python.
+The frontend is built on a react-redux framework. CSS was used to style the site.
 
-Your React App will live here.  You will need to run `npm install` to install all your dependencies before starting up the application. While in development, run this application from this location using `npm start`.
+<br>
+WTC is available for testing and viewing at https://what-to-cook.onrender.com/.
+If installing locally you must have the root folder What-to-Cook(back-end) running with pipenv run flask run and the react-app folder(front-end) running with npm start.
 
-No environment variables are needed to run this application in development, but be sure to set the REACT_APP_BASE_URL environment variable when you deploy!
-
-This app will be automatically built when you push to your main branch on Github.
+Contact Sam Boyle @ samboyle.net for more information.
+![image desc](./src/assets/Screenshot%202023-09-27%20at%202.00.27%20PM.png)
