@@ -54,9 +54,20 @@ def get_recipes():
             print("Invalid 'extra_count' value.")
             return jsonify({"message": "Invalid 'extra_count' value", "recipes": []}), 400
 
-        query = query.filter(Recipe.id.in_(subquery))\
+        # Using a subquery to get the recipes that contain all the ingredients in the list
+        subquery_all_ingredients = db.session.query(recipe_ingredients_association.c.recipe_id)\
+            .join(Ingredient)\
+            .filter(Ingredient.name.in_(ingredients_list))\
+            .group_by(recipe_ingredients_association.c.recipe_id)\
+            .having(db.func.count() == len(ingredients_list))
+
+        # Filtering those that have total ingredients within the allowed limit
+        query = query.join(Ingredient, Recipe.ingredients)\
             .group_by(Recipe.id)\
-            .having(db.func.count() <= len(ingredients_list) + extra_count)
+            .having(and_(
+                db.func.count() <= len(ingredients_list) + extra_count,
+                Recipe.id.in_(subquery_all_ingredients)
+            ))
 
     # Filter: any length allowed but must include all ingredients
     else:
