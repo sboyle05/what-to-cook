@@ -10,7 +10,7 @@ class MeasuredIngredient(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(200), nullable=False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=True, index=True)
 
     recipe = db.relationship('Recipe', back_populates='measured_ingredients')
     shopping_lists = db.relationship('ShoppingList', secondary=shoppinglist_measured_ingredients_association, back_populates='measured_ingredients')
