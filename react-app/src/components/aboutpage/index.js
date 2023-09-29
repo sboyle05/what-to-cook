@@ -76,7 +76,13 @@ const AboutPage = () => {
 					programming, including those in the kitchen."
 				</p>
 				<p>
-					For more information, connect with Sam on{' '}
+					For more information, connect with Sam on his website at {' '}
+					<a
+					href='https://www.samboyle.net'
+					target='_blank'
+					rel='noopener noreferrer'
+					>samboyle.net</a>{' '},
+					 {' '}
 					<a
 						href='https://www.linkedin.com/in/samboyle12/'
 						target='_blank'

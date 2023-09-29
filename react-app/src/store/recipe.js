@@ -139,11 +139,13 @@ const recipeReducer = (state = initialState, action) => {
 			};
 
 		case SELECT_INGREDIENT:
-			return {
+			console.log("action.payload******", action.payload)
+			console.log("Action payload ID ???? ", action.payload.id)
+		return {
 				...state,
 				selectIngredients: {
 					...state.selectIngredients,
-					[action.payload.id]: action.payload,
+					ingredient: action.payload,
 				},
 			};
 		case DESELECT_INGREDIENT:
