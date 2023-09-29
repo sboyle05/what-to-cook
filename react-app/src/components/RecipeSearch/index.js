@@ -24,7 +24,7 @@ function RecipeSearch() {
 	const veryLastPage = currentPage === totalNumberOfPages;
 	const isLoading = useSelector(state => state.recipeReducer?.isLoading);
 
-
+	const ingredientArray = []
 
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) =>
@@ -88,6 +88,7 @@ function RecipeSearch() {
 	const addIngredient = (ingredient) => {
 		if (typeof ingredient === 'string') {
 			setSelectedIngredients([...selectedIngredients, ingredient]);
+			ingredientArray.push(ingredient)
 			dispatch(selectIngredient(ingredient));
 		} else if (ingredient && ingredient.name) {
 			setSelectedIngredients([...selectedIngredients, ingredient.name]);
