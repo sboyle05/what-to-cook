@@ -1,52 +1,53 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, Recipe, Ingredient, recipe_ingredients_association, MeasuredIngredient
 from ..models.db import db
-from sqlalchemy import and_, or_, exists
+from sqlalchemy import and_, or_, func  # Importing func for using SQL functions
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import joinedload
+# from sqlalchemy.orm import joinedload
 import json
 
+# Define your Blueprint
 recipe_routes = Blueprint('recipes', __name__)
 session = db.session
 
-
-
+# Define your route for getting recipes
 @recipe_routes.route('/search/', methods=["GET"])
 def get_recipes():
 
+    # Get the ingredients parameter from the request and split it into a list
     ingredients_param = request.args.get('ingredients', '')
     ingredients_list = ingredients_param.split(',')
-
-    # remove any leading/trailing white spaces from each ingredient
-    ingredients_list = [ingredient.strip() for ingredient in ingredients_list]
+    ingredients_list = [ingredient.strip() for ingredient in ingredients_list]  # Stripping any white spaces
 
     if not ingredients_list or not ingredients_list[0]:
         print("No ingredients provided.")
         return jsonify({"message": "No ingredients were provided", "recipes": []}), 400
 
-    # build a base query for recipes
+    # Build a base query for recipes
     query = db.session.query(Recipe)
 
-    # Subquery to filter recipes containing all the ingredients in the list
+    #Subquery for partial matching.
     if request.args.get('partial'):
         subquery = db.session.query(recipe_ingredients_association.c.recipe_id)\
             .join(Ingredient)\
-            .filter(or_(*[Ingredient.name.like(f"%{term}%") for term in ingredients_list]))\
+            .filter(or_(
+                *[Ingredient.name.ilike(f"%{term}%") for term in ingredients_list],  # Using ILIKE for case-insensitive matching
+                *[func.similarity(Ingredient.name, term) > 0.3 for term in ingredients_list]  # Using Trigram similarity for fuzzy matching
+            ))\
             .group_by(recipe_ingredients_association.c.recipe_id)
     else:
+
         subquery = db.session.query(recipe_ingredients_association.c.recipe_id)\
             .join(Ingredient)\
             .filter(Ingredient.name.in_(ingredients_list))\
             .group_by(recipe_ingredients_association.c.recipe_id)\
             .having(db.func.count() == len(ingredients_list))
 
-    # Filter: exact same number of ingredients
     if request.args.get('exact'):
         query = query.filter(Recipe.id.in_(subquery))\
             .group_by(Recipe.id)\
             .having(db.func.count() == len(ingredients_list))
 
-    # Filter: allow for a certain number of extra ingredients
     elif request.args.get('extra_count'):
         try:
             extra_count = int(request.args.get('extra_count'))
@@ -54,14 +55,12 @@ def get_recipes():
             print("Invalid 'extra_count' value.")
             return jsonify({"message": "Invalid 'extra_count' value", "recipes": []}), 400
 
-        # Using a subquery to get the recipes that contain all the ingredients in the list
         subquery_all_ingredients = db.session.query(recipe_ingredients_association.c.recipe_id)\
             .join(Ingredient)\
             .filter(Ingredient.name.in_(ingredients_list))\
             .group_by(recipe_ingredients_association.c.recipe_id)\
             .having(db.func.count() == len(ingredients_list))
 
-        # Filtering those that have total ingredients within the allowed limit
         query = query.join(Ingredient, Recipe.ingredients)\
             .group_by(Recipe.id)\
             .having(and_(
@@ -69,9 +68,9 @@ def get_recipes():
                 Recipe.id.in_(subquery_all_ingredients)
             ))
 
-    # Filter: any length allowed but must include all ingredients
     else:
         query = query.filter(Recipe.id.in_(subquery))
+
     try:
         page = int(request.args.get('page', 1))
         per_page = int(request.args.get('per_page', 50))
