@@ -10,7 +10,7 @@ session = db.session
 @ingredient_routes.route('/search', methods=["GET"])
 def search_ingredients():
     try:
-        search_term = request.args.get('q', '')
+        search_term = request.args.get('q', '').lower()
         if not search_term:
             return jsonify({"suggestions": []})
 
