@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Index
 from datetime import date
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .shoppinglist import shoppinglist_ingredients_association
@@ -15,6 +16,8 @@ recipe_ingredients_association = db.Table(
     db.Column('ingredient_id', db.Integer, db.ForeignKey(add_prefix_for_prod('ingredients.id')), primary_key=True),
     **table_args
 )
+
+Index('idx_recipe_ingredients', recipe_ingredients_association.c.recipe_id, recipe_ingredients_association.c.ingredient_id)
 
 class Ingredient(db.Model):
     __tablename__ = 'ingredients'
