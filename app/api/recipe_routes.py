@@ -17,7 +17,7 @@ def get_recipes():
     # Get the ingredients parameter from the request and split it into a list
     ingredients_param = request.args.get('ingredients', '')
     ingredients_list = ingredients_param.split(',')
-    ingredients_list = [ingredient.strip() for ingredient in ingredients_list]  # Stripping any white spaces
+    ingredients_list = [ingredient.strip().lower() for ingredient in ingredients_list]   # Stripping any white spaces and lowercase.
 
     if not ingredients_list or not ingredients_list[0]:
         print("No ingredients provided.")
