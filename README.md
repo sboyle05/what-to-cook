@@ -14,4 +14,4 @@ WTC is available for testing and viewing at https://what-to-cook.onrender.com/.
 If installing locally you must have the root folder What-to-Cook(back-end) running with pipenv run flask run and the react-app folder(front-end) running with npm start.
 
 Contact Sam Boyle @ samboyle.net for more information.
-![image desc](./src/assets/Screenshot%202023-09-27%20at%202.00.27%20PM.png)
+![image desc](./react-app/src/assets/Screenshot%202023-09-27%20at%202.00.27%20PM.png)
