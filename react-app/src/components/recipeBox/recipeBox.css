@@ -13,7 +13,7 @@ body, html {
     background-color: #121212;
     color: #ffffff;
     width: 100%;
-    min-height: 100vh;
+    flex: 1 0 auto;
     align-items: center;
   }
 

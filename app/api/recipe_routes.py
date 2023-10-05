@@ -6,9 +6,26 @@ from sqlalchemy.exc import SQLAlchemyError
 # from sqlalchemy.orm import joinedload
 import json
 
-# Define your Blueprint
+
 recipe_routes = Blueprint('recipes', __name__)
 session = db.session
+
+@recipe_routes.route('/recipes/random/', methods=["GET"])
+def get_random_recipes():
+    try:
+        random_recipes = (
+            Recipe.query
+            .order_by(func.random())
+            .limit(20)
+            .all()
+        )
+    except SQLAlchemyError as e:
+        print("Database error:", str(e))
+        return jsonify({"error": "Database error"}), 501
+
+    # Structuring response similarly to get_recipes()
+    recipe_dicts = [recipe.to_dict() for recipe in random_recipes]
+    return jsonify({"recipes": recipe_dicts}), 200
 
 # Define your route for getting recipes
 @recipe_routes.route('/search/', methods=["GET"])
@@ -17,7 +34,7 @@ def get_recipes():
     # Get the ingredients parameter from the request and split it into a list
     ingredients_param = request.args.get('ingredients', '')
     ingredients_list = ingredients_param.split(',')
-    ingredients_list = [ingredient.strip().lower() for ingredient in ingredients_list]   # Stripping any white spaces and lowercase.
+    ingredients_list = [ingredient.strip().lower() for ingredient in ingredients_list]
 
     if not ingredients_list or not ingredients_list[0]:
         print("No ingredients provided.")

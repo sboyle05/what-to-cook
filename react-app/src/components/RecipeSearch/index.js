@@ -10,7 +10,7 @@ import {
 	clearRecipes,
 } from '../../store/recipe';
 import './recipeSearch.css';
-
+import { fetchRandomRecipes } from '../../store/recipe';
 function RecipeSearch() {
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [exactMatch, setExactMatch] = useState(false);
@@ -19,12 +19,13 @@ function RecipeSearch() {
 	const [showPaginationButtons, setShowPaginationButtons] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(50);
+	const [viewingRandomRecipes, setViewingRandomRecipes] = useState(false);
 	const total = useSelector((state) => state.recipes?.pagination.total);
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
-	const isLoading = useSelector(state => state.recipeReducer?.isLoading);
+	const isLoading = useSelector((state) => state.recipeReducer?.isLoading);
 
-	const ingredientArray = []
+	const ingredientArray = [];
 
 	const dispatch = useDispatch();
 	const recipes = useSelector((state) =>
@@ -47,6 +48,7 @@ function RecipeSearch() {
 		);
 		setInitialSearchDone(true);
 		setShowPaginationButtons(true);
+		setViewingRandomRecipes(false);
 	}, [
 		selectedIngredients,
 		exactMatch,
@@ -55,7 +57,6 @@ function RecipeSearch() {
 		currentPage,
 		perPage,
 	]);
-
 
 	useEffect(() => {
 		if (recipes.length === 0) {
@@ -88,7 +89,7 @@ function RecipeSearch() {
 	const addIngredient = (ingredient) => {
 		if (typeof ingredient === 'string') {
 			setSelectedIngredients([...selectedIngredients, ingredient]);
-			ingredientArray.push(ingredient)
+			ingredientArray.push(ingredient);
 			dispatch(selectIngredient(ingredient));
 		} else if (ingredient && ingredient.name) {
 			setSelectedIngredients([...selectedIngredients, ingredient.name]);
@@ -110,9 +111,12 @@ function RecipeSearch() {
 		dispatch(clearRecipes());
 		setShowPaginationButtons(false);
 	};
-
+	const handleGetRandomRecipes = () => {
+    dispatch(fetchRandomRecipes());
+    setViewingRandomRecipes(true);
+};
 	return (
-		<>
+
 			<section className='mainRecipeContainer'>
 				<h1 id='whatyouhave'>What ingredients do you have?</h1>
 				<IngredientSearch
@@ -185,6 +189,7 @@ function RecipeSearch() {
 				>
 					Search Recipes
 				</button>
+				<button id='randomRecipeButton' onClick={handleGetRandomRecipes}>Get Random Recipes</button>
 				<button id='clearButton' onClick={clearSearchResults}>
 					Clear Results
 				</button>
@@ -209,7 +214,7 @@ function RecipeSearch() {
 				</section>
 
 				<section className='paginationButtons'>
-					{showPaginationButtons && total > 0 && (
+					{showPaginationButtons && total > 0 && !viewingRandomRecipes && (
 						<>
 							{currentPage > 1 && (
 								<button
@@ -231,7 +236,7 @@ function RecipeSearch() {
 					)}
 				</section>
 			</section>
-		</>
+
 	);
 }
 
