@@ -7,6 +7,7 @@ import './mealplanner.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMealPlanner } from '../../store/mealPlanner';
 import { fetchSingleRecipe } from '../../store/recipe';
+import CircularProgress from '@mui/material/CircularProgress';
 import UpdateMealPlannerModal from '../updateMealPlannerModal';
 
 const MealPlanner = () => {
@@ -17,8 +18,8 @@ const MealPlanner = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const meals = useSelector((state) => state.mealPlanner.mealPlanner);
-
-  let userName, userId;
+  const isLoading = useSelector((state) => state.mealPlanner.isLoading);
+  let userId;
 
   if (sessionUser) {
     userId = sessionUser.id;
@@ -120,6 +121,9 @@ const MealPlanner = () => {
         )}
 
         <section className='mainCalendarContainer'>
+          {isLoading ? (
+            <CircularProgress/>
+          ) : (
           <FullCalendar
 
             timeZone='PST'
@@ -136,6 +140,7 @@ const MealPlanner = () => {
             }}
             events={calendarEvents}
           />
+          ) }
         </section>
       </section>
     </>

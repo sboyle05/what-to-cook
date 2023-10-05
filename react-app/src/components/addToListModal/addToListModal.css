@@ -68,7 +68,18 @@
 	transform: translateY(1px);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+.missingNameContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nameMissing {
+  color: red;
+  margin-top: 5px;
+  font-size: 14px;
+  display: block;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
 .backdrop {
   position: fixed;

@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import './singleShoppingList.css';
 import { fetchSingleList, removeShoppingList } from '../../store/shoppingList';
+import AddItemsToListModal from '../addItemsToListModal';
+import OpenModalButton from '../OpenModalButton';
 
 const SingleShoppingList = () => {
 	const dispatch = useDispatch();
@@ -11,6 +13,8 @@ const SingleShoppingList = () => {
 	const measuredIngredients = currentList?.measured_ingredients;
 	const history = useHistory();
 	const [crossedOff, setCrossedOff] = useState({});
+	const [showMenu, setShowMenu] = useState(false);
+	const ulRef = useRef();
 
 	useEffect(() => {
 		dispatch(fetchSingleList(id));
@@ -57,10 +61,35 @@ const SingleShoppingList = () => {
 		history.push('/shoppinglist');
 	};
 
+	useEffect(() => {
+		if (!showMenu) return;
+
+		const closeMenu = (e) => {
+			if (!ulRef.current.contains(e.target)) {
+				setShowMenu(false);
+			}
+		};
+
+		document.addEventListener('click', closeMenu);
+
+		return () => document.removeEventListener('click', closeMenu);
+	}, [showMenu]);
+	const closeMenu = () => setShowMenu(false);
+
 	return (
 		<>
 			<section className='singleListContainer'>
 				<h1>{currentList?.name}</h1>
+
+				<OpenModalButton
+					buttonText='Add Items To List'
+					onItemClick={closeMenu}
+					className='addItemsToListModal'
+					modalComponent={
+					<AddItemsToListModal currentList={currentList}/>
+					}
+				/>
+
 				<section className='measuredIngredientsInList'>
 					{measuredIngredients ? (
 						measuredIngredients.map((measuredIngredient) => (

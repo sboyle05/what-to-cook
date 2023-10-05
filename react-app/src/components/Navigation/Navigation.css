@@ -26,6 +26,7 @@ html {
 	font-family: 'Oxygen', sans-serif;
 	padding-left: 10vh;
 	justify-content: space-between;
+	/* width: 100vh; */
 }
 
 #whatToCookLogo {
@@ -80,4 +81,10 @@ html {
 	font-family: 'Oxygen', sans-serif;
 	font-size: 18px;
 	margin-right: 2vh;
+}
+
+@media (max-width: 768px) {
+.navigationContainer{
+	width: 100vh;
+}
 }

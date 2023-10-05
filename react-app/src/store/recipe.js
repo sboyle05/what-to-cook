@@ -86,35 +86,40 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
 	}
 };
 
-export const searchRecipes = (selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) => async (dispatch) => {
-	dispatch(setLoading(true));
-	try {
-			console.log("selectedIngredients in thunk***", selectedIngredients)
+export const searchRecipes =
+	(selectedIngredients, exactMatch, extraCount, page = 1, perPage = 50) =>
+	async (dispatch) => {
+		dispatch(setLoading(true));
+		try {
 			const ingredientList = selectedIngredients.join(',');
-			let url = `/api/search/?ingredients=${encodeURIComponent(ingredientList)}&page=${page}&per_page=${perPage}`;
-			console.log("INGREDLIST*****", ingredientList)
+			let url = `/api/search/?ingredients=${encodeURIComponent(
+				ingredientList
+			)}&page=${page}&per_page=${perPage}`;
+
 			if (exactMatch) {
-					url += `&exact=true`;
+				url += `&exact=true`;
 			} else if (extraCount) {
-					url += `&extra_count=${extraCount}`;
+				url += `&extra_count=${extraCount}`;
 			}
 
 			const response = await fetch(url);
-			if (!response.ok) throw new Error('Network response was not ok ' + response.statusText);
+			if (!response.ok)
+				throw new Error('Network response was not ok ' + response.statusText);
 
 			const data = await response.json();
 
-			dispatch(getRecipes({
+			dispatch(
+				getRecipes({
 					recipes: data.recipes || [],
 					pagination: data.pagination || {},
-			}));
-	} catch (error) {
+				})
+			);
+		} catch (error) {
 			console.error('Error fetching recipes:', error);
-
-	} finally {
+		} finally {
 			dispatch(setLoading(false));
-	}
-};
+		}
+	};
 const initialState = {
 	allRecipes: {},
 	singleRecipe: {},
@@ -139,9 +144,7 @@ const recipeReducer = (state = initialState, action) => {
 			};
 
 		case SELECT_INGREDIENT:
-			console.log("action.payload******", action.payload)
-			console.log("Action payload ID ???? ", action.payload.id)
-		return {
+			return {
 				...state,
 				selectIngredients: {
 					...state.selectIngredients,
