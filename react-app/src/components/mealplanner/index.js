@@ -122,7 +122,9 @@ const MealPlanner = () => {
 
         <section className='mainCalendarContainer'>
           {isLoading ? (
+            <section className='loadingSpinnerContainer'>
             <CircularProgress/>
+            </section>
           ) : (
           <FullCalendar
 
