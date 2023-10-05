@@ -8,11 +8,19 @@ const SAVE_SEARCH_STATE = 'SAVE_SEARCH_STATE';
 const CLEAR_SEARCH_STATE = 'CLEAR_SEARCH_STATE';
 const UPDATE_PAGINATION = 'UPDATE_PAGINATION';
 const SET_LOADING = 'SET_LOADING';
+const GET_RANDOM_RECIPES = 'GET_RANDOM_RECIPES';
 
 export const setLoading = (isloading) => ({
 	type: SET_LOADING,
 	payload: isloading,
 });
+
+export const getRandomRecipes = (data) => {
+	return {
+		type: GET_RANDOM_RECIPES,
+		payload: data,
+	};
+};
 
 export const selectIngredient = (ingredient) => ({
 	type: SELECT_INGREDIENT,
@@ -77,12 +85,34 @@ export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 export const fetchSingleRecipe = (id) => async (dispatch) => {
 	try {
 		const response = await fetch(`/api/recipes/${id}`);
-
 		const data = await response.json();
 		dispatch(getSingleRecipe(data));
 		return data;
 	} catch (error) {
 		console.error('Error fetching single recipe:', error);
+	}
+};
+
+export const fetchRandomRecipes = () => async (dispatch) => {
+	console.log("FIRING FETCH RANDOM")
+	dispatch(setLoading(true));
+	try {
+		const response = await fetch(`/api/recipes/random/`);
+		console.log("RESPONSE IN RANDOM", response)
+		if (!response.ok)
+			throw new Error('Error with response ' + response.statusText);
+
+		const data = await response.json();
+		console.log('Fetched Random Recipes: ', data);
+		dispatch(
+			getRandomRecipes({
+				recipes: data.recipes || [],
+			})
+		);
+	} catch (error) {
+		console.error('Error fetching random recipes:', error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };
 
@@ -143,6 +173,16 @@ const recipeReducer = (state = initialState, action) => {
 				pagination: action.payload.pagination || initialState.pagination,
 			};
 
+		case GET_RANDOM_RECIPES:
+			return {
+				...state,
+				allRecipes: {
+					...action.payload.recipes.reduce((acc, recipe) => {
+						acc[recipe.id] = recipe;
+						return acc;
+					}, {}),
+				},
+			};
 		case SELECT_INGREDIENT:
 			return {
 				...state,

@@ -108,7 +108,13 @@ const MealPlanner = () => {
 
   return (
     <>
-      <section className='mealPlannerContainer'>
+    <section className='calendarMsgContainer'>
+    {calendarEvents.length === 0 ? <h1 id='calendarMsg'>Return to MyRecipeBox to add recipes to the calendar</h1> : null}
+    </section>
+    <section
+      className='mealPlannerContainer'
+      style={{ paddingTop: calendarEvents.length > 0 ? '4vh' : '0' }}
+    >
         {showModal && (
           <section className='modalPlanner'>
             <UpdateMealPlannerModal
