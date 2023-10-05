@@ -102,9 +102,6 @@ export const addIngredientToList =
 	(listId, measuredIngredientId, measuredIngredientDescription) =>
 	async (dispatch) => {
 		try {
-			console.log('LIST ID IN THUNK', listId);
-			console.log('MEASURED ING IN THUNK', measuredIngredientId);
-			console.log('MEASURED ING DESC', measuredIngredientDescription);
 			const payload = {};
 			if (measuredIngredientId)
 				payload.measured_ingredient_id = measuredIngredientId;
@@ -133,9 +130,6 @@ export const addIngredientToList =
 export const addMultipleIngredientsToList =
 	(listId, ingredientsObj) => async (dispatch) => {
 		try {
-			console.log('LIST ID IN THUNK', listId);
-			console.log('INGS IN THUNK', ingredientsObj);
-
 			const { ingredients, measuredIngredients } = ingredientsObj;
 
 			if (!Array.isArray(ingredients)) {
@@ -211,7 +205,7 @@ export const createNewListAndAddIngredient =
 				}
 			);
 			const updatedList = await response.json();
-			// console.log("UPDATED LIST IN THUNK", updatedList)
+
 			if (response.ok) {
 				dispatch(addIngredientToShoppingList(updatedList));
 			}
@@ -288,9 +282,9 @@ const shoppingListReducer = (state = initialState, action) => {
 			return newState;
 		case ADD_MULTIPLE_INGREDIENTS_TO_LIST:
 			return {
-        ...state,
-        singleList: action.payload,
-      };
+				...state,
+				singleList: action.payload,
+			};
 		default:
 			return state;
 	}

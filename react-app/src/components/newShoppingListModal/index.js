@@ -43,7 +43,7 @@ const NewShoppingListModal = () => {
 			],
 			measuredIngredients,
 		};
-			console.log("NEW SHOPPING LIST DATA", newShoppingListData)
+
 		dispatch(addShoppingList(newShoppingListData)).catch((error) => {
 			console.error('Failed to update the shopping list:', error);
 		});

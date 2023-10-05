@@ -19,9 +19,6 @@ const SingleShoppingList = () => {
 	useEffect(() => {
 		dispatch(fetchSingleList(id));
 	}, [dispatch, id]);
-	useEffect(() => {
-    console.log('Current List Updated:', currentList);
-}, [currentList]);
 
 	useEffect(() => {
 		if (measuredIngredients) loadList(measuredIngredients);
