@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { searchRecipes } from '../../store/recipe';
+
+
 import './ingredientSearch.css';
 
 const IngredientSearch = ({
@@ -12,7 +12,7 @@ const IngredientSearch = ({
 	const [suggestions, setSuggestions] = useState([]);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const dispatch = useDispatch();
+
 
 	useEffect(() => {
 		const closeDropdown = (e) => {
@@ -88,9 +88,7 @@ const IngredientSearch = ({
 		setSelectedIndex(-1);
 		setDropdownOpen(false);
 	};
-	const handleRemoveIngredient = (ingredientToRemove) => {
-		removeIngredient(ingredientToRemove);
-	};
+
 
 	const handleMouseEnter = (e, index) => {
 		e.stopPropagation();

@@ -18,7 +18,7 @@ const MealPlanner = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const meals = useSelector((state) => state.mealPlanner.mealPlanner);
 
-  let userName, userId;
+  let userId;
 
   if (sessionUser) {
     userId = sessionUser.id;

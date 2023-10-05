@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import './newShoppingListModal.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from "react-redux";
+import './addItemsToListModal.css'
+import { addMultipleIngredientsToList } from "../../store/shoppingList";
 import { useModal } from '../../context/Modal';
+import IngredientSearch from '../IngredientSearch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { addShoppingList } from '../../store/shoppingList';
-import IngredientSearch from '../IngredientSearch';
 
-const NewShoppingListModal = () => {
-	const dispatch = useDispatch();
-	const [listName, setListName] = useState('');
-	const [showDetailedForm, setShowDetailedForm] = useState(false);
-	const [customIngredients, setCustomIngredients] = useState([]);
+const AddItemsToListModal = ({currentList}) => {
+  const dispatch = useDispatch();
+  const [customIngredients, setCustomIngredients] = useState([]);
 	const [measuredIngredients, setMeasuredIngredients] = useState({});
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
-	const { closeModal } = useModal();
+  const { closeModal } = useModal();
 
-	const handleToggleDetailedForm = () => {
-		setShowDetailedForm(!showDetailedForm);
-	};
-
-	useEffect(() => {
+  useEffect(() => {
 		const allIngredientNames = [
 			...customIngredients.map((ingredient) => ingredient.name),
 			...selectedIngredients,
@@ -33,25 +27,31 @@ const NewShoppingListModal = () => {
 		setMeasuredIngredients(newMeasuredIngredients);
 	}, [customIngredients, selectedIngredients]);
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		const newShoppingListData = {
-			name: listName,
-			ingredients: [
-				...customIngredients,
-				...selectedIngredients.map((ingredient) => ({ name: ingredient })),
-			],
-			measuredIngredients,
-		};
-			console.log("NEW SHOPPING LIST DATA", newShoppingListData)
-		dispatch(addShoppingList(newShoppingListData)).catch((error) => {
-			console.error('Failed to update the shopping list:', error);
-		});
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-		closeModal();
-	};
+  const updatedListData = {
+    ingredients: [
+      ...customIngredients,
+      ...selectedIngredients.map((ingredient) => ({ name: ingredient })),
+    ],
+    measuredIngredients,
+  };
+  if (updatedListData.length === 0) {
+    console.error('No ingredients to add.');
 
-	const handleCustomIngredientChange = (index, event) => {
+    return;
+  }
+
+  try {
+      await dispatch(addMultipleIngredientsToList(currentList.id, updatedListData));
+  } catch (error) {
+      console.error('Failed to update the shopping list:', error);
+  }
+
+  closeModal();
+};
+  const handleCustomIngredientChange = (index, event) => {
 		const newCustomIngredients = [...customIngredients];
 		newCustomIngredients[index][event.target.name] = event.target.value;
 		setCustomIngredients(newCustomIngredients);
@@ -83,35 +83,12 @@ const NewShoppingListModal = () => {
 		setCustomIngredients(newCustomIngredients);
 	};
 
-	return (
-		<>
-			<section
-				className={`newListModalContainer${
-					showDetailedForm ? ' extended' : ''
-				}`}
-			>
-				<h1 id='createNewListTitle'>Create New List</h1>
-				<form onSubmit={handleSubmit}>
-					<section className='createNewListLabel_Input'>
-						<label>List Name:</label>
-						<input
-							id='newListTitleName'
-							type='text'
-							value={listName}
-							onChange={(e) => setListName(e.target.value)}
-						/>
-					</section>
-					<button
-						id='showDetailButton'
-						type='button'
-						onClick={handleToggleDetailedForm}
-					>
-						{showDetailedForm ? 'Hide Details' : 'Show Details'}
-					</button>
-
-					{showDetailedForm && (
-						<>
-							<section className='formLabelInput'>
+  return (
+    <>
+    <section className='addItemsToListContainer'>
+    <h1 id='addItemsToExistingList'>Add Items To {currentList.name} List</h1>
+    <form onSubmit={handleSubmit}>
+    <section className='formLabelInput'>
 								<fieldset>
 									<legend id='newRecipeSearchForIngredients'>
 										Search for Ingredients
@@ -196,26 +173,21 @@ const NewShoppingListModal = () => {
 									))}
 								</fieldset>
 							</section>
-						</>
-					)}
-
-					<button
-						disabled={listName.length === 0}
+              <section className='addingToListSubmit'>
+              <button
+						disabled={selectedIngredients.length === 0 && customIngredients.length ===0}
 						id='createNewListButton'
 						type='submit'
 					>
-						Create List
+						Add To List
 
 					</button>
-					<section className='missingNameContainer'>
-					{listName.trim().length === 0 && (
-						<span className='nameMissing'>List name is required.</span>
-					)}
-					</section>
-				</form>
-			</section>
-		</>
-	);
+          </section>
+    </form>
+    </section>
+    </>
+  )
+
 };
 
-export default NewShoppingListModal;
+export default AddItemsToListModal;

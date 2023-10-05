@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
 import './aboutpage.css';
 import sam from '../../assets/sam.jpeg';
 const AboutPage = () => {

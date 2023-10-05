@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './footer.css';
 import gitHubIcon from '../../assets/github-mark-white.png';
 import liIcon from '../../assets/LI.png';

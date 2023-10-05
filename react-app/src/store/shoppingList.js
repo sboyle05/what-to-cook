@@ -5,6 +5,7 @@ const ADD_TO_SHOPPING_LIST = 'ADD_TO_SHOPPING_LIST';
 const ADD_INGREDIENT_TO_LIST = 'ADD_INGREDIENT_TO_LIST';
 const UPDATE_SHOPPING_LIST_NAME = 'UPDATE_SHOPPING_LIST_NAME';
 const DELETE_SHOPPING_LIST = 'DELETE_SHOPPING_LIST';
+const ADD_MULTIPLE_INGREDIENTS_TO_LIST = 'ADD_MULTIPLE_INGREDIENTS_TO_LIST';
 
 //action creators
 
@@ -25,6 +26,11 @@ export const addToShoppingList = (data) => ({
 
 export const addIngredientToShoppingList = (data) => ({
 	type: ADD_INGREDIENT_TO_LIST,
+	payload: data,
+});
+
+export const addMultipleIngredientsToShoppingList = (data) => ({
+	type: ADD_MULTIPLE_INGREDIENTS_TO_LIST,
 	payload: data,
 });
 
@@ -93,12 +99,16 @@ export const updateListName = (id, name) => async (dispatch) => {
 };
 
 export const addIngredientToList =
-	(listId, measuredIngredientId, measuredIngredientDescription) => async (dispatch) => {
+	(listId, measuredIngredientId, measuredIngredientDescription) =>
+	async (dispatch) => {
 		try {
+			console.log('LIST ID IN THUNK', listId);
+			console.log('MEASURED ING IN THUNK', measuredIngredientId);
+			console.log('MEASURED ING DESC', measuredIngredientDescription);
 			const payload = {};
 			if (measuredIngredientId)
 				payload.measured_ingredient_id = measuredIngredientId;
-				if (measuredIngredientDescription)
+			if (measuredIngredientDescription)
 				payload.measured_ingredient_description = measuredIngredientDescription;
 
 			const response = await fetch(
@@ -120,7 +130,56 @@ export const addIngredientToList =
 		}
 	};
 
-	export const createNewListAndAddIngredient = (newShoppingList, measuredIngredientId, measuredIngredientDescription) => async (dispatch) => {
+export const addMultipleIngredientsToList =
+	(listId, ingredientsObj) => async (dispatch) => {
+		try {
+			console.log('LIST ID IN THUNK', listId);
+			console.log('INGS IN THUNK', ingredientsObj);
+
+			const { ingredients, measuredIngredients } = ingredientsObj;
+
+			if (!Array.isArray(ingredients)) {
+				console.error('Error: ingredients is not an array:', ingredients);
+				return;
+			}
+
+			const parsedIngredients =
+				typeof ingredients === 'string' ? JSON.parse(ingredients) : ingredients;
+
+			const measuredIngredientsArray = Object.entries(measuredIngredients).map(
+				([key, value]) => {
+					return { description: `${key}: ${value}` };
+				}
+			);
+
+			const payload = {
+				ingredient_ids: parsedIngredients.map((ing) => ing.id),
+				measured_ingredients: measuredIngredientsArray,
+			};
+
+			const response = await fetch(
+				`/api/shoppinglist/add_ingredients/${listId}/`,
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(payload),
+				}
+			);
+
+			const updatedList = await response.json();
+			if (response.ok) {
+				dispatch(addMultipleIngredientsToShoppingList(updatedList));
+			} else {
+				console.error('Error from server:', updatedList);
+			}
+		} catch (error) {
+			console.error('Error adding ingredients:', error);
+		}
+	};
+
+export const createNewListAndAddIngredient =
+	(newShoppingList, measuredIngredientId, measuredIngredientDescription) =>
+	async (dispatch) => {
 		try {
 			// Step 1: Create a new shopping list
 			const listResponse = await fetch('/api/shoppinglist/new/', {
@@ -135,15 +194,10 @@ export const addIngredientToList =
 			dispatch(addToShoppingList(listData));
 
 			const listId = listData.id;
-
-			// Step 2: Add ingredient to the newly created list
-			// console.log("list ID BEING ADDED TO", listId)
-			console.log("MI *******ID", measuredIngredientId)
-			console.log("MI **** DESCRIPTION", measuredIngredientDescription)
 			const payload = {};
 			if (measuredIngredientId)
 				payload.measured_ingredient_id = measuredIngredientId;
-				if (measuredIngredientDescription)
+			if (measuredIngredientDescription)
 				payload.measured_ingredient_description = measuredIngredientDescription;
 
 			const response = await fetch(
@@ -157,7 +211,7 @@ export const addIngredientToList =
 				}
 			);
 			const updatedList = await response.json();
-			console.log("UPDATED LIST IN THUNK", updatedList)
+			// console.log("UPDATED LIST IN THUNK", updatedList)
 			if (response.ok) {
 				dispatch(addIngredientToShoppingList(updatedList));
 			}
@@ -165,7 +219,6 @@ export const addIngredientToList =
 			console.error('Error adding ingredient:', error);
 		}
 	};
-
 
 export const removeShoppingList = (shoppingListId) => async (dispatch) => {
 	try {
@@ -186,46 +239,58 @@ export const removeShoppingList = (shoppingListId) => async (dispatch) => {
 };
 
 const initialState = {
-	shoppingLists: {
-		// kvps
-	},
+	shoppingLists: {},
 	singleList: {},
 };
-
 const shoppingListReducer = (state = initialState, action) => {
 	let newState;
 	switch (action.type) {
 		case GET_SHOPPING_LISTS:
 			newState = Object.assign({}, state);
 			newState.shoppingLists = action.payload.reduce((acc, list) => {
-        acc[list.id] = list;
-        return acc;
-      }, {});
-      return newState;
+				acc[list.id] = list;
+				return acc;
+			}, {});
+			return newState;
 		case GET_SINGLE_LIST:
 			newState = Object.assign({}, state);
 			newState.singleList = action.payload;
 			return newState;
-			case ADD_TO_SHOPPING_LIST:
-				return {
-					...state,
-					shoppingLists: {
-						...state.shoppingLists,
-						[action.payload.id]: action.payload
-					}
-				};
-    case ADD_INGREDIENT_TO_LIST:
-      newState = Object.assign({}, state);
-      newState.shoppingLists[action.payload.id] = action.payload
-      return newState;
+		case ADD_TO_SHOPPING_LIST:
+			return {
+				...state,
+				shoppingLists: {
+					...state.shoppingLists,
+					[action.payload.id]: action.payload,
+				},
+			};
+		case ADD_INGREDIENT_TO_LIST:
+			return {
+				...state,
+				shoppingLists: {
+					...state.shoppingLists,
+					[action.payload.id]: action.payload,
+				},
+			};
 		case UPDATE_SHOPPING_LIST_NAME:
-			newState = Object.assign({}, state);
-			newState.shoppingLists[action.payload.id].name = action.payload.name;
+			newState = { ...state };
+			newState.shoppingLists = {
+				...state.shoppingLists,
+				[action.payload.id]: {
+					...state.shoppingLists[action.payload.id],
+					name: action.payload.name,
+				},
+			};
 			return newState;
 		case DELETE_SHOPPING_LIST:
 			newState = Object.assign({}, state);
-			delete newState.shoppingLists[action.payload]
+			delete newState.shoppingLists[action.payload];
 			return newState;
+		case ADD_MULTIPLE_INGREDIENTS_TO_LIST:
+			return {
+        ...state,
+        singleList: action.payload,
+      };
 		default:
 			return state;
 	}

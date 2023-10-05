@@ -4,7 +4,6 @@ import { Redirect, NavLink } from 'react-router-dom';
 import {
 	fetchRecipeBox,
 	deleteRecipeFromBox,
-	updateRecipeInBox,
 	deleteFromRecipeBox,
 } from '../../store/recipeBox';
 import { finalDeleteRecipe } from '../../store/recipe';
@@ -25,11 +24,6 @@ function RecipeBox() {
 		userName = sessionUser.username;
 		userId = sessionUser.id;
 	}
-
-	const openMenu = () => {
-		if (showMenu) return;
-		setShowMenu(true);
-	};
 
 	useEffect(() => {
 		if (!showMenu) return;
