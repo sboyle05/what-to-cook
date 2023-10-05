@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './shoppingList.css';
 import OpenModalButton from '../OpenModalButton';
 import NewShoppingListModal from '../newShoppingListModal';
@@ -29,11 +29,6 @@ const ShoppingList = () => {
 		dispatch(fetchShoppingList());
 		setUpdated(false);
 	}, [dispatch, updated]);
-
-	const openMenu = () => {
-		if (showMenu) return;
-		setShowMenu(true);
-	};
 
 	useEffect(() => {
 		if (!showMenu) return;

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './updateMealPlannerModal.css';
 import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
+
 import { editMealPlanner } from '../../store/mealPlanner';
 import { removeMealPlanner } from '../../store/mealPlanner';
-import { fetchMealPlanner } from '../../store/mealPlanner';
+
 
 const UpdateMealPlannerModal = ({ mealPlanner, userId, refetch, onClose }) => {
 	const [date, setDate] = useState('');
 	const [mealType, setMealType] = useState('Breakfast');
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState([]);
-	const { closeModal } = useModal();
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

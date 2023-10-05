@@ -20,6 +20,7 @@ html {
 	padding-bottom: 50px;
 	font-family: 'Oxygen', sans-serif;
 	margin-left: 0 !important;
+	/* width: 100vh; */
 }
 
 .navFooterButtonContainer{
@@ -44,4 +45,12 @@ html {
 	width: 30px;
 	margin-top: 5px;
 
+}
+
+@media (max-width: 768px) {
+
+.footerContainer{
+	width: 100vh;
+	height: 5vh;
+}
 }

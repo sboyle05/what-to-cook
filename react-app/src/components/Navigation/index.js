@@ -43,9 +43,6 @@ function Navigation({ isLoaded }) {
     }
   };
 
-  const comingSoon = () => {
-    alert('SHOPPING LIST COMING SOON!!!');
-  };
 
   return (
     <>

@@ -1,0 +1,18 @@
+.addItemsToListContainer{
+  width: 40vh;
+	min-height: 30vh;
+  padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #5d5d5d;
+	border: 1px solid whitesmoke;
+	font-family: 'Oxygen', sans-serif;
+	box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.3);
+}
+.addingToListSubmit{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}

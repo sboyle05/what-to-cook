@@ -111,7 +111,34 @@ def addIngredientToList(id):
         return jsonify(shopping_list.to_dict())
 
     return jsonify({'error': 'Shopping list not found'}), 404
+# add multiple Ingredients
+@shoppingList_routes.route('/shoppinglist/add_ingredients/<int:id>/', methods=["POST"])
+def addMultipleIngredientsToList(id):
+    data = request.json
+    shopping_list = ShoppingList.query.get(id)
+    if shopping_list:
+        # Handling adding regular ingredients
+        new_ingredients_ids = data['ingredient_ids']
+        new_measured_ingredients = data['measured_ingredients']
+        for new_ingredient_id in new_ingredients_ids:
+            ingredient = Ingredient.query.get(new_ingredient_id)
+            if ingredient:
+                shopping_list.ingredients.append(ingredient)
 
+        # Handling adding measured ingredients
+        new_measured_ingredients = data.get('measured_ingredients', [])
+        for new_measured_ingredient in new_measured_ingredients:
+            measured_ingredient = MeasuredIngredient(
+                description=new_measured_ingredient.get('description'),
+                recipe_id=None
+            )
+            db.session.add(measured_ingredient)
+            shopping_list.measured_ingredients.append(measured_ingredient)
+
+        db.session.commit()
+        return jsonify(shopping_list.to_dict())
+
+    return jsonify({'error': 'Shopping list not found'}), 404
 #delete
 @shoppingList_routes.route('/shoppinglist/<int:id>/delete/', methods=["DELETE"])
 def deleteList(id):

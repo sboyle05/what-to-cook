@@ -3,8 +3,13 @@ const GET_MEAL_PLANNER = 'GET_MEAL_PLANNER';
 const ADD_TO_MEAL_PLANNER = 'ADD_TO_MEAL_PLANNER';
 const UPDATE_MEAL_PLANNER = 'UPDATE_MEAL_PLANNER';
 const DELETE_MEAL_PLANNER = 'DELETE_MEAL_PLANNER';
-
+const SET_LOADING = 'SET_LOADING';
 //action creators
+
+export const setLoadingPlanner = (isloading) => ({
+	type: SET_LOADING,
+	payload: isloading,
+});
 
 export const getMealPlanner = (data) => ({
 	type: GET_MEAL_PLANNER,
@@ -29,13 +34,18 @@ export const deleteMealPlanner = (id) => ({
 //thunks
 
 export const fetchMealPlanner = () => async (dispatch) => {
-	try {
-		const response = await fetch('/api/mealplanner/');
-		const data = await response.json();
-		dispatch(getMealPlanner(data));
-	} catch (error) {
-		console.error('Error fetching meal planner:', error);
-	}
+    try {
+        // Set loading to true as data fetching starts
+        dispatch(setLoadingPlanner(true));
+        const response = await fetch('/api/mealplanner/');
+        const data = await response.json();
+        dispatch(getMealPlanner(data));
+    } catch (error) {
+        console.error('Error fetching meal planner:', error);
+    } finally {
+        // Set loading to false once data is fetched
+        dispatch(setLoadingPlanner(false));
+    }
 };
 
 export const addMealPlanner = (newMealData) => async (dispatch) => {
@@ -93,10 +103,15 @@ export const removeMealPlanner = (mealPlanId) => async (dispatch) => {
 	}
 };
 
-const initialState = { mealPlanner: [] };
+const initialState = { mealPlanner: [], isLoading: false };
 
 const mealPlannerReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case SET_LOADING:
+    return {
+        ...state,
+        isLoading: action.payload,
+    };
 		case GET_MEAL_PLANNER:
 			return {
 				...state,

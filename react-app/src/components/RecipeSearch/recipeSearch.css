@@ -3,6 +3,7 @@ html {
 	margin: 0;
 	padding: 0;
 	height: 100vh;
+
 }
 
 .mainRecipeContainer {
@@ -120,3 +121,19 @@ input[type='radio'] {
 	transform: translateY(1px);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+@media (max-width: 768px) {
+
+
+.mainRecipeContainer{
+	display: flex;
+	align-items: center;
+	width: 100vh;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+
+
+}
+
+	}
