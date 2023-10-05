@@ -7,7 +7,12 @@ html {
 	display: flex;
 	flex-direction: column;
 }
-
+.loadingSpinnerContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .mealPlannerContainer {
 
   /* flex: 1; */
