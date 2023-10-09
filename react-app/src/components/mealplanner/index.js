@@ -9,7 +9,7 @@ import { fetchMealPlanner } from '../../store/mealPlanner';
 import { fetchSingleRecipe } from '../../store/recipe';
 import CircularProgress from '@mui/material/CircularProgress';
 import UpdateMealPlannerModal from '../updateMealPlannerModal';
-
+import { setLoadingPlanner } from '../../store/mealPlanner';
 const MealPlanner = () => {
 
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -35,6 +35,7 @@ const MealPlanner = () => {
 
   useEffect(() => {
     const fetchRecipeNames = async () => {
+      dispatch(setLoadingPlanner(true));
       const newCalendarEvents = [];
       const flattenedMeals = meals.flat();
       const MEAL_TYPE_RANK = {
@@ -72,6 +73,7 @@ const MealPlanner = () => {
         }
       }
       setCalendarEvents(newCalendarEvents);
+      dispatch(setLoadingPlanner(false));
     };
     fetchRecipeNames();
   }, [meals, dispatch]);
