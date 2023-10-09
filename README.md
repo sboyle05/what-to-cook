@@ -12,7 +12,7 @@ The frontend is built on a react-redux framework. CSS was used to style the site
 
 <br>
 WTC is available for testing and viewing at
-**[`https://what-to-cook.onrender.com/`](https://what-to-cook.onrender.com/)**.
+https://what-to-cook.onrender.com/
 If installing locally you must have the root folder What-to-Cook(back-end) running with pipenv run flask run and the react-app folder(front-end) running with npm start.
 
 <br>
