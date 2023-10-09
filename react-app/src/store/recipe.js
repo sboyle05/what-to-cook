@@ -94,16 +94,13 @@ export const fetchSingleRecipe = (id) => async (dispatch) => {
 };
 
 export const fetchRandomRecipes = () => async (dispatch) => {
-	console.log("FIRING FETCH RANDOM")
 	dispatch(setLoading(true));
 	try {
 		const response = await fetch(`/api/recipes/random/`);
-		console.log("RESPONSE IN RANDOM", response)
 		if (!response.ok)
 			throw new Error('Error with response ' + response.statusText);
 
 		const data = await response.json();
-		console.log('Fetched Random Recipes: ', data);
 		dispatch(
 			getRandomRecipes({
 				recipes: data.recipes || [],
