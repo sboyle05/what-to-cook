@@ -16,7 +16,6 @@ import Footer from "./components/footer";
 import AboutPage from "./components/aboutpage";
 import ShoppingList from "./components/shoppingList";
 import SingleShoppingList from "./components/SingleShoppingList";
-import "./App.css"
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ function App() {
 
   return (
     <>
-        <section className="appBackground">
       <Navigation isLoaded={isLoaded} />
 
       {isLoaded && (
@@ -72,7 +70,7 @@ function App() {
       )}
 
         <Footer/>
-        </section>
+
     </>
 
   );
