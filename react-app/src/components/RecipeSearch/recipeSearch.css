@@ -8,7 +8,12 @@ html, #root {
 
 }
 
-.mainRecipeContainer {
+.mainRecipeContainer{
+	width: 100%;
+	flex: 1 0 auto;
+}
+
+.human {
 	font-family: 'Oxygen', sans-serif;
 	display: flex;
 	flex-direction: column;

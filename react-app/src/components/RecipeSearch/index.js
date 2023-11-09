@@ -24,7 +24,7 @@ function RecipeSearch() {
 	const totalNumberOfPages = Math.ceil(total / perPage);
 	const veryLastPage = currentPage === totalNumberOfPages;
 	const isLoading = useSelector((state) => state.recipeReducer?.isLoading);
-
+	const [toggle, setToggle] = useState(''); //created to manage state of ai vs human
 	const ingredientArray = [];
 
 	const dispatch = useDispatch();
@@ -118,6 +118,10 @@ function RecipeSearch() {
 	return (
 
 			<section className='mainRecipeContainer'>
+				<section className='gpt'>
+
+				</section>
+				<section className='human'>
 				<h1 id='whatyouhave'>What ingredients do you have?</h1>
 				<IngredientSearch
 					addIngredient={addIngredient}
@@ -234,6 +238,7 @@ function RecipeSearch() {
 							)}
 						</>
 					)}
+				</section>
 				</section>
 			</section>
 
