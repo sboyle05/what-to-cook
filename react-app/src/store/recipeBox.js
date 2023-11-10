@@ -6,6 +6,8 @@ const DELETE_FROM_RECIPE_BOX = 'DELETE_FROM_RECIPE_BOX';
 const ADD_EXISTING_TO_RECIPE_BOX = 'ADD_EXISTING_TO_RECIPE_BOX';
 
 //action creators
+
+
 export const getRecipeBox = (data) => ({
 	type: GET_RECIPE_BOX,
 	payload: data,
@@ -109,6 +111,7 @@ const initialState = { recipesInBox: [] };
 
 const recipeBoxReducer = (state = initialState, action) => {
 	switch (action.type) {
+
 		case GET_RECIPE_BOX:
 			return { ...state, recipesInBox: action.payload };
 		case ADD_EXISTING_TO_RECIPE_BOX:

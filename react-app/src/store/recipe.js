@@ -9,6 +9,12 @@ const CLEAR_SEARCH_STATE = 'CLEAR_SEARCH_STATE';
 const UPDATE_PAGINATION = 'UPDATE_PAGINATION';
 const SET_LOADING = 'SET_LOADING';
 const GET_RANDOM_RECIPES = 'GET_RANDOM_RECIPES';
+const GENERATE_RECIPE = 'GENERATE_RECIPE';
+
+export const generateRecipe = (data) => ({
+	type: GENERATE_RECIPE,
+	payload: data,
+});
 
 export const setLoading = (isloading) => ({
 	type: SET_LOADING,
@@ -70,6 +76,29 @@ export const updatePagination = (payload) => ({
 	type: UPDATE_PAGINATION,
 	payload,
 });
+
+export const generateRecipeFromAPI = (prompt, name) => async (dispatch) => {
+	try {
+		const messages = [{ role: 'user', content: prompt }];
+
+		const response = await fetch('/api/tastingNotes/generate-note', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ messages }),
+		});
+
+		const apiData = await response.json();
+		const payload = {
+			...apiData,
+			name: name,
+		};
+		dispatch(generateRecipe(payload));
+	} catch (error) {
+		console.error('Error generating Tasting Note:', error);
+	}
+};
 
 export const finalDeleteRecipe = (recipeId) => async (dispatch) => {
 	try {
@@ -158,6 +187,8 @@ const initialState = {
 
 const recipeReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case GENERATE_RECIPE:
+			return{...state, }
 		case GET_RECIPES:
 			return {
 				...state,

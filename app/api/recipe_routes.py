@@ -5,10 +5,47 @@ from sqlalchemy import and_, or_, func  # Importing func for using SQL functions
 from sqlalchemy.exc import SQLAlchemyError
 # from sqlalchemy.orm import joinedload
 import json
-
+import requests
+from os import environ
 
 recipe_routes = Blueprint('recipes', __name__)
 session = db.session
+
+@recipe_routes.route('/generate-note', methods=["POST"])
+def generate_recipe_from_gpt():
+    try:
+        data = request.json
+        messages = data['messages']
+        name = data['name']
+
+        openai_response = requests.post(
+            'https://api.openai.com/v1/chat/completions',
+            json={
+                'model': 'gpt-3.5-turbo',
+                'messages': [{'role': 'user', 'content': messages[0]['content']}],
+                'temperature': 1.0,
+                'max_tokens': 500
+            },
+            headers={
+                'Authorization': f'Bearer {environ.get("OPENAI_API_KEY")}',
+                'Content-Type': 'application/json'
+            }
+        )
+
+        response_data = openai_response.json()
+
+        if 'choices' in response_data and len(response_data['choices']) > 0:
+            recipe = extract_recipe(response_data, name)
+            return jsonify(recipe)
+        elif 'error' in response_data:
+            raise Exception(response_data['error']['message'])
+        else:
+            raise Exception('Unexpected response from OpenAI')
+    except Exception as error:
+        return jsonify({'error': str(error)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 @recipe_routes.route('/recipes/random/', methods=["GET"])
 def get_random_recipes():
