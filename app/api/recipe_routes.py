@@ -11,6 +11,25 @@ from os import environ
 recipe_routes = Blueprint('recipes', __name__)
 session = db.session
 
+
+def extract_recipe(response_data, name):
+    # Placeholder for your logic to process the response data
+    # and extract a recipe. This needs to be implemented by you.
+
+    # Example:
+    # Let's assume the recipe is in the first choice's text
+    if response_data['choices']:
+        recipe_text = response_data['choices'][0]['text']
+        # Process the recipe_text as needed
+        # For example, you might want to format it, extract certain information, etc.
+        return {
+            'name': name,
+            'recipe': recipe_text
+        }
+    else:
+        # Return some default value or raise an error if no recipe is found
+        return None
+
 @recipe_routes.route('/generate-note', methods=["POST"])
 def generate_recipe_from_gpt():
     try:
@@ -43,9 +62,6 @@ def generate_recipe_from_gpt():
             raise Exception('Unexpected response from OpenAI')
     except Exception as error:
         return jsonify({'error': str(error)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 @recipe_routes.route('/recipes/random/', methods=["GET"])
 def get_random_recipes():
