@@ -26,7 +26,7 @@ function RecipeSearch() {
 	const isLoading = useSelector((state) => state.recipeReducer?.isLoading);
 	const [toggle, setToggle] = useState(''); //created to manage state of ai vs human
 	const [gptIngredients, setGptIngredients] = useState('');
-	const [extraIngredients, setExtraIngredients] =useState('');
+	const [userChoice, setUserChoice] = useState('');
 	const ingredientArray = [];
 
 	const dispatch = useDispatch();
@@ -120,7 +120,7 @@ function RecipeSearch() {
 
 	const handleGptInputChange = (e) => {
 		setGptIngredients(e.target.value)
-		setExtraIngredients(e.target.value)
+
 	}
 
 	const handleGptSubmit = (e) => {
@@ -155,11 +155,8 @@ function RecipeSearch() {
           onChange={handleGptInputChange}
         />
 				<h1 id='whatyouhaveGpt'>Do you want to allow extra ingredients?</h1>
-				 <input
-          type='text'
-          value={extraIngredients}
-          onChange={handleGptInputChange}
-        />
+				<button onClick={() => setUserChoice('yes')}>Yes</button>
+            <button onClick={() => setUserChoice('no')}>No</button>
         <button id='gptSubmit' type='submit'>Submit</button>
       </form>
 
